@@ -15,7 +15,7 @@ function SignUpPopupController($uibModalInstance, stand, data, Restangular, call
     }
 
     function signUp() {
-        Restangular.all('alots/sign-up').post(vm.data).then(signUpSuccess, signUpFailed)
+        Restangular.all('slots/sign-up').post(vm.data).then(signUpSuccess, signUpFailed)
     }
 
     function signUpSuccess(data) {
