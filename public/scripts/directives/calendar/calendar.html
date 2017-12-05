@@ -1,0 +1,82 @@
+<div class="calendar">
+    <div>
+        <div class="calendar-header row">
+            <div class="calendar-navigation col s12 l4">
+                <div class="calendar-navigation-buttons">
+                    <button class="btn waves-effect calendar-navigation-button"
+                            ng-if="vm.showTodayButton()"
+                            ng-click="vm.changeSelectedDate(vm.TODAY)">dzisiej
+                    </button>
+                </div>
+            </div>
+            <div class="calendar-date col s12 l4 center-align">
+                <button class="btn waves-effect calendar-navigation-button"
+                        ng-click="vm.changeSelectedDate(vm.PREVIOUS)">
+                    <i class="medium material-icons">chevron_left</i>
+                </button>
+                <div class="date" ng-if="vm.viewMode === vm.VIEW_MODE_WEEK">
+                    {{vm.getDate(1)}} - {{vm.getDate(7)}}
+                </div>
+                <div class="date" ng-if="vm.viewMode === vm.VIEW_MODE_DAY">
+                    {{vm.getDate(vm.selectedDay)}}
+                </div>
+                <button class="btn waves-effect calendar-navigation-button"
+                        ng-click="vm.changeSelectedDate(vm.NEXT)">
+                    <i class="medium material-icons">chevron_right</i>
+                </button>
+            </div>
+            <div class="calendar-mode col s12 l4 right-align">
+                <button class="btn waves-effect calendar-navigation-button" ng-click="vm.changeToWeekView()">tydzień
+                </button>
+                <button class="btn waves-effect calendar-navigation-button" ng-click="vm.changeToDayView()">dzień
+                </button>
+            </div>
+        </div>
+        <div class="calendar-main">
+            <div class="progress" ng-if="vm.loading">
+                <div class="indeterminate"></div>
+            </div>
+            <div class="table-responsive">
+                <table class="calendar-table highlight" ng-if="!vm.loading">
+                    <thead>
+                    <tr>
+                        <td></td>
+                        <td ng-if="vm.viewMode === vm.VIEW_MODE_WEEK" ng-repeat="day in vm.range(1,7)"
+                            class="hide-on-med-and-up center-align">
+                            {{vm.getWeekDay(day, 'ddd')}}
+                            <br>
+                            {{vm.getDate(day, 'D. MMM')}}
+                            <br>
+                        </td>
+                        <td ng-if="vm.viewMode === vm.VIEW_MODE_WEEK" ng-repeat="day in vm.range(1,7)"
+                            class="hide-on-small-only center-align">
+                            {{vm.getWeekDay(day)}}
+                            <br>
+                            {{vm.getDate(day)}}
+                            <br>
+                        </td>
+
+                        <td ng-if="vm.viewMode === vm.VIEW_MODE_DAY" class="center-align">
+                            {{vm.getWeekDay(vm.selectedDay)}}
+                            <br>
+                            {{vm.getDate(vm.selectedDay)}}
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="(slotIndex, slotTime) in vm.slotTimes">
+                        <td class="slot-time" ng-if="vm.isFullHour(slotTime)">{{slotTime}}</td>
+                        <td class="slot-time" ng-if="!vm.isFullHour(slotTime)"></td>
+                        <td ng-repeat="(day, data) in vm.schedule"
+                            class="slot"
+                            ng-if="vm.viewMode === vm.VIEW_MODE_WEEK || (vm.viewMode === vm.VIEW_MODE_DAY && day == vm.selectedDay)"
+                            ng-click="vm.clickSlot(day, slotTime, slotIndex, data)"
+                            ng-class="{'open': vm.isSlotOpen(day, slotIndex), 'free': vm.isSlotFree(day, slotIndex), 'full-hour': vm.isFullHour(slotTime)}">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

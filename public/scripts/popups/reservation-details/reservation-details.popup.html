@@ -1,0 +1,47 @@
+<div class="popup reservation-details-popup">
+    <div class="popup-header valign-wrapper center-align">
+        <div class="close">
+            <a class="close-button" ng-click="vm.close()"><i class="material-icons">close</i></a>
+        </div>
+        <div class="header-content">
+            {{vm.date}}
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col s2">
+                <i class="material-icons">account_circle</i>
+            </div>
+            <div class="col s10">
+                <div>{{vm.slot.reservation.user.first_name}} {{vm.slot.reservation.user.last_name}}</div>
+                <div class="row">
+                    Indeks: {{vm.slot.reservation.user.index_number}}
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="vm.slot.reservation.user.phone">
+            <div class="col s2">
+                <i class="material-icons">contact_phone</i>
+            </div>
+            <div class="col s10">
+                {{vm.slot.reservation.user.phone}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s2">
+                <i class="material-icons">email</i>
+            </div>
+            <div class="col s10">
+                <a href="mailto:{{vm.slot.reservation.user.email}}">{{vm.slot.reservation.user.email}}</a>
+            </div>
+        </div>
+        <div class="row" ng-if="vm.slot.reservation.details">
+            <div class="col s2">
+                <i class="material-icons">edit</i>
+            </div>
+            <div class="col s10">
+                {{vm.slot.reservation.details}}
+            </div>
+        </div>
+    </div>
+</div>

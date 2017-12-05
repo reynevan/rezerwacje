@@ -1,0 +1,32 @@
+<div class="queue">
+    <div class="datetime row">
+        <div class="col s8 left-align">
+            <h3>{{vm.date}}</h3>
+        </div>
+        <div class="col s4 right-align">
+            <h3>{{vm.time}}</h3>
+        </div>
+    </div>
+    <table class="queue-table bordered">
+        <thead>
+        <tr>
+            <th>NUMER REZERWACJI</th>
+            <th>STANOWISKO</th>
+            <th>GODZINA</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="reservation in vm.reservations" ng-class="{'active': reservation.active}">
+                <td>
+                    {{reservation.reservation_number}}
+                </td>
+                <td>
+                    {{reservation.stand.name}}
+                </td>
+                <td>
+                    {{reservation.time}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

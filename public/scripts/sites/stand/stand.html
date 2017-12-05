@@ -1,0 +1,45 @@
+<div class="stand">
+    <div class="datetime row">
+        <div class="col s8 left-align">
+            <h5>{{vm.date}}</h5>
+        </div>
+        <div class="col s4 right-align">
+            <h5>{{vm.time}}</h5>
+        </div>
+    </div>
+    <table class="my-stand-table bordered">
+        <thead>
+        <tr>
+            <th class="hide-on-small-only">NUMER REZERWACJI</th>
+            <th class="hide-on-med-and-up">NUMER</th>
+            <th>INDEKS</th>
+            <th>IMIĘ</th>
+            <th>UWAGI</th>
+            <th>GODZINA</th>
+            <th>KONIEC</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="reservation in vm.reservations" ng-class="{'active': $first && reservation.active}">
+                <td>
+                    {{reservation.reservation_number}}
+                </td>
+                <td>
+                    {{reservation.user.index_number}}
+                </td>
+                <td>
+                    {{reservation.user.first_name}} {{reservation.user.last_name}}
+                </td>
+                <td>
+                    {{reservation.details}}
+                </td>
+                <td>
+                    {{reservation.time}}
+                </td>
+                <td>
+                    <div ng-if="$first && reservation.active" ng-click="vm.endReservation(reservation)">x</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

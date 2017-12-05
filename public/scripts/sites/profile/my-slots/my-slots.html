@@ -1,0 +1,41 @@
+<div class="my-reservations">
+    <table class="bordered">
+        <thead>
+        <tr>
+            <th>
+                Numer rezerwacji
+            </th>
+            <th>
+                Stanowisko
+            </th>
+            <th>
+                Termin
+            </th>
+            <th>
+                Uwagi
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="slot in vm.slots" ng-class="{'past': slot.past}">
+            <td>
+                {{slot.reservation_number}}
+            </td>
+            <td>
+                {{slot.stand.name}}
+            </td>
+            <td>
+                {{slot.date | amUtc | amDateFormat:'D MMMM YYYY HH:mm'}}
+            </td>
+            <td>
+                {{slot.details}}
+            </td>
+            <td>
+                <a ng-if="!slot.past" class="waves-effect waves-red btn-flat" ng-click="vm.freeSlot(slot)"><i
+                        class="material-icons tiny">close</i></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

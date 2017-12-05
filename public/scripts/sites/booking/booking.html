@@ -1,0 +1,19 @@
+<label for="stands">Wybierz stanowisko</label>
+<select name="stands"
+        id="stands"
+        class="browser-default"
+        ng-model="vm.stand"
+        ng-change="vm.loadSchedule()">
+    <option value="" disabled="disabled">	&mdash;</option>
+    <option value="{{stand.id}}" ng-repeat="stand in vm.stands">{{stand.name}}</option>
+</select>
+
+<calendar click-slot="vm.signUp"
+          load-schedule="vm.loadSchedule"
+          schedule="vm.schedule"
+          loading="vm.loading"
+          slot-times="vm.slotTimes"
+          selected-year="vm.selectedYear"
+          selected-week="vm.selectedWeek"
+          ng-if="vm.stand">
+</calendar>

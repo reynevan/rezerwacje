@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "styles/main.css",
+	"sources": [
+		"styles/main.scss"
+	],
+	"sourcesContent": [
+		".container {\r\n  padding-top: 50px;\r\n}\r\n\r\n* {\r\n  outline: none !important;\r\n}\r\n"
+	],
+	"mappings": ";AAAA,AAAA,UAAU,CAAC;EACT,WAAW,EAAE,IAAK;CACnB;;;AAED,AAAA,CAAC,CAAC;EACA,OAAO,EAAE,eAAgB;CAC1B",
+	"names": []
+}

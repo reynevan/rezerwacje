@@ -1,0 +1,74 @@
+$calendar-navigation-width: 250px
+$calendar-mode-width: 150px
+$busy-slot-color: #eee
+$calendar-light-border-color: #dadada
+$calendar-slot-border-color: #d0d0d0
+$slot-height: 20px
+
+.calendar
+  margin-bottom: 50px
+
+  .calendar-header
+    height: 100px
+    position: relative
+
+  .calendar-header
+    margin-top: 20px
+
+  .calendar-date
+    .date, .btn
+      display: inline-block
+
+    .date
+      font-size: 1.4rem
+      padding: 0 10px
+
+    .btn
+      padding: 0 15px
+
+  .calendar-main
+    min-height: 1100px
+
+  .table-responsive
+    overflow-x: auto
+
+
+  .calendar-table
+    border-collapse: collapse
+    border-bottom: 1px solid $calendar-light-border-color
+
+    thead
+      text-align: center
+      border: 1px solid #d0d0d0
+
+    .slot-time
+      height: $slot-height
+      padding: 0
+      text-align: center
+      font-weight: bold
+      border: 1px solid $calendar-light-border-color
+      width: 50px
+
+
+    .slot
+      height: $slot-height
+      padding: 0
+      border-right: 1px solid $calendar-light-border-color
+
+
+
+      &.open
+        //background-color: #eee
+        &:not(.free)
+          background-color: $busy-slot-color
+        &.free
+          cursor: pointer
+
+        &.full-hour
+          border-top: 1px solid $calendar-light-border-color
+
+        &:not(.full-hour)
+          border-top: 1px dashed $calendar-light-border-color
+
+      //&:not(.open)
+      //  border: 1px dashed $calendar-light-border-color

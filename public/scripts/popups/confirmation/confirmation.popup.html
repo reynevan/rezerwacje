@@ -1,0 +1,18 @@
+<div class="confirmation-popup popup">
+    <div class="right-align">
+        <a class="waves-effect waves-teal btn-flat" ng-click="vm.close()"><i class="material-icons">close</i></a>
+    </div>
+    <div class="content center-align">
+        <h5>
+            {{vm.message}}
+        </h5>
+    </div>
+    <div class="row buttons">
+        <div class="col s6 center-align">
+            <button class="btn waves-effect" ng-click="vm.close()">NIE</button>
+        </div>
+        <div class="col s6 center-align">
+            <button class="btn waves-effect" ng-click="vm.confirm()">TAK</button>
+        </div>
+    </div>
+</div>

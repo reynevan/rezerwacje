@@ -1,0 +1,40 @@
+<div class="popup sign-up-popup">
+    <div class="popup-header valign-wrapper center-align">
+        <div class="close">
+            <a class="close-button" ng-click="vm.close()"><i class="material-icons">close</i></a>
+        </div>
+        <div class="slot-date">
+            {{vm.data.date}}
+        </div>
+    </div>
+    <div class="content" ng-if="!vm.reserved">
+        <div class="stand-name">
+            {{vm.stand.name}}
+        </div>
+        <div class="stand-user">
+            {{vm.stand.user.first_name}} {{vm.stand.user.last_name}}
+        </div>
+        <div class="stand-description">
+            {{vm.stand.description}}
+        </div>
+        <form ng-submit="vm.signUp()">
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">mode_edit</i>
+                            <textarea id="details" class="materialize-textarea" ng-model="vm.data.details"></textarea>
+                            <label for="details">Uwagi</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ng-if="vm.error">{{vm.error}}</div>
+            <button class="btn waves-effect" type="submit" ng-click="vm.signUp()">Zapisz</button>
+        </form>
+    </div>
+    <div class="content center-align" ng-if="vm.reserved">
+        <h3>Twój numer rezerwacji:</h3>
+        <h2>{{vm.reservation_number}}</h2>
+    </div>
+</div>
