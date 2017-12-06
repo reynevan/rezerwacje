@@ -73,7 +73,7 @@ class AuthenticateController extends Controller
         $data['password'] = Hash::make($data['password']);
         $data['role'] = User::ROLE_STUDENT;
         $user = User::create($data);
-
-        return ['user' => $user];
+        $token = JWTAuth::attempt(['email' => $data['email'], 'password' => $request->get('password')], ['role' => $user->role]);
+        return ['user' => $user, 'token' => $token];
     }
 }

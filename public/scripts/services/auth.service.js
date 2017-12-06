@@ -12,6 +12,7 @@ function AuthService($auth, Restangular, $state, ROLES, $q) {
     this.getUser = getUser;
     this.isStandEmployee = isStandEmployee;
     this.isStudent = isStudent;
+    this.setToken = setToken;
 
     this.getHomeStateName = getHomeStateName;
 
@@ -22,6 +23,10 @@ function AuthService($auth, Restangular, $state, ROLES, $q) {
 
     function isAuthenticated() {
         return $auth.isAuthenticated();
+    }
+
+    function setToken(token) {
+        $auth.setToken(token);
     }
 
     function authenticate(provider) {

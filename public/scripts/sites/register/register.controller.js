@@ -15,15 +15,18 @@
         })
         .controller('RegisterController', RegisterController);
 
-    RegisterController.$inject = ['Restangular'];
+    RegisterController.$inject = ['Restangular', 'AuthService', '$state'];
 
-    function RegisterController(Restangular) {
+    function RegisterController(Restangular, AuthService, $state) {
         var vm = this;
 
         vm.signUp = function () {
             Restangular.all('sign-up').post(vm.user).then(function(data){
                 if (data.errors) {
                     vm.errors = data.errors;
+                } else {
+                    AuthService.setToken(data.token);
+                    $state.transitionTo(AuthService.getHomeStateName());
                 }
             });
         }
