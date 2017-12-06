@@ -1,8 +1,8 @@
 angular.module('www').service('AuthService', AuthService);
 
-AuthService.$inject = ['$auth', 'Restangular', '$state', 'ROLES'];
+AuthService.$inject = ['$auth', 'Restangular', '$state', 'ROLES', '$q'];
 
-function AuthService($auth, Restangular, $state, ROLES) {
+function AuthService($auth, Restangular, $state, ROLES, $q) {
     this.isAuthenticated = isAuthenticated;
     this.logout = logout;
     this.authenticate = authenticate;
@@ -42,10 +42,12 @@ function AuthService($auth, Restangular, $state, ROLES) {
     }
 
     function login(user) {
-        $auth.login(user)
+        return $auth.login(user)
             .then(afterLogin)
             .catch(function(error) {
-                console.log(error);
+                var deferred = $q.defer();
+                deferred.reject(error);
+                return deferred.promise;
             });
     }
 

@@ -26,7 +26,9 @@
                 password: vm.password
             };
 
-            AuthService.login(credentials);
+            AuthService.login(credentials).then(angular.noop, function(error){
+                vm.error = error.data.error || 'Wystąpił błąd. Proszę spróbowac ponownie później.';
+            })
         }
     }
 
