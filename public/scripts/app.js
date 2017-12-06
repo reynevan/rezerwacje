@@ -23,7 +23,7 @@
 
         RestangularProvider.setBaseUrl('/api/');
 
-        /*$locationProvider.html5Mode(true);*/
+        $locationProvider.html5Mode(true);
 
         $translateProvider
             .translations('en', TRANSLATIONS.EN)

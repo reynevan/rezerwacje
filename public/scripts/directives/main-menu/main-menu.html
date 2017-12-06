@@ -5,7 +5,7 @@
             <!--web-->
             <ul class="left hide-on-med-and-down">
                 <li ng-if="vm.AuthService.isStudent()" ng-class="{'active': vm.isTabActive('booking')}">
-                    <a ui-sref="booking()">Rezerwacja terminu</a>
+                    <a ui-sref="booking()">{{'RESERVATIONS' | translate}}</a>
                 </li>
                 <li ng-if="vm.AuthService.isStandEmployee()" ng-class="{'active': vm.isTabActive('booking')}">
                     <a ui-sref="schedule()">Terminarz</a>

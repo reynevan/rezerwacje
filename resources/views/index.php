@@ -6,8 +6,8 @@
     <title>Angular-Laravel Authentication</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <link rel="stylesheet" href="style.css">
-    <!--<base href="/" />-->
+    <link rel="stylesheet" href="/style.css">
+        <base href="/" />
 </head>
 
 <body ng-app="www">

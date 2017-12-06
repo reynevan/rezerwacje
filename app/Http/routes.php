@@ -30,3 +30,7 @@ Route::group(['prefix' => 'api'], function()
     Route::patch('reservations/{reservation}/close', 'SlotsController@closeReservation');
     Route::delete('slots/{slot}', 'SlotsController@removeSlot');
 });
+
+Route::get('{any}', function() {
+    return view('index');
+})->where('any', '.*');

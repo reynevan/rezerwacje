@@ -24,13 +24,13 @@
                         <div class="input-field col s12">
                             <i class="material-icons prefix">mode_edit</i>
                             <textarea id="details" class="materialize-textarea" ng-model="vm.data.details"></textarea>
-                            <label for="details">Uwagi</label>
+                            <label for="details">{{'COMMENTS' | translate}}</label>
                         </div>
                     </div>
                 </form>
             </div>
             <div ng-if="vm.error">{{vm.error}}</div>
-            <button class="btn waves-effect" type="submit" ng-click="vm.signUp()">Zapisz</button>
+            <button class="btn waves-effect" type="submit" ng-click="vm.signUp()">{{'SAVE' | translate}}</button>
         </form>
     </div>
     <div class="content center-align" ng-if="vm.reserved">

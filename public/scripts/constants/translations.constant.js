@@ -19,7 +19,10 @@ angular.module('www').constant('TRANSLATIONS', {
         'DAY': 'Dzień',
         'CHOOSE POSITION': 'Wybierz stanowisko',
         'POSITION': 'Stanowisko',
-        'MY RESERVATIONS': 'Moje rezerwacje'
+        'MY RESERVATIONS': 'Moje rezerwacje',
+        'RESERVATIONS': 'Rezerwacje',
+        'COMMENTS': 'Uwagi',
+        'SAVE': 'Zapisz'
     },
     EN: {
         'SIGN IN': 'Sign in',
@@ -41,6 +44,9 @@ angular.module('www').constant('TRANSLATIONS', {
         'DAY': 'Day',
         'CHOOSE POSITION': 'Choose position',
         'POSITION': 'Position',
-        'MY RESERVATIONS': 'My reservations'
+        'MY RESERVATIONS': 'My reservations',
+        'RESERVATIONS': 'Reservations',
+        'COMMENTS': 'Comments',
+        'SAVE': 'Save'
     }
 });

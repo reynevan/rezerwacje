@@ -6937,7 +6937,8 @@ html, body {
   .calendar .calendar-date .btn, .calendar .calendar-date .btn-large {
     padding: 0 15px; }
   .calendar .calendar-main {
-    min-height: 1100px; }
+    min-height: 1100px;
+    background-color: #fff; }
   .calendar .table-responsive {
     overflow-x: auto; }
   .calendar .calendar-table {
