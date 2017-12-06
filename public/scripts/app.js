@@ -9,7 +9,8 @@
         'ui.bootstrap',
         'angularMoment',
         'ui.materialize',
-        'pascalprecht.translate'
+        'pascalprecht.translate',
+        'ngCookies'
     ])
         .config(config)
         .run(run);
@@ -27,14 +28,15 @@
         $translateProvider
             .translations('en', TRANSLATIONS.EN)
             .translations('pl', TRANSLATIONS.PL)
-            .preferredLanguage('pl');
+            .preferredLanguage('pl')
+            .useCookieStorage();
     }
 
 
-    run.$inject = ['Restangular', '$state', '$transitions', 'AuthService', 'amMoment'];
-    function run(Restangular, $state, $transitions, AuthService, amMoment) {
+    run.$inject = ['Restangular', '$state', '$transitions', 'AuthService', 'amMoment', '$translate'];
+    function run(Restangular, $state, $transitions, AuthService, amMoment, $translate) {
 
-        amMoment.changeLocale('pl');
+        amMoment.changeLocale($translate.proposedLanguage() || 'pl');
 
         Restangular.setErrorInterceptor(function (response) {
             if (response.status === 400 || response.status === 401) {

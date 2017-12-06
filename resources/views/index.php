@@ -30,6 +30,8 @@
     <script src="node_modules/materialize-css/dist/js/materialize.js"></script>
     <script src="node_modules/angular-materialize/src/angular-materialize.js"></script>
     <script src="node_modules/angular-translate/dist/angular-translate.js"></script>
+    <script src="node_modules/angular-cookies/angular-cookies.js"></script>
+    <script src="node_modules/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
 
     <!-- Application Scripts -->
     <script src="scripts/app.js"></script>

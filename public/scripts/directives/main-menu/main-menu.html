@@ -1,4 +1,4 @@
-<div class="navbar-fixed">
+<div class="navbar-fixed main-menu">
     <nav ng-hide="vm.hideMenu()">
         <div class="nav-wrapper">
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -28,14 +28,15 @@
                 <li ng-class="{'active': vm.isLanguageActive('en')}">
                     <a href="" ng-click="vm.changeLanguage('en')">EN</a>
                 </li>
+                <li class="nav-space"></li>
                 <li ng-if="vm.AuthService.isStudent()" ng-class="{'active': vm.isTabActive('profile')}">
-                    <a ui-sref="profile()">Moje rezerwacje</a>
+                    <a ui-sref="profile()">{{'MY RESERVATIONS' | translate}}</a>
                 </li>
                 <li ng-if="vm.AuthService.isAuthenticated()" ng-class="{'active': vm.isTabActive('edit-profile')}">
                     <a ui-sref="edit-profile()">{{'EDIT PROFILE' | translate}}</a>
                 </li>
                 <li>
-                    <a href="" ng-click="vm.AuthService.logout()" ng-if="vm.AuthService.isAuthenticated()">Wyloguj</a>
+                    <a href="" ng-click="vm.AuthService.logout()" ng-if="vm.AuthService.isAuthenticated()">{{'LOGOUT' | translate}}</a>
                 </li>
             </ul>
             <!--mobile-->
@@ -47,19 +48,25 @@
                     <a ui-sref="schedule()">Terminarz</a>
                 </li>
                 <li ng-if="vm.AuthService.isStudent()" ng-class="{'active': vm.isTabActive('profile')}">
-                    <a ui-sref="profile()">Moje rezerwacje</a>
+                    <a ui-sref="profile()">{{'MY RESERVATIONS' | translate}}</a>
                 </li>
                 <li ng-if="vm.AuthService.isAuthenticated()" ng-class="{'active': vm.isTabActive('edit-profile')}">
                     <a ui-sref="edit-profile()">{{'EDIT PROFILE' | translate}}</a>
                 </li>
                 <li ng-if="vm.AuthService.isAuthenticated()">
-                    <a href="" ng-click="vm.AuthService.logout()">Wyloguj</a>
+                    <a href="" ng-click="vm.AuthService.logout()">{{'LOGOUT' | translate}}</a>
                 </li>
                 <li ng-if="!vm.AuthService.isAuthenticated()" ng-class="{'active': vm.isTabActive('login')}">
                     <a ui-sref="login()">Logowanie</a>
                 </li>
                 <li ng-if="!vm.AuthService.isAuthenticated()" ng-class="{'active': vm.isTabActive('register')}">
                     <a ui-sref="register()">Rejestracja</a>
+                </li>
+                <li ng-class="{'active': vm.isLanguageActive('pl')}">
+                    <a href="" ng-click="vm.changeLanguage('pl')">PL</a>
+                </li>
+                <li ng-class="{'active': vm.isLanguageActive('en')}">
+                    <a href="" ng-click="vm.changeLanguage('en')">EN</a>
                 </li>
             </ul>
         </div>

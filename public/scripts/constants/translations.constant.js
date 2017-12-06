@@ -2,6 +2,7 @@ angular.module('www').constant('TRANSLATIONS', {
     PL: {
         'SIGN IN': 'Logowanie',
         'SIGN UP': 'Rejestracja',
+        'LOGOUT': 'Wyloguj',
         'LOGIN BTN': 'Zaloguj',
         'FIELDS': {
             'PASSWORD': 'Hasło',
@@ -12,11 +13,18 @@ angular.module('www').constant('TRANSLATIONS', {
             'PASSWORD REPEAT': 'Potwierdzenie hasła',
             'EMAIL': 'Email'
         },
-        'EDIT PROFILE': 'Edycja Profilu'
+        'EDIT PROFILE': 'Edycja profilu',
+        'RESERVATION NUMBER': 'Numer rezerwacji',
+        'WEEK': 'Tydzień',
+        'DAY': 'Dzień',
+        'CHOOSE POSITION': 'Wybierz stanowisko',
+        'POSITION': 'Stanowisko',
+        'MY RESERVATIONS': 'Moje rezerwacje'
     },
     EN: {
         'SIGN IN': 'Sign in',
         'SIGN UP': 'Sign up',
+        'LOGOUT': 'Log out',
         'LOGIN BTN': 'Sign in',
         'FIELDS': {
             'PASSWORD': 'Password',
@@ -27,6 +35,12 @@ angular.module('www').constant('TRANSLATIONS', {
             'PASSWORD REPEAT': 'Password Repeat',
             'EMAIL': 'Email'
         },
-        'EDIT PROFILE': 'Edit Profile'
+        'EDIT PROFILE': 'Edit profile',
+        'RESERVATION NUMBER': 'Reservation number',
+        'WEEK': 'Week',
+        'DAY': 'Day',
+        'CHOOSE POSITION': 'Choose position',
+        'POSITION': 'Position',
+        'MY RESERVATIONS': 'My reservations'
     }
 });

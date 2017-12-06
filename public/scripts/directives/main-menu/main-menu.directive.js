@@ -14,9 +14,9 @@
         };
     }
 
-    mainMenuController.$inject = ['AuthService', '$state', '$translate'];
+    mainMenuController.$inject = ['AuthService', '$state', '$translate', 'amMoment'];
 
-    function mainMenuController(AuthService, $state, $translate) {
+    function mainMenuController(AuthService, $state, $translate, amMoment) {
         var vm = this;
         vm.AuthService = AuthService;
         vm.onProfileState = onProfileState;
@@ -44,6 +44,7 @@
 
         function changeLanguage(lang) {
             $translate.use(lang);
+            amMoment.changeLocale(lang);
         }
 
         function isLanguageActive(lang) {
