@@ -15,18 +15,24 @@
                 </li>
 
                 <li ng-if="!vm.AuthService.isAuthenticated()" ng-class="{'active': vm.isTabActive('login')}">
-                    <a ui-sref="login()">Logowanie</a>
+                    <a ui-sref="login()">{{'SIGN IN' | translate}}</a>
                 </li>
                 <li ng-if="!vm.AuthService.isAuthenticated()" ng-class="{'active': vm.isTabActive('register')}">
-                    <a ui-sref="register()">Rejestracja</a>
+                    <a ui-sref="register()">{{'SIGN UP' | translate}}</a>
                 </li>
             </ul>
             <ul class="right hide-on-med-and-down">
+                <li ng-class="{'active': vm.isLanguageActive('pl')}">
+                    <a href="" ng-click="vm.changeLanguage('pl')">PL</a>
+                </li>
+                <li ng-class="{'active': vm.isLanguageActive('en')}">
+                    <a href="" ng-click="vm.changeLanguage('en')">EN</a>
+                </li>
                 <li ng-if="vm.AuthService.isStudent()" ng-class="{'active': vm.isTabActive('profile')}">
                     <a ui-sref="profile()">Moje rezerwacje</a>
                 </li>
                 <li ng-if="vm.AuthService.isAuthenticated()" ng-class="{'active': vm.isTabActive('edit-profile')}">
-                    <a ui-sref="edit-profile()">Edycja profilu</a>
+                    <a ui-sref="edit-profile()">{{'EDIT PROFILE' | translate}}</a>
                 </li>
                 <li>
                     <a href="" ng-click="vm.AuthService.logout()" ng-if="vm.AuthService.isAuthenticated()">Wyloguj</a>
@@ -44,7 +50,7 @@
                     <a ui-sref="profile()">Moje rezerwacje</a>
                 </li>
                 <li ng-if="vm.AuthService.isAuthenticated()" ng-class="{'active': vm.isTabActive('edit-profile')}">
-                    <a ui-sref="edit-profile()">Edycja profilu</a>
+                    <a ui-sref="edit-profile()">{{'EDIT PROFILE' | translate}}</a>
                 </li>
                 <li ng-if="vm.AuthService.isAuthenticated()">
                     <a href="" ng-click="vm.AuthService.logout()">Wyloguj</a>

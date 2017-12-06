@@ -29,12 +29,12 @@ class AuthenticateController extends Controller
         $credentials = $request->only('email', 'password');
         $user = User::where('email', $request->get('email'))->first();
         if (!$user) {
-            return response()->json(['error' => 'Błędny email lub hasło.'], 401);
+            return response()->json(['error' => trans('messages.login_error')], 401);
         }
         try {
             // verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials, ['role' => $user->role])) {
-                return response()->json(['error' => 'Błędny email lub hasło.'], 401);
+                return response()->json(['error' => trans('messages.login_error')], 401);
             }
         } catch (JWTException $e) {
             // something went wrong
@@ -58,7 +58,7 @@ class AuthenticateController extends Controller
 
         if ($request->get('password') !== $request->get('password_repeat')) {
             $validator->after(function($validator) {
-                $validator->errors()->add('password', 'Hasła musza być jednakowe.');
+                $validator->errors()->add('password', trans('messages.different_passwords'));
             });
         }
 

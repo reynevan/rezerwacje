@@ -33,7 +33,7 @@ class SlotsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => 'Wystąpił błąd przy zapisie. Proszę spróbowac ponownie później.'], Response::HTTP_FORBIDDEN);
+            return response()->json(['error' => trans('messages.save_error')], Response::HTTP_FORBIDDEN);
         }
 
         $takenSlot = Slot::where('week', $request->get('week'))
@@ -44,7 +44,7 @@ class SlotsController extends Controller
             ->count() > 0;
 
         if ($takenSlot) {
-            return response()->json(['error' => 'Wybrany termin jest juz zajęty. Prosze wybrać inny.'], Response::HTTP_FORBIDDEN);
+            return response()->json(['error' => trans('messages.slot_occupied')], Response::HTTP_FORBIDDEN);
         }
 
         $user = JWTAuth::parseToken()->authenticate();

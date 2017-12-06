@@ -41,7 +41,7 @@ class UsersController extends Controller
         $passwordChange = $request->get('old_password') || $request->get('password');
         if ($passwordChange && !Hash::check($request->get('old_password'), $user->password)) {
             $validator->after(function($validator) {
-                $validator->errors()->add('old_password', 'Nieprawidłowe hasło.');
+                $validator->errors()->add('old_password', trans('messages.incorrect_password'));
             });
         }
 

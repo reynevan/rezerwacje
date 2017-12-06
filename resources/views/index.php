@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link rel="stylesheet" href="style.css">
+    <!--<base href="/" />-->
 </head>
 
 <body ng-app="www">
@@ -28,11 +29,13 @@
     <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
     <script src="node_modules/materialize-css/dist/js/materialize.js"></script>
     <script src="node_modules/angular-materialize/src/angular-materialize.js"></script>
+    <script src="node_modules/angular-translate/dist/angular-translate.js"></script>
 
     <!-- Application Scripts -->
     <script src="scripts/app.js"></script>
 
     <script src="scripts/constants/roles.constant.js"></script>
+    <script src="scripts/constants/translations.constant.js"></script>
 
     <script src="scripts/sites/login/login.controller.js"></script>
     <script src="scripts/sites/register/register.controller.js"></script>
@@ -50,6 +53,7 @@
     <script src="scripts/services/auth.service.js"></script>
     <script src="scripts/services/modal.service.js"></script>
     <script src="scripts/services/slots.service.js"></script>
+    <script src="scripts/services/translation.service.js"></script>
 
     <script src="scripts/popups/warning/warning.popup.controller.js"></script>
     <script src="scripts/popups/confirmation/confirmation.popup.controller.js"></script>

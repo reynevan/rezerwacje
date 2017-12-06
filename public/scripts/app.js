@@ -8,23 +8,31 @@
         'restangular',
         'ui.bootstrap',
         'angularMoment',
-        'ui.materialize'
+        'ui.materialize',
+        'pascalprecht.translate'
     ])
         .config(config)
         .run(run);
 
-    config.$inject = ['$urlRouterProvider', '$authProvider', 'RestangularProvider'];
-    function config($urlRouterProvider, $authProvider, RestangularProvider) {
+    config.$inject = ['$urlRouterProvider', '$authProvider', 'RestangularProvider', '$locationProvider', '$translateProvider', 'TRANSLATIONS'];
+    function config($urlRouterProvider, $authProvider, RestangularProvider, $locationProvider, $translateProvider, TRANSLATIONS) {
         $authProvider.loginUrl = '/api/authenticate';
 
         $urlRouterProvider.otherwise('/logowanie');
 
         RestangularProvider.setBaseUrl('/api/');
+
+        /*$locationProvider.html5Mode(true);*/
+
+        $translateProvider
+            .translations('en', TRANSLATIONS.EN)
+            .translations('pl', TRANSLATIONS.PL)
+            .preferredLanguage('pl');
     }
 
 
-    run.$inject = ['Restangular', '$state', '$trace', '$transitions', 'AuthService', 'amMoment'];
-    function run(Restangular, $state, $trace, $transitions, AuthService, amMoment) {
+    run.$inject = ['Restangular', '$state', '$transitions', 'AuthService', 'amMoment'];
+    function run(Restangular, $state, $transitions, AuthService, amMoment) {
 
         amMoment.changeLocale('pl');
 

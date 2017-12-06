@@ -15,10 +15,16 @@
         })
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['AuthService'];
+    LoginController.$inject = ['AuthService', '$state'];
 
-    function LoginController(AuthService) {
+    function LoginController(AuthService, $state) {
         var vm = this;
+
+        vm.$onInit = function() {
+            if (AuthService.isAuthenticated()) {
+                $state.transitionTo(AuthService.getHomeStateName());
+            }
+        }
 
         vm.login = function () {
             var credentials = {

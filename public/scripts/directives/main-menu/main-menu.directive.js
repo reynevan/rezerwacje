@@ -14,14 +14,16 @@
         };
     }
 
-    mainMenuController.$inject = ['AuthService', '$state'];
+    mainMenuController.$inject = ['AuthService', '$state', '$translate'];
 
-    function mainMenuController(AuthService, $state) {
+    function mainMenuController(AuthService, $state, $translate) {
         var vm = this;
         vm.AuthService = AuthService;
         vm.onProfileState = onProfileState;
         vm.isTabActive = isTabActive;
         vm.hideMenu = hideMenu;
+        vm.changeLanguage = changeLanguage;
+        vm.isLanguageActive = isLanguageActive;
 
         $(".button-collapse").sideNav({
             closeOnClick: true
@@ -38,6 +40,14 @@
 
         function hideMenu() {
             return $state.current.hideMenu;
+        }
+
+        function changeLanguage(lang) {
+            $translate.use(lang);
+        }
+
+        function isLanguageActive(lang) {
+            return $translate.proposedLanguage() === lang;
         }
     }
 })();
