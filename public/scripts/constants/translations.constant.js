@@ -11,7 +11,9 @@ angular.module('www').constant('TRANSLATIONS', {
             'INDEX NUMBER': 'Numer indeksu',
             'PHONE NUMBER': 'Numer telefonu',
             'PASSWORD REPEAT': 'Potwierdzenie hasła',
-            'EMAIL': 'Email'
+            'EMAIL': 'Email',
+            'NEW PASSWORD': 'Nowe hasło',
+            'CURRENT PASSWORD': 'Aktualne hasło'
         },
         'EDIT PROFILE': 'Edycja profilu',
         'RESERVATION NUMBER': 'Numer rezerwacji',
@@ -22,7 +24,9 @@ angular.module('www').constant('TRANSLATIONS', {
         'MY RESERVATIONS': 'Moje rezerwacje',
         'RESERVATIONS': 'Rezerwacje',
         'COMMENTS': 'Uwagi',
-        'SAVE': 'Zapisz'
+        'SAVE': 'Zapisz',
+        'SEND': 'Wyślij',
+        'FORGOT PASSWORD': 'Nie pamiętam hasła'
     },
     EN: {
         'SIGN IN': 'Sign in',
@@ -36,7 +40,9 @@ angular.module('www').constant('TRANSLATIONS', {
             'INDEX NUMBER': 'Index Number',
             'PHONE NUMBER': 'Phone Number',
             'PASSWORD REPEAT': 'Password Repeat',
-            'EMAIL': 'Email'
+            'EMAIL': 'Email',
+            'NEW PASSWORD': 'New password',
+            'CURRENT PASSWORD': 'Current password'
         },
         'EDIT PROFILE': 'Edit profile',
         'RESERVATION NUMBER': 'Reservation number',
@@ -47,6 +53,8 @@ angular.module('www').constant('TRANSLATIONS', {
         'MY RESERVATIONS': 'My reservations',
         'RESERVATIONS': 'Reservations',
         'COMMENTS': 'Comments',
-        'SAVE': 'Save'
+        'SAVE': 'Save',
+        'SEND': 'Send',
+        'FORGOT PASSWORD': 'I forgot password'
     }
 });

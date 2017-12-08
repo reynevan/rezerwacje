@@ -10,6 +10,9 @@ use JWTAuth;
 use JWTFactory;
 use Validator;
 use Hash;
+use Mail;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Mail\Message;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\User as User;
 
@@ -21,7 +24,7 @@ class AuthenticateController extends Controller
         // Apply the jwt.auth middleware to all methods in this controller
         // except for the authenticate method. We don't want to prevent
         // the user from retrieving their token if they don't already have it
-        $this->middleware('jwt.auth', ['except' => ['authenticate', 'signUp']]);
+        $this->middleware('jwt.auth', ['except' => ['authenticate', 'signUp', 'recoverPassword', 'resetPassword']]);
     }
 
     public function authenticate(Request $request)
@@ -75,5 +78,33 @@ class AuthenticateController extends Controller
         $user = User::create($data);
         $token = JWTAuth::attempt(['email' => $data['email'], 'password' => $request->get('password')], ['role' => $user->role]);
         return ['user' => $user, 'token' => $token];
+    }
+
+    public function recoverPassword(Request $request)
+    {
+        $this->validate($request, ['email' => 'required|email']);
+
+        $response = Password::sendResetLink($request->only('email'), function (Message $message) {
+            $message->subject('Link do zmiany hasła');
+        });
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $this->validate($request, [
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|confirmed|min:6',
+        ]);
+
+        $credentials = $request->only(
+            'email', 'password', 'password_confirmation', 'token'
+        );
+
+        $response = Password::reset($credentials, function ($user, $password) {
+            $user->password = Hash::make($password);
+
+            $user->save();
+        });
     }
 }

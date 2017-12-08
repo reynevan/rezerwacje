@@ -20,6 +20,8 @@ Route::group(['prefix' => 'api'], function()
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::post('slots/sign-up', 'SlotsController@signUp');
     Route::post('sign-up', 'AuthenticateController@signUp');
+    Route::post('forgot-password', 'AuthenticateController@recoverPassword');
+    Route::post('reset-password', 'AuthenticateController@resetPassword');
     Route::patch('profile', 'UsersController@edit');
     Route::get('schedule', 'SlotsController@getSchedule');
     Route::get('stands', 'StandsController@index');

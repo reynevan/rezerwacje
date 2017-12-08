@@ -32,8 +32,8 @@
         vm.TODAY = 0;
         vm.NEXT = 1;
 
-        vm.VIEW_MODE_WEEK = 1;
-        vm.VIEW_MODE_DAY = 2;
+        vm.VIEW_MODE_WEEK = false;
+        vm.VIEW_MODE_DAY = true;
 
         var WEEKS_IN_YEAR = 52;
         var DAYS_IN_WEEK = 7;

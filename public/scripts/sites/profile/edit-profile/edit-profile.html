@@ -9,44 +9,44 @@
         </ul>
     </div>
     <form class="col s12 l8 offset-l2 xl6 offset-xl3" ng-submit="vm.saveProfile()">
-        <div class="row">
-            <div input-field class="input-field col s6">
+        <div input-field class="row">
+            <div class="input-field col s6">
                 <input id="first_name" type="text" class="validate" ng-model="vm.user.first_name" ng-class="{'invalid': vm.errors.first_name}">
-                <label for="first_name">Imię</label>
+                <label for="first_name">{{'FIELDS.FIRST NAME' | translate}}</label>
             </div>
-            <div input-field class="input-field col s6">
+            <div class="input-field col s6">
                 <input id="last_name" type="text" class="validate" ng-model="vm.user.last_name" ng-class="{'invalid': vm.errors.last_name}">
-                <label for="last_name">Nazwisko</label>
+                <label for="last_name">{{'FIELDS.LAST NAME' | translate}}</label>
             </div>
         </div>
         <div input-field class="row">
             <div class="input-field col s12">
                 <input id="email" type="email" class="validate" ng-model="vm.user.email" ng-class="{'invalid': vm.errors.email}">
-                <label for="email">Email</label>
+                <label for="email">{{'FIELDS.EMAIL' | translate}}</label>
             </div>
         </div>
         <div input-field class="row">
             <div class="input-field col s12">
                 <input id="index_number" type="text" class="validate" ng-model="vm.user.index_number" ng-class="{'invalid': vm.errors.index_number}">
-                <label for="index_number">Indeks</label>
+                <label for="index_number">{{'FIELDS.INDEX NUMBER' | translate}}</label>
             </div>
         </div>
         <div input-field class="row">
             <div class="input-field col s12">
                 <input id="phone" type="text" class="validate" ng-model="vm.user.phone">
-                <label for="phone">Telefon</label>
+                <label for="phone">{{'FIELDS.PHONE NUMBER' | translate}}</label>
             </div>
         </div>
         <div input-field class="row">
             <div class="input-field col s6">
                 <input id="new_password" type="password" class="validate" ng-model="vm.user.password"  ng-class="{'invalid': vm.errors.password}">
-                <label for="new_password">Nowe Hasło</label>
+                <label for="new_password">{{'FIELDS.NEW PASSWORD' | translate}}</label>
             </div>
             <div class="input-field col s6">
                 <input id="old_password" type="password" class="validate" ng-model="vm.user.old_password"  ng-class="{'invalid': vm.errors.old_password}">
-                <label for="old_password">Aktualne Hasło</label>
+                <label for="new_password">{{'FIELDS.CURRENT PASSWORD' | translate}}</label>
             </div>
         </div>
-        <button class="btn waves-effect" type="submit">Zapisz</button>
+        <button class="btn waves-effect" type="submit">{{'SAVE' | translate}}</button>
     </form>
 </div>

@@ -47,6 +47,8 @@
     <script src="scripts/sites/schedule/schedule.controller.js"></script>
     <script src="scripts/sites/queue/queue.controller.js"></script>
     <script src="scripts/sites/stand/stand.controller.js"></script>
+    <script src="scripts/sites/forgot-password/forgot-password.controller.js"></script>
+    <script src="scripts/sites/reset-password/reset-password.controller.js"></script>
 
     <script src="scripts/directives/calendar/calendar.directive.js"></script>
     <script src="scripts/directives/main-menu/main-menu.directive.js"></script>

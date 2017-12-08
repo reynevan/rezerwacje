@@ -13,14 +13,17 @@
         <form ng-submit="vm.login()">
             <div input-field>
                 <div class="input-field">
-                    <input id="email" type="email" class="validate" ng-model="vm.email" ng-class="{'invalid': vm.error}">
-                    <label for="email">Email</label>
+                    <input id="email" type="email" class="validate" placeholder="{{'FIELDS.EMAIL' | translate}}" ng-model="vm.email" ng-class="{'invalid': vm.error}">
                 </div>
             </div>
             <div input-field>
                 <div class="input-field">
-                    <input id="password" type="password" class="validate" ng-model="vm.password" ng-class="{'invalid': vm.error}">
-                    <label for="password">{{'FIELDS.PASSWORD' | translate}}</label>
+                    <input id="password" type="password" class="validate" placeholder="{{'FIELDS.PASSWORD' | translate}}" ng-model="vm.password" ng-class="{'invalid': vm.error}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <a ui-sref="request-reset-password()">{{'FORGOT PASSWORD' | translate}}</a>
                 </div>
             </div>
             <button class="btn waves-effect" type="submit">{{'LOGIN BTN' | translate}}</button>

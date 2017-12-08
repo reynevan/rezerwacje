@@ -25,11 +25,16 @@
                     <i class="medium material-icons">chevron_right</i>
                 </button>
             </div>
+
             <div class="calendar-mode col s12 l4 right-align">
-                <button class="btn waves-effect calendar-navigation-button" ng-click="vm.changeToWeekView()">{{'WEEK' | translate}}
-                </button>
-                <button class="btn waves-effect calendar-navigation-button" ng-click="vm.changeToDayView()">{{'DAY' | translate}}
-                </button>
+                <div class="switch">
+                    <label>
+                        {{'WEEK' | translate}}
+                        <input type="checkbox" class="always-on" ng-model="vm.viewMode">
+                        <span class="lever"></span>
+                        {{'DAY' | translate}}
+                    </label>
+                </div>
             </div>
         </div>
         <div class="calendar-main">

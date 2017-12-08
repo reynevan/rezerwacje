@@ -4895,6 +4895,10 @@ form p:last-child {
       left: 18px; }
     .switch label input[type=checkbox]:checked + .lever:after {
       background-color: #1976D2; }
+  .switch label input[type=checkbox].always-on + .lever {
+    background-color: #8eb5dd; }
+    .switch label input[type=checkbox].always-on + .lever:after {
+      background-color: #1976D2; }
 
 .switch label .lever {
   content: "";
