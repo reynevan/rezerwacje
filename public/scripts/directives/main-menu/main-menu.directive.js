@@ -14,9 +14,9 @@
         };
     }
 
-    mainMenuController.$inject = ['AuthService', '$state', '$translate', 'amMoment'];
+    mainMenuController.$inject = ['AuthService', '$state', '$translate', 'amMoment', 'Restangular'];
 
-    function mainMenuController(AuthService, $state, $translate, amMoment) {
+    function mainMenuController(AuthService, $state, $translate, amMoment, Restangular) {
         var vm = this;
         vm.AuthService = AuthService;
         vm.onProfileState = onProfileState;
@@ -45,6 +45,7 @@
         function changeLanguage(lang) {
             $translate.use(lang);
             amMoment.changeLocale(lang);
+            Restangular.setDefaultRequestParams({lang: lang});
         }
 
         function isLanguageActive(lang) {

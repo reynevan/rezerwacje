@@ -46,6 +46,7 @@
             return true;
         });
 
+
         //$trace.enable('TRANSITION');
 
         $transitions.onStart({}, function (trans) {
