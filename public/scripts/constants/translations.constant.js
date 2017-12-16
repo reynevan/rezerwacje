@@ -26,7 +26,15 @@ angular.module('www').constant('TRANSLATIONS', {
         'COMMENTS': 'Uwagi',
         'SAVE': 'Zapisz',
         'SEND': 'Wyślij',
-        'FORGOT PASSWORD': 'Nie pamiętam hasła'
+        'FORGOT PASSWORD': 'Nie pamiętam hasła',
+        'CANCEL RESERVATION': 'Anuluj rezerwacje',
+        'TODAY': 'Dzisiaj',
+        'POSITION CLOSED': 'Stanowisko nieczynne',
+        'OPEN HOURS': 'Godziny otwarcia dziekanatu',
+        'SLOT TIME LENGTH': 'Czas trwania rezerwacji',
+        'MINUTES': 'Minuty',
+        'GENERIC ERROR': 'Wystąpił bład. Proszę spróbować ponownie później.',
+        'CHANGES SAVED': 'Zmiany zostały zapisane'
     },
     EN: {
         'SIGN IN': 'Sign in',
@@ -55,6 +63,14 @@ angular.module('www').constant('TRANSLATIONS', {
         'COMMENTS': 'Comments',
         'SAVE': 'Save',
         'SEND': 'Send',
-        'FORGOT PASSWORD': 'I forgot password'
+        'FORGOT PASSWORD': 'I forgot password',
+        'CANCEL RESERVATION': 'Cancel reservation',
+        'TODAY': 'Today',
+        'POSITION CLOSED': 'Position closed',
+        'OPEN HOURS': 'Working hours',
+        'SLOT TIME LENGTH': 'Slot time length',
+        'MINUTES': 'Minutes',
+        'GENERIC ERROR': 'Some error has occurred. Please try again later.',
+        'CHANGES SAVED': 'Changes were saved.'
     }
 });

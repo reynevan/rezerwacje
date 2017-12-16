@@ -1,3 +1,4 @@
+@import url(../node_modules/angular-flash-alert/dist/angular-flash.css);
 .materialize-red {
   background-color: #e51c23 !important; }
 
@@ -6914,22 +6915,23 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
       cursor: pointer; }
 
 .container {
-  padding: 50px 20px;
-  margin-top: 50px;
+  padding: 100px 20px;
   min-height: 100%;
-  min-width: 320px; }
+  min-width: 320px;
+  background-color: #f5f5f5;
+  border: 1px solid #e8e8e8; }
 
 * {
   outline: none !important; }
 
 html, body {
   min-height: 100%;
+  height: 100%;
   background-color: #fcfcfc; }
 
 .calendar {
   margin-bottom: 50px; }
   .calendar .calendar-header {
-    height: 100px;
     position: relative; }
   .calendar .calendar-header {
     margin-top: 20px; }
@@ -6938,32 +6940,53 @@ html, body {
   .calendar .calendar-date .date {
     font-size: 1.4rem;
     padding: 0 10px; }
+  @media only screen and (max-width: 600px) {
+    .calendar .calendar-date .date {
+      font-size: 0.8rem;
+      padding: 0; } }
   .calendar .calendar-date .btn, .calendar .calendar-date .btn-large {
     padding: 0 15px; }
+  .calendar .calendar-navigation-button {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    color: #111; }
   .calendar .calendar-main {
-    min-height: 1100px;
-    background-color: #fff; }
+    min-height: 1100px; }
   .calendar .table-responsive {
     overflow-x: auto; }
   .calendar .calendar-table {
     border-collapse: collapse;
     border-bottom: 1px solid #dadada; }
+    .calendar .calendar-table.table-fixed {
+      table-layout: fixed; }
+    .calendar .calendar-table:not(.table-fixed) .slot-time {
+      width: 50px; }
     .calendar .calendar-table thead {
       text-align: center;
       border: 1px solid #d0d0d0; }
     .calendar .calendar-table .slot-time {
-      height: 20px;
+      height: 23px;
       padding: 0;
       text-align: center;
       font-weight: bold;
       border: 1px solid #dadada;
-      width: 50px; }
+      font-size: 0.8rem; }
     .calendar .calendar-table .slot {
-      height: 20px;
+      height: 23px;
       padding: 0;
-      border-right: 1px solid #dadada; }
+      border-right: 1px solid #dadada;
+      text-align: center; }
+      .calendar .calendar-table .slot .slot-info {
+        display: none;
+        text-align: center; }
+      .calendar .calendar-table .slot:hover .slot-info {
+        display: inline-block;
+        color: #ddd; }
       .calendar .calendar-table .slot.open:not(.free) {
         background-color: #eee; }
+        .calendar .calendar-table .slot.open:not(.free).my-reservation {
+          border: 1px solid red; }
       .calendar .calendar-table .slot.open.free {
         cursor: pointer; }
       .calendar .calendar-table .slot.open.full-hour {
@@ -6974,6 +6997,9 @@ html, body {
 .main-menu .nav-space {
   width: 50px;
   height: 1px; }
+
+.loader {
+  text-align: center; }
 
 .sign-up-popup .stand-name {
   font-size: 1.2rem; }

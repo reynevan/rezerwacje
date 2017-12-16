@@ -19,6 +19,7 @@ class User extends Model implements AuthenticatableContract,
 
     const ROLE_STUDENT = 1;
     const ROLE_STAND_EMPLOYEE = 2;
+    const ROLE_ADMIN = 3;
 
     /**
      * The database table used by the model.

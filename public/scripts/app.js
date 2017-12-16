@@ -10,7 +10,9 @@
         'angularMoment',
         'ui.materialize',
         'pascalprecht.translate',
-        'ngCookies'
+        'ngCookies',
+        'vcRecaptcha',
+        'ngFlash'
     ])
         .config(config)
         .run(run);
@@ -33,15 +35,15 @@
     }
 
 
-    run.$inject = ['Restangular', '$state', '$transitions', 'AuthService', 'amMoment', '$translate'];
-    function run(Restangular, $state, $transitions, AuthService, amMoment, $translate) {
+    run.$inject = ['Restangular', '$state', '$transitions', 'AuthService', 'TranslationService', 'FlashService'];
+    function run(Restangular, $state, $transitions, AuthService, TranslationService, FlashService) {
 
-        amMoment.changeLocale($translate.proposedLanguage() || 'pl');
+        TranslationService.init();
 
         Restangular.setErrorInterceptor(function (response) {
             if (response.status === 400 || response.status === 401) {
                 $state.transitionTo('login');
-                return false;
+                return response;
             }
             return true;
         });
@@ -64,6 +66,12 @@
                     return trans.router.stateService.target(AuthService.getHomeStateName());
                 }
             }
+        });
+
+        $transitions.onFinish({}, function () {
+            FlashService.clear();
+            FlashService.showMessages();
+            FlashService.removeMessages();
         });
     }
 })();

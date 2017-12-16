@@ -19,51 +19,61 @@
         })
         .controller('BookingController', BookingController);
 
-    BookingController.$inject = ['ModalService', 'Restangular', 'Slots'];
+    BookingController.$inject = ['ModalService', 'Restangular', '$q'];
 
-    function BookingController(ModalService, Restangular, Slots) {
+    function BookingController(ModalService, Restangular, $q) {
         var vm = this;
 
         vm.signUp = signUp;
         vm.loadSchedule = loadSchedule;
 
-        vm.$onInit = function() {
-            Restangular.one('stands').get().then(function(data) {
+        vm.$onInit = function () {
+            Restangular.one('stands').get().then(function (data) {
                     vm.stands = data.stands;
                 }
             )
         };
 
+        var canceler = $q.defer();
+
         function loadSchedule(week, year) {
+            if (vm.loading) {
+                canceler.resolve();
+                canceler = $q.defer();
+            }
             vm.loading = true;
 
             if (angular.isUndefined(week) || angular.isUndefined(year)) {
                 week = moment().week();
                 year = moment().year();
             }
-            Restangular.one('schedule').get({
-                'week':  week,
-                'year': year,
-                'stand_id': vm.stand
-            }).then(function (data) {
-                vm.loading = false;
-                vm.schedule = data.schedule;
-                vm.slotTimes = data.slotTimes;
-            });
+            Restangular.one('schedule')
+                .withHttpConfig({timeout: canceler.promise})
+                .get({
+                    'week': week,
+                    'year': year,
+                    'stand_id': vm.stand
+                })
+                .then(function (data) {
+                    vm.loading = false;
+                    vm.schedule = data.schedule;
+                    vm.slotTimes = data.slotTimes;
+                });
         }
 
-        function signUp(day, time, index) {
-            if (!Slots.isFree(vm.schedule, day, index) || !Slots.isOpen(vm.schedule, day, index)) {
+        function signUp(slot, index, day) {
+            if (!slot.free || !slot.open) {
                 return;
             }
-            var hour = time.split(':')[0];
-            var minute = time.split(':')[1];
-            var date = moment().year(vm.selectedYear).week(vm.selectedWeek).day(day).hour(hour).minute(minute).second(0);
+            day += 1;
+            var hour = slot.time.split(':')[0];
+            var minute = slot.time.split(':')[1];
+            var date = moment().year(vm.selectedYear).week(vm.selectedWeek).isoWeekday(day).hour(hour).minute(minute).second(0);
             var data = {
                 week: vm.selectedWeek,
                 year: vm.selectedYear,
                 day: day,
-                time: time,
+                time: slot.time,
                 stand_id: vm.stand,
                 date: date.format("D MMMM YYYY HH:mm"),
                 day_index: index + 1
@@ -83,16 +93,12 @@
                     stand: function () {
                         return stand;
                     },
-                    data: function() {
+                    data: function () {
                         return data;
                     },
-                    callback: function() {
-                        return function() {
-                            if (vm.schedule && vm.schedule[day] && vm.schedule[day][index]) {
-                                vm.schedule[day][index].free = false;
-                            } else {
-                                loadSchedule();
-                            }
+                    callback: function () {
+                        return function () {
+                            loadSchedule();
                         }
                     }
                 }

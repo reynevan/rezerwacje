@@ -3,13 +3,13 @@ $calendar-mode-width: 150px
 $busy-slot-color: #eee
 $calendar-light-border-color: #dadada
 $calendar-slot-border-color: #d0d0d0
-$slot-height: 20px
+$closed-text-color: #ddd
+$slot-height: 23px
 
 .calendar
   margin-bottom: 50px
 
   .calendar-header
-    height: 100px
     position: relative
 
   .calendar-header
@@ -23,12 +23,22 @@ $slot-height: 20px
       font-size: 1.4rem
       padding: 0 10px
 
+    @media #{$small-and-down}
+      .date
+        font-size: 0.8rem
+        padding: 0
+
     .btn
       padding: 0 15px
 
+  .calendar-navigation-button
+    background-color: transparent
+    border: none
+    box-shadow: none
+    color: $text-color
+
   .calendar-main
     min-height: 1100px
-    background-color: #fff
 
   .table-responsive
     overflow-x: auto
@@ -37,6 +47,13 @@ $slot-height: 20px
   .calendar-table
     border-collapse: collapse
     border-bottom: 1px solid $calendar-light-border-color
+
+    &.table-fixed
+      table-layout: fixed
+
+    &:not(.table-fixed)
+      .slot-time
+        width: 50px
 
     thead
       text-align: center
@@ -48,20 +65,30 @@ $slot-height: 20px
       text-align: center
       font-weight: bold
       border: 1px solid $calendar-light-border-color
-      width: 50px
+      font-size: 0.8rem
 
 
     .slot
       height: $slot-height
       padding: 0
       border-right: 1px solid $calendar-light-border-color
+      text-align: center
 
+      .slot-info
+        display: none
+        text-align: center
 
+      &:hover
+        .slot-info
+          display: inline-block
+          color: $closed-text-color
 
       &.open
         //background-color: #eee
         &:not(.free)
           background-color: $busy-slot-color
+          &.my-reservation
+            border: 1px solid red
         &.free
           cursor: pointer
 
@@ -70,6 +97,3 @@ $slot-height: 20px
 
         &:not(.full-hour)
           border-top: 1px dashed $calendar-light-border-color
-
-      //&:not(.open)
-      //  border: 1px dashed $calendar-light-border-color

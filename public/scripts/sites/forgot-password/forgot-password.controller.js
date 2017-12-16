@@ -15,15 +15,24 @@
         })
         .controller('ForgotPasswordController', ForgotPasswordController);
 
-    ForgotPasswordController.$inject = ['Restangular'];
+    ForgotPasswordController.$inject = ['AuthService', 'FlashService', '$state'];
 
-    function ForgotPasswordController(Restangular) {
+    function ForgotPasswordController(AuthService, FlashService, $state) {
         var vm = this;
 
         vm.send = function() {
-            Restangular.all('forgot-password').post({'email': vm.email}).then(
-                function() {},
-                function(){}
+            vm.loading = true;
+            FlashService.clear();
+            AuthService.requestPasswordResetMail(vm.email).then(
+                function(data) {
+                    vm.loading = false;
+                    $state.transitionTo('login');
+                    FlashService.successAfterRouteChange(data.message);
+                },
+                function(data) {
+                    vm.loading = false;
+                    FlashService.error(data.message);
+                }
             )
         }
 

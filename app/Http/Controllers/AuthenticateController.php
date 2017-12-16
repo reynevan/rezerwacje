@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Http\Response;
 use JWTAuth;
 use JWTFactory;
 use Validator;
@@ -50,6 +51,9 @@ class AuthenticateController extends Controller
 
     public function signUp(Request $request)
     {
+        $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.env('CAPTCHA_SECRET').'&response='.$request->get('g_recaptcha_response'));
+        $responseData = json_decode($verifyResponse);
+
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -62,6 +66,12 @@ class AuthenticateController extends Controller
         if ($request->get('password') !== $request->get('password_repeat')) {
             $validator->after(function($validator) {
                 $validator->errors()->add('password', trans('messages.different_passwords'));
+            });
+        }
+
+        if (!$responseData->success) {
+            $validator->after(function($validator) {
+                $validator->errors()->add('captcha', trans('messages.captcha_failed'));
             });
         }
 
@@ -84,9 +94,17 @@ class AuthenticateController extends Controller
     {
         $this->validate($request, ['email' => 'required|email']);
 
-        $response = Password::sendResetLink($request->only('email'), function (Message $message) {
+        $user = User::where('email', $request->get('email'))->first();
+
+        if (!$user) {
+            return Response::notFound(trans('messages.no_user_with_email', ['email' => $request->get('email')]));
+        }
+
+        Password::sendResetLink($request->only('email'), function (Message $message) {
             $message->subject('Link do zmiany hasła');
         });
+
+        return Response::success([], trans('messages.change_pass_email_sent', ['email' => $request->get('email')]));
     }
 
     public function resetPassword(Request $request)

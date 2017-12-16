@@ -32,8 +32,11 @@
                 {{slot.details}}
             </td>
             <td>
-                <a ng-if="!slot.past" class="waves-effect waves-red btn-flat" ng-click="vm.freeSlot(slot)"><i
-                        class="material-icons tiny">close</i></a>
+                <a ng-if="!slot.past" title="{{'CANCEL RESERVATION' | translate}}"
+                   class="waves-effect waves-red btn-flat"
+                   ng-click="vm.freeSlot(slot)">
+                    <i class="material-icons tiny">close</i>
+                </a>
             </td>
         </tr>
         </tbody>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Settings;
 use App\Slot;
 use App\User;
 use App\WorkingHour;
@@ -64,7 +65,7 @@ class SlotsController extends Controller
 
         $minStartTime = WorkingHour::orderBy('start', 'asc')->first()->start;
         $maxEndTime = WorkingHour::orderBy('end', 'desc')->first()->end;
-        $slotLength = 15;
+        $slotLength = Settings::get()->getSlotLength();
 
         $startParts = explode(':', $minStartTime);
         $endParts = explode(':', $maxEndTime);
@@ -109,11 +110,15 @@ class SlotsController extends Controller
                 $nextTime = $time->copy();
                 $nextTime->addMinutes($slotLength);
                 $free = true;
+                $myReservation = false;
                 $reservationDetails = null;
                 foreach ($slots as $slot) {
                     if ($slot->time >= $time->format('H:i') && $slot->time < $nextTime->format('H:i')) {
                         $free = false;
                         $reservationDetails = $slot;
+                        if ($slot->user_id === $user->id) {
+                            $myReservation = true;
+                        }
                         break;
                     }
                 }
@@ -123,6 +128,8 @@ class SlotsController extends Controller
                     'free' => $free,
                     'open' => $open,
                     'time' => $time->format('H:i'),
+                    'end' => $time->addMinutes($slotLength)->format('H:i'),
+                    'my' => $myReservation,
                     'reservation' => $reservationDetails
                 ];
             }
@@ -139,8 +146,18 @@ class SlotsController extends Controller
             $slotTimes[] = $time->format('H:i');
         }
 
+        $schedule2 = [];
+        foreach ($schedule as $dayIndex => $day) {
+            foreach ($day as $slotIndex => $slot) {
+                if (!isset($schedule2[$slotIndex])) {
+                    $schedule2[$slotIndex] = [];
+                }
+                $schedule2[$slotIndex][] = $slot;
+            }
+        }
+
         return [
-            'schedule' => $schedule,
+            'schedule' => $schedule2,
             'slotTimes' => $slotTimes
         ];
     }

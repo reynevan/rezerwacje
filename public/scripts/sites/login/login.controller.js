@@ -24,16 +24,20 @@
             if (AuthService.isAuthenticated()) {
                 $state.transitionTo(AuthService.getHomeStateName());
             }
-        }
+        };
 
         vm.login = function () {
+            vm.loading = true;
             var credentials = {
                 email: vm.email,
                 password: vm.password
             };
 
-            AuthService.login(credentials).then(angular.noop, function(error){
-                vm.error = error.data.error || 'Wystąpił błąd. Proszę spróbowac ponownie później.';
+            AuthService.login(credentials).then(function() {
+                vm.loading = false;
+            }, function(error){
+                vm.loading = false;
+                vm.error = (error.data && error.data.error) ?  error.data.error : 'Wystąpił błąd. Proszę spróbowac ponownie później.';
             })
         }
     }

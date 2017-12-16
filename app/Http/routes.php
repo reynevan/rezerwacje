@@ -22,6 +22,8 @@ Route::group(['prefix' => 'api'], function()
     Route::post('sign-up', 'AuthenticateController@signUp');
     Route::post('forgot-password', 'AuthenticateController@recoverPassword');
     Route::post('reset-password', 'AuthenticateController@resetPassword');
+    Route::post('settings', 'SettingsController@save');
+    Route::get('settings', 'SettingsController@view');
     Route::patch('profile', 'UsersController@edit');
     Route::get('schedule', 'SlotsController@getSchedule');
     Route::get('stands', 'StandsController@index');

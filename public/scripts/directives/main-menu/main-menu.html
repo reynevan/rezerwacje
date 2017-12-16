@@ -32,7 +32,7 @@
                 <li ng-if="vm.AuthService.isStudent()" ng-class="{'active': vm.isTabActive('profile')}">
                     <a ui-sref="profile()">{{'MY RESERVATIONS' | translate}}</a>
                 </li>
-                <li ng-if="vm.AuthService.isAuthenticated()" ng-class="{'active': vm.isTabActive('edit-profile')}">
+                <li ng-if="vm.AuthService.isAuthenticated() && !vm.AuthService.isAdmin()" ng-class="{'active': vm.isTabActive('edit-profile')}">
                     <a ui-sref="edit-profile()">{{'EDIT PROFILE' | translate}}</a>
                 </li>
                 <li>
@@ -42,7 +42,7 @@
             <!--mobile-->
             <ul class="side-nav" id="mobile-demo">
                 <li class="" ng-if="vm.AuthService.isStudent()" ng-class="{'active': vm.isTabActive('booking')}">
-                    <a ui-sref="booking()">Rezerwacja terminu</a>
+                    <a ui-sref="booking()">{{'RESERVATIONS' | translate}}</a>
                 </li>
                 <li ng-if="vm.AuthService.isStandEmployee()" ng-class="{'active': vm.isTabActive('booking')}">
                     <a ui-sref="schedule()">Terminarz</a>
@@ -50,7 +50,7 @@
                 <li ng-if="vm.AuthService.isStudent()" ng-class="{'active': vm.isTabActive('profile')}">
                     <a ui-sref="profile()">{{'MY RESERVATIONS' | translate}}</a>
                 </li>
-                <li ng-if="vm.AuthService.isAuthenticated()" ng-class="{'active': vm.isTabActive('edit-profile')}">
+                <li ng-if="vm.AuthService.isAuthenticated() && !vm.AuthService.isAdmin()" ng-class="{'active': vm.isTabActive('edit-profile')}">
                     <a ui-sref="edit-profile()">{{'EDIT PROFILE' | translate}}</a>
                 </li>
                 <li ng-if="vm.AuthService.isAuthenticated()">

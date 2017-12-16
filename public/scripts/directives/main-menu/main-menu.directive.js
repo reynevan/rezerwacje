@@ -14,9 +14,9 @@
         };
     }
 
-    mainMenuController.$inject = ['AuthService', '$state', '$translate', 'amMoment', 'Restangular'];
+    mainMenuController.$inject = ['AuthService', '$state', 'TranslationService'];
 
-    function mainMenuController(AuthService, $state, $translate, amMoment, Restangular) {
+    function mainMenuController(AuthService, $state, TranslationService) {
         var vm = this;
         vm.AuthService = AuthService;
         vm.onProfileState = onProfileState;
@@ -43,13 +43,11 @@
         }
 
         function changeLanguage(lang) {
-            $translate.use(lang);
-            amMoment.changeLocale(lang);
-            Restangular.setDefaultRequestParams({lang: lang});
+            TranslationService.changeLang(lang);
         }
 
         function isLanguageActive(lang) {
-            return $translate.proposedLanguage() === lang;
+            return TranslationService.activeLanguage() === lang;
         }
     }
 })();

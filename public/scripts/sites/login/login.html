@@ -26,7 +26,8 @@
                     <a ui-sref="request-reset-password()">{{'FORGOT PASSWORD' | translate}}</a>
                 </div>
             </div>
-            <button class="btn waves-effect" type="submit">{{'LOGIN BTN' | translate}}</button>
+            <button class="btn waves-effect" type="submit" ng-if="!vm.loading">{{'LOGIN BTN' | translate}}</button>
+            <loader ng-if="vm.loading"></loader>
         </form>
     </div>
 </div>

@@ -110,7 +110,7 @@ return [
         'last_name' => 'nazwisko',
         'index_number' => 'numer indeksu',
         'password' => 'hasło',
-        'password_repeat' => 'hasło',
+        'password_repeat' => 'potwierdzenie hasła',
     ],
 
 ];

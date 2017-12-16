@@ -1,15 +1,7 @@
 <div class="calendar">
     <div>
-        <div class="calendar-header row">
-            <div class="calendar-navigation col s12 l4">
-                <div class="calendar-navigation-buttons">
-                    <button class="btn waves-effect calendar-navigation-button"
-                            ng-if="vm.showTodayButton()"
-                            ng-click="vm.changeSelectedDate(vm.TODAY)">dzisiej
-                    </button>
-                </div>
-            </div>
-            <div class="calendar-date col s12 l4 center-align">
+        <div class="calendar-header center-align row">
+            <div class="calendar-date col s12">
                 <button class="btn waves-effect calendar-navigation-button"
                         ng-click="vm.changeSelectedDate(vm.PREVIOUS)">
                     <i class="medium material-icons">chevron_left</i>
@@ -25,8 +17,18 @@
                     <i class="medium material-icons">chevron_right</i>
                 </button>
             </div>
-
-            <div class="calendar-mode col s12 l4 right-align">
+        </div>
+        <div class="row">
+            <div class="calendar-navigation col s4">
+                <div class="calendar-navigation-buttons">
+                    <button class="btn waves-effect calendar-navigation-button"
+                            ng-if="vm.showTodayButton()"
+                            ng-click="vm.changeSelectedDate(vm.TODAY)">
+                        {{'TODAY' | translate}}
+                    </button>
+                </div>
+            </div>
+            <div class="calendar-mode col s8 right-align">
                 <div class="switch">
                     <label>
                         {{'WEEK' | translate}}
@@ -38,11 +40,9 @@
             </div>
         </div>
         <div class="calendar-main">
-            <div class="progress" ng-if="vm.loading">
-                <div class="indeterminate"></div>
-            </div>
+            <loader class="big" ng-if="vm.loading"></loader>
             <div class="table-responsive">
-                <table class="calendar-table highlight" ng-if="!vm.loading">
+                <table class="calendar-table highlight" ng-if="!vm.loading" ng-class="{'table-fixed': vm.viewMode === vm.VIEW_MODE_WEEK}">
                     <thead>
                     <tr>
                         <td></td>
@@ -69,14 +69,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="(slotIndex, slotTime) in vm.slotTimes">
-                        <td class="slot-time" ng-if="vm.isFullHour(slotTime)">{{slotTime}}</td>
-                        <td class="slot-time" ng-if="!vm.isFullHour(slotTime)"></td>
-                        <td ng-repeat="(day, data) in vm.schedule"
+                    <tr ng-repeat="(slotIndex, timeSlots) in vm.schedule">
+                        <td class="slot-time" ng-if="vm.isFullHour(vm.slotTimes[slotIndex])">{{vm.slotTimes[slotIndex]}}</td>
+                        <td class="slot-time" ng-if="!vm.isFullHour(vm.slotTimes[slotIndex])"></td>
+                        <td ng-repeat="(day, slot) in timeSlots"
                             class="slot"
+                            ng-click="vm.clickSlot(slot, slotIndex, day)"
                             ng-if="vm.viewMode === vm.VIEW_MODE_WEEK || (vm.viewMode === vm.VIEW_MODE_DAY && day == vm.selectedDay)"
-                            ng-click="vm.clickSlot(day, slotTime, slotIndex, data)"
-                            ng-class="{'open': vm.isSlotOpen(day, slotIndex), 'free': vm.isSlotFree(day, slotIndex), 'full-hour': vm.isFullHour(slotTime)}">
+                            ng-class="{'open': slot.open, 'free': slot.free, 'full-hour': vm.isFullHour(slot.time), 'my-reservation': slot.my}">
+
+                            <div title="{{slot.time}} - {{slot.end}}" class="slot-info" ng-if="slot.free && slot.open">{{slot.time}} - {{slot.end}}</div>
+                            <div title="{{'POSITION CLOSED' | translate}}" class="slot-info" ng-if="!slot.open">{{'POSITION CLOSED' | translate}}</div>
                         </td>
                     </tr>
                     </tbody>

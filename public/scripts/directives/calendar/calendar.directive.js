@@ -50,6 +50,7 @@
         vm.range = Utils.range;
         vm.isSlotOpen = isSlotOpen;
         vm.isSlotFree = isSlotFree;
+        vm.isMyReservation = isMyReservation;
         vm.changeToWeekView = changeToWeekView;
         vm.changeToDayView = changeToDayView;
         vm.isFullHour = function (hour) {
@@ -135,14 +136,27 @@
         }
 
 
-        function isSlotFree(day, slot) {
-            return vm.schedule[day][slot].free;
+        function isSlotFree(day, index) {
+            return vm.schedule[day][index].free;
         }
 
-        function isSlotOpen(day, slot) {
-            return vm.schedule[day][slot].open;
+        function isSlotOpen(day, index) {
+            return vm.schedule[day][index].open;
         }
 
+        function isReservable(day, index, slot) {
+            var now = moment();
+            var futureWeek = vm.selectedWeek >= now.week();
+            var currentWeek = vm.selectedWeek === now.week();
+            var futureDay = day >= now.isoWeekday();
+            var futureDay = futureWeek || (currentWeek && futureDay);
+            var futureHour = slot.time >= now.format('HH:mm');
+            return futureDay && futureWeek && vm.schedule[day][index].open;
+        }
+
+        function isMyReservation(day, index) {
+            return vm.schedule[day][index].my;
+        }
 
         function changeToWeekView() {
             vm.viewMode = vm.VIEW_MODE_WEEK;
