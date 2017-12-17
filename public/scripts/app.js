@@ -35,8 +35,8 @@
     }
 
 
-    run.$inject = ['Restangular', '$state', '$transitions', 'AuthService', 'TranslationService', 'FlashService'];
-    function run(Restangular, $state, $transitions, AuthService, TranslationService, FlashService) {
+    run.$inject = ['Restangular', '$state', '$transitions', 'AuthService', 'TranslationService', 'FlashService', '$rootScope'];
+    function run(Restangular, $state, $transitions, AuthService, TranslationService, FlashService, $rootScope) {
 
         TranslationService.init();
 
@@ -47,6 +47,20 @@
             }
             return true;
         });
+
+        $rootScope.$watch(
+            // This function returns the value being watched. It is called for each turn of the $digest loop
+            AuthService.isAuthenticated,
+            // This is the change listener, called when the value returned from the above function changes
+            function(newValue, oldValue) {
+                if ( newValue !== oldValue ) {
+                    // Only increment the counter if the value changed
+                    if (newValue === false && oldValue === true) {
+                        $state.transitionTo('login');
+                    }
+                }
+            }
+        );
 
 
         //$trace.enable('TRANSITION');

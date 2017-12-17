@@ -7,11 +7,19 @@
                 <li ng-if="vm.AuthService.isStudent()" ng-class="{'active': vm.isTabActive('booking')}">
                     <a ui-sref="booking()">{{'RESERVATIONS' | translate}}</a>
                 </li>
+
                 <li ng-if="vm.AuthService.isStandEmployee()" ng-class="{'active': vm.isTabActive('booking')}">
                     <a ui-sref="schedule()">Terminarz</a>
                 </li>
                 <li ng-if="vm.AuthService.isStandEmployee()" ng-class="{'active': vm.isTabActive('stand')}">
                     <a ui-sref="stand()">Stanowisko</a>
+                </li>
+
+                <li ng-if="vm.AuthService.isAdmin()" ng-class="{'active': vm.isTabActive('admin-employees')}">
+                    <a ui-sref="admin-employees()">{{'EMPLOYEES' | translate}}</a>
+                </li>
+                <li ng-if="vm.AuthService.isAdmin()" ng-class="{'active': vm.isTabActive('admin-settings')}">
+                    <a ui-sref="admin-settings()">{{'SETTINGS' | translate}}</a>
                 </li>
 
                 <li ng-if="!vm.AuthService.isAuthenticated()" ng-class="{'active': vm.isTabActive('login')}">

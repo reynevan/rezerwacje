@@ -13,9 +13,14 @@ class Response
         return response(self::buildResponse($data, self::STATUS_SUCCESS, $message), $code);
     }
 
-    public static function error($data = [], $message = '', $code = 400)
+    public static function error($message = '', $code = 400)
     {
-        return response(self::buildResponse($data, self::STATUS_ERROR, $message), $code);
+        return response(self::buildResponse([], self::STATUS_ERROR, $message), $code);
+    }
+
+    public static function validationError($errors)
+    {
+        return response(self::buildResponse([], self::STATUS_ERROR, '', $errors), \Illuminate\Http\Response::HTTP_FORBIDDEN);
     }
 
     public static function notFound($message)
@@ -23,12 +28,23 @@ class Response
         return response(self::buildResponse([], self::STATUS_ERROR, $message), \Illuminate\Http\Response::HTTP_NOT_FOUND);
     }
 
-    private static function buildResponse($data, $status, $message)
+    public static function authError($message)
+    {
+        return response(self::buildResponse([], self::STATUS_ERROR, $message), \Illuminate\Http\Response::HTTP_UNAUTHORIZED);
+    }
+
+    public static function generalError()
+    {
+        return response(self::buildResponse([], self::STATUS_ERROR, trans('messages.general_error')), \Illuminate\Http\Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    private static function buildResponse($data, $status, $message, $errors = [])
     {
         return [
             'success' => $status === self::STATUS_SUCCESS,
             'data' => $data,
-            'message' => $message
+            'message' => $message,
+            'errors' => $errors
         ];
     }
 }

@@ -33,20 +33,20 @@ class AuthenticateController extends Controller
         $credentials = $request->only('email', 'password');
         $user = User::where('email', $request->get('email'))->first();
         if (!$user) {
-            return response()->json(['error' => trans('messages.login_error')], 401);
+            return Response::authError(trans('messages.login_error'));
         }
         try {
             // verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials, ['role' => $user->role])) {
-                return response()->json(['error' => trans('messages.login_error')], 401);
+                return Response::authError(trans('messages.login_error'));
             }
         } catch (JWTException $e) {
             // something went wrong
-            return response()->json(['error' => 'could_not_create_token'], 500);
+            return Response::generalError();
         }
 
         // if no errors are encountered we can return a JWT
-        return response()->json(['token' => $token]);
+        return Response::success(compact('token'));
     }
 
     public function signUp(Request $request)
@@ -58,7 +58,7 @@ class AuthenticateController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'index_number' => 'required',
-            'email' => 'email|required',
+            'email' => 'email|required|unique:users',
             'password' => 'required',
             'password_repeat' => 'required'
         ]);

@@ -28,15 +28,16 @@ class UsersController extends Controller
 
     public function edit(Request $request)
     {
+        $user = JWTAuth::parseToken()->authenticate();
+
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
             'last_name' => 'required',
             'index_number' => 'required',
-            'email' => 'email|required'
+            'email' => 'email|required|unique:users,email,'.$user->id
         ]);
 
 
-        $user = JWTAuth::parseToken()->authenticate();
 
         $passwordChange = $request->get('old_password') || $request->get('password');
         if ($passwordChange && !Hash::check($request->get('old_password'), $user->password)) {

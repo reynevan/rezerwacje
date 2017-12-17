@@ -6,10 +6,10 @@
         .module('www')
         .config(function ($stateProvider) {
             $stateProvider
-                .state('admin-settings', {
-                    url: '/settings',
-                    templateUrl: 'scripts/sites/settings/settings.html',
-                    controller: 'SettingsController',
+                .state('admin-stands', {
+                    url: '/admin/stands',
+                    templateUrl: 'scripts/sites/admin-stands/admin-stands.html',
+                    controller: 'AdminStandsController',
                     controllerAs: 'vm',
                     auth: true,
                     access: {
@@ -17,11 +17,11 @@
                     }
                 })
         })
-        .controller('SettingsController', SettingsController);
+        .controller('AdminStandsController', AdminStandsController);
 
-    SettingsController.$inject = ['Restangular', '$translate'];
+    AdminStandsController.$inject = ['Restangular', '$translate'];
 
-    function SettingsController(Restangular, $translate) {
+    function AdminStandsController(Restangular, $translate) {
         var vm = this;
         vm.getWeekDay = getWeekDay;
         vm.save = save;
@@ -37,15 +37,11 @@
             });
         };
 
-        function getWeekDay(i, format) {
-            format = format || 'dddd';
-            return moment().isoWeekday(i).format(format);
-        }
 
         function save() {
             vm.loading = true;
 
-            Restangular.all('settings').post(vm.settings).then(function(){
+            Restangular.all('admin').all('stands').post(vm.settings).then(function(){
                 vm.loading = false;
                 Materialize.toast($translate.instant('CHANGES SAVED'), 3000);
             }, function(data){

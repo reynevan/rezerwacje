@@ -2,23 +2,15 @@
     <div class="col s12 l8 offset-l2 xl4 offset-xl4">
         <h3>{{'SIGN IN' | translate}}</h3>
         <br>
-        <div class="errors" ng-if="vm.error">
-            <ul class="collection">
-                <li class="collection-item">
-                    {{vm.error}}
-                </li>
-            </ul>
-            <br>
-        </div>
         <form ng-submit="vm.login()">
             <div input-field>
                 <div class="input-field">
-                    <input id="email" type="email" class="validate" placeholder="{{'FIELDS.EMAIL' | translate}}" ng-model="vm.email" ng-class="{'invalid': vm.error}">
+                    <input id="email" type="email" class="validate" placeholder="{{'FIELDS.EMAIL' | translate}}" ng-model="vm.email" ng-class="{'invalid': vm.error}" ng-required="true">
                 </div>
             </div>
             <div input-field>
                 <div class="input-field">
-                    <input id="password" type="password" class="validate" placeholder="{{'FIELDS.PASSWORD' | translate}}" ng-model="vm.password" ng-class="{'invalid': vm.error}">
+                    <input id="password" type="password" class="validate" placeholder="{{'FIELDS.PASSWORD' | translate}}" ng-model="vm.password" ng-class="{'invalid': vm.error}" ng-required="true">
                 </div>
             </div>
             <div class="row">

@@ -2319,8 +2319,6 @@ td, th {
         position: absolute;
         top: 16px;
         right: 16px; }
-    .collection .collection-item:last-child {
-      border-bottom: none; }
     .collection .collection-item.active {
       background-color: #1976D2;
       color: white; }
@@ -6929,6 +6927,9 @@ html, body {
   height: 100%;
   background-color: #fcfcfc; }
 
+.no-border {
+  border: none; }
+
 .calendar {
   margin-bottom: 50px; }
   .calendar .calendar-header {
@@ -7001,6 +7002,12 @@ html, body {
 .loader {
   text-align: center; }
 
+.employee-tile .buttons {
+  margin-bottom: 50px; }
+.employee-tile .email {
+  font-size: 0.9rem;
+  color: #555; }
+
 .sign-up-popup .stand-name {
   font-size: 1.2rem; }
 .sign-up-popup .stand-user {
@@ -7032,5 +7039,8 @@ html, body {
 
 .my-reservations .past {
   color: rgba(128, 128, 128, 0.87); }
+
+.admin-employees .collection-item {
+  margin-bottom: 20px; }
 
 /*# sourceMappingURL=style.css.map */

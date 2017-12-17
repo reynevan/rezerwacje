@@ -15,9 +15,9 @@
         })
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['AuthService', '$state'];
+    LoginController.$inject = ['AuthService', '$state', 'FlashService', '$translate'];
 
-    function LoginController(AuthService, $state) {
+    function LoginController(AuthService, $state, FlashService, $translate) {
         var vm = this;
 
         vm.$onInit = function() {
@@ -27,6 +27,7 @@
         };
 
         vm.login = function () {
+            FlashService.clear();
             vm.loading = true;
             var credentials = {
                 email: vm.email,
@@ -35,9 +36,10 @@
 
             AuthService.login(credentials).then(function() {
                 vm.loading = false;
-            }, function(error){
+            }, function(data){
                 vm.loading = false;
-                vm.error = (error.data && error.data.error) ?  error.data.error : 'Wystąpił błąd. Proszę spróbowac ponownie później.';
+                var message = data.message || $translate.instant('GENERIC ERROR');
+                FlashService.error(message);
             })
         }
     }

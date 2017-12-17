@@ -41,8 +41,7 @@ function AuthService($auth, Restangular, $state, ROLES, $q) {
     }
 
     function login(user) {
-        return Restangular.all('authenticate').post(user)
-            .then(afterLogin, defaultError);
+        return Restangular.all('authenticate').post(user).then(defaultSuccess, loginError).then(afterLogin, defaultError);
     }
 
     function setRedirect(name, params) {
@@ -51,12 +50,16 @@ function AuthService($auth, Restangular, $state, ROLES, $q) {
     }
 
     function afterLogin(data) {
+        var deferred = $q.defer();
+        if (!data.token) {
+            $q.reject(data);
+            return deferred.promise;
+        }
         var token = data.token;
         $auth.setToken(token);
         $state.transitionTo(redirectName || getHomeStateName(), redirectParams);
         redirectName = null;
         redirectParams = {};
-        var deferred = $q.defer();
         deferred.resolve(data);
         return deferred.promise;
     }
@@ -99,10 +102,16 @@ function AuthService($auth, Restangular, $state, ROLES, $q) {
     function defaultSuccess(data) {
         var deferred = $q.defer();
         if (data.success) {
-            deferred.resolve(data);
+            deferred.resolve(data.data);
         } else {
-            return defaultError(data);
+            deferred.reject(data);
         }
+        return deferred.promise;
+    }
+
+    function loginError(response) {
+        var deferred = $q.defer();
+        deferred.reject(response);
         return deferred.promise;
     }
 

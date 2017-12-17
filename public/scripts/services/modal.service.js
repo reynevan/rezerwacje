@@ -33,7 +33,7 @@ function ModalService($uibModal) {
         return open(options).result.then(angular.noop, angular.noop);
     }
 
-    function openConfirmationPopup(message, callback) {
+    function openConfirmationPopup(message, callback, cancelCallback) {
         var options = {
             templateUrl: 'scripts/popups/confirmation/confirmation.popup.html',
             controller: 'ConfirmationPopupController',
@@ -43,6 +43,9 @@ function ModalService($uibModal) {
                 },
                 callback: function () {
                     return callback;
+                },
+                cancelCallback: function() {
+                    return cancelCallback;
                 }
             }
         };

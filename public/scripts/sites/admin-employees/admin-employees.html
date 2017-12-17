@@ -1,0 +1,11 @@
+<div class="admin-employees">
+    <ul class="collection no-border" ng-if="!vm.loading">
+        <li class="collection-item avatar" ng-repeat="employee in vm.employees">
+            <employee-tile employee="employee" remove-callback="vm.removeCallback(employee, $index)"></employee-tile>
+        </li>
+    </ul>
+    <a class="waves-effect waves-light btn" ng-click="vm.addNewEmployee()">
+        <i class="material-icons right">person_add</i>{{'ADD EMPLOYEE' | translate}}
+    </a>
+    <loader ng-if="vm.loading"></loader>
+</div>

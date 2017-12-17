@@ -34,7 +34,14 @@ angular.module('www').constant('TRANSLATIONS', {
         'SLOT TIME LENGTH': 'Czas trwania rezerwacji',
         'MINUTES': 'Minuty',
         'GENERIC ERROR': 'Wystąpił bład. Proszę spróbować ponownie później.',
-        'CHANGES SAVED': 'Zmiany zostały zapisane'
+        'CHANGES SAVED': 'Zmiany zostały zapisane',
+        'ADD EMPLOYEE': 'Dodaj pracownika',
+        'ACCOUNT REMOVED': 'Konto zostało usunięte.',
+        'EMPLOYEE REMOVAL CONFIRMATION': 'Na pewno chcesz usunąć konto',
+        'CANCEL': 'Anuluj',
+        'ACCOUNT CREATED EMAIL SENT': 'Konto utworzone. Email z hasłem został wysłany na adres',
+        'SETTINGS': 'Ustawienia',
+        'EMPLOYEES': 'Pracownicy'
     },
     EN: {
         'SIGN IN': 'Sign in',
@@ -71,6 +78,13 @@ angular.module('www').constant('TRANSLATIONS', {
         'SLOT TIME LENGTH': 'Slot time length',
         'MINUTES': 'Minutes',
         'GENERIC ERROR': 'Some error has occurred. Please try again later.',
-        'CHANGES SAVED': 'Changes were saved.'
+        'CHANGES SAVED': 'Changes were saved.',
+        'ADD EMPLOYEE': 'Add new employee',
+        'ACCOUNT REMOVED': 'Account has been removed.',
+        'EMPLOYEE REMOVAL CONFIRMATION': 'Na pewno chcesz usunąć konto',
+        'CANCEL': 'Cancel',
+        'ACCOUNT CREATED EMAIL SENT': 'Account has been created. Email with password has been sent to',
+        'SETTINGS': 'Settings',
+        'EMPLOYEES': 'Employees'
     }
 });
