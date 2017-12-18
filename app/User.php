@@ -54,11 +54,11 @@ class User extends Model implements AuthenticatableContract,
 
     public static function getEmployees()
     {
-        return User::where('role', self::ROLE_STAND_EMPLOYEE)->with('stand')->get();
+        return User::where('role', self::ROLE_STAND_EMPLOYEE)/*->with('positions')*/->get();
     }
 
-    public function stand()
+    public function stands()
     {
-        return $this->hasOne(Stand::class);
+        return $this->belongsToMany(Position::class, 'positions_users', 'user_id', 'position_id');
     }
 }

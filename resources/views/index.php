@@ -53,7 +53,7 @@
     <script src="scripts/sites/queue/queue.controller.js"></script>
     <script src="scripts/sites/stand/stand.controller.js"></script>
     <script src="scripts/sites/admin-settings/admin-settings.controller.js"></script>
-    <script src="scripts/sites/admin-stands/admin-stands.controller.js"></script>
+    <script src="scripts/sites/admin-positions/admin-positions.controller.js"></script>
     <script src="scripts/sites/admin-employees/admin-employees.controller.js"></script>
     <script src="scripts/sites/forgot-password/forgot-password.controller.js"></script>
     <script src="scripts/sites/reset-password/reset-password.controller.js"></script>
@@ -62,6 +62,7 @@
     <script src="scripts/directives/main-menu/main-menu.directive.js"></script>
     <script src="scripts/directives/loader/loader.directive.js"></script>
     <script src="scripts/directives/employee-tile/employee-tile.directive.js"></script>
+    <script src="scripts/directives/position-tile/position-tile.directive.js"></script>
 
     <script src="scripts/services/utils.service.js"></script>
     <script src="scripts/services/auth.service.js"></script>
@@ -70,6 +71,7 @@
     <script src="scripts/services/translation.service.js"></script>
     <script src="scripts/services/flash.service.js"></script>
     <script src="scripts/services/users.service.js"></script>
+    <script src="scripts/services/positions.service.js"></script>
 
     <script src="scripts/popups/warning/warning.popup.controller.js"></script>
     <script src="scripts/popups/confirmation/confirmation.popup.controller.js"></script>

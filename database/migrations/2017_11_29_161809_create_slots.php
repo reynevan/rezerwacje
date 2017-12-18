@@ -18,7 +18,7 @@ class CreateSlots extends Migration
             $table->integer('week');
             $table->integer('year');
             $table->integer('day');
-            $table->integer('stand_id')->references('id')->on('stands')->onDelete('cascade');
+            $table->integer('position_id')->references('id')->on('positions')->onDelete('cascade');
             $table->time('time');
             $table->text('details')->nullable();
             $table->integer('day_index');

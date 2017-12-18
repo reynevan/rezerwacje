@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Stand;
+use App\Http\Response;
+use App\Position;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -12,6 +13,7 @@ class StandsController extends Controller
 {
     public function index()
     {
-        return ['stands' => Stand::with('user')->get()];
+        $stands = Position::with('users')->get();
+        return Response::success(compact('stands'));
     }
 }

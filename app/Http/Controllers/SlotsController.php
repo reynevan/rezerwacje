@@ -40,7 +40,7 @@ class SlotsController extends Controller
         $takenSlot = Slot::where('week', $request->get('week'))
             ->where('day', $request->get('day'))
             ->where('year', $request->get('year'))
-            ->where('stand_id', $request->get('stand_id'))
+            ->where('position_id', $request->get('stand_id'))
             ->where('time', $request->get('time'))
             ->count() > 0;
 
@@ -84,7 +84,7 @@ class SlotsController extends Controller
                 $slots = Slot::where('week', $request->get('week'))
                     ->where('year', $request->get('year'))
                     ->where('day', $i)
-                    ->where('stand_id', $request->get('stand_id'))
+                    ->where('position_id', $request->get('stand_id'))
                     ->get();
             } elseif($user->isStandEmployee()) {
                 $slots = Slot::with('user')
@@ -241,7 +241,13 @@ class SlotsController extends Controller
             ->with('stand')
             ->whereHas('stand', function($query ) use ($user)
             {
-                $query->where('user_id', $user->id);
+                $query
+                    ->with('stands_user')
+                    ->whereHas('stands_user', function($query ) use ($user)
+                {
+                    $query->where('user_id', $user->id);
+                });
+                //$query->where('user_id', $user->id);
             })
             ->orderBy('time', 'asc')
             ->get();

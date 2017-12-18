@@ -18,11 +18,12 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->delete();
 
         $users = array(
-            ['first_name' => 'Paweł', 'last_name' => 'Sumiński', 'email' => 'p.suminski@gmail.com', 'password' => Hash::make('secret'), 'index_number' => rand(100000, 999999999), 'role' => 1],
-            ['first_name' => 'Chris', 'last_name' => 'Sevilleja', 'email' => 'chris@scotch.io', 'password' => Hash::make('secret'), 'index_number' => rand(100000, 999999999), 'role' => 1],
-            ['first_name' => 'Holly', 'last_name' => 'Lloyd', 'email' => 'holly@scotch.io', 'password' => Hash::make('secret'), 'index_number' => rand(100000, 999999999), 'role' => 1],
-            ['first_name' => 'Baba', 'last_name' => 'Z Dziekanatu', 'email' => 'baba@example.com', 'password' => Hash::make('secret'), 'index_number' => rand(100000, 999999999), 'role' => 2],
-            ['first_name' => 'Druga Baba', 'last_name' => 'Z Dziekanatu', 'email' => 'baba2@example.com', 'password' => Hash::make('secret'), 'index_number' => rand(100000, 999999999), 'role' => 2],
+            ['first_name' => 'Paweł', 'last_name' => 'Sumiński', 'email' => 'p.suminski@gmail.com', 'password' => Hash::make('pass'), 'index_number' => rand(100000, 999999999), 'role' => 1],
+            ['first_name' => 'Chris', 'last_name' => 'Sevilleja', 'email' => 'chris@scotch.io', 'password' => Hash::make('pass'), 'index_number' => rand(100000, 999999999), 'role' => 1],
+            ['first_name' => 'Holly', 'last_name' => 'Lloyd', 'email' => 'holly@scotch.io', 'password' => Hash::make('pass'), 'index_number' => rand(100000, 999999999), 'role' => 1],
+            ['first_name' => 'Baba', 'last_name' => 'Z Dziekanatu', 'email' => 'baba@example.com', 'password' => Hash::make('pass'), 'index_number' => rand(100000, 999999999), 'role' => 2],
+            ['first_name' => 'Druga Baba', 'last_name' => 'Z Dziekanatu', 'email' => 'baba2@example.com', 'password' => Hash::make('pass'), 'index_number' => rand(100000, 999999999), 'role' => 2],
+            ['first_name' => 'Admin', 'last_name' => 'Admin', 'email' => 'admin@rezerwacje.dev', 'password' => Hash::make('pass'), 'index_number' => rand(100000, 999999999), 'role' => 3],
         );
 
         $workingHours = [
@@ -33,8 +34,8 @@ class DatabaseSeeder extends Seeder
         ];
 
         $stands = [
-            ['name' => 'stanowisko 1', 'description' => 'heh', 'user_id' => 4],
-            ['name' => 'stanowisko 2', 'description' => 'rzal i bul', 'user_id' => 5],
+            ['name' => 'stanowisko 1', 'description' => 'heh'],
+            ['name' => 'stanowisko 2', 'description' => 'rzal i bul'],
         ];
 
         foreach ($workingHours as $wh) {
@@ -48,7 +49,7 @@ class DatabaseSeeder extends Seeder
         }
 
         foreach ($stands as $stand) {
-            \App\Stand::create($stand);
+            \App\Position::create($stand);
         }
 
         Model::reguard();

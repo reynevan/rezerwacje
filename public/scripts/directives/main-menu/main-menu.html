@@ -21,6 +21,9 @@
                 <li ng-if="vm.AuthService.isAdmin()" ng-class="{'active': vm.isTabActive('admin-settings')}">
                     <a ui-sref="admin-settings()">{{'SETTINGS' | translate}}</a>
                 </li>
+                <li ng-if="vm.AuthService.isAdmin()" ng-class="{'active': vm.isTabActive('admin-positions')}">
+                    <a ui-sref="admin-positions()">{{'POSITIONS' | translate}}</a>
+                </li>
 
                 <li ng-if="!vm.AuthService.isAuthenticated()" ng-class="{'active': vm.isTabActive('login')}">
                     <a ui-sref="login()">{{'SIGN IN' | translate}}</a>

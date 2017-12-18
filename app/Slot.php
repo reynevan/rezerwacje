@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Slot extends Model
 {
 
-    protected $fillable = ['year', 'week', 'day', 'time', 'stand_id', 'details', 'day_index'];
+    protected $fillable = ['year', 'week', 'day', 'time', 'position_id', 'details', 'day_index'];
 
     protected $hidden = ['created_at' , 'updated_at'];
 
@@ -18,7 +18,7 @@ class Slot extends Model
 
     public function stand()
     {
-        return $this->belongsTo(Stand::class);
+        return $this->belongsTo(Position::class);
     }
 
     public function addReservationNumberColumn()

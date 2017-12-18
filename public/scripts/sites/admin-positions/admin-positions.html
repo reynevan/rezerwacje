@@ -1,0 +1,11 @@
+<div class="admin-positions">
+    <ul class="collection no-border" ng-if="!vm.loading">
+        <li class="collection-item avatar" ng-repeat="position in vm.positions">
+            <position-tile position="position" remove-callback="vm.removeCallback(position, $index)"></position-tile>
+        </li>
+    </ul>
+    <a class="waves-effect waves-light btn" ng-click="vm.addNewPosition()">
+        <i class="material-icons right">person_add</i>{{'ADD POSITION' | translate}}
+    </a>
+    <loader ng-if="vm.loading"></loader>
+</div>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Response;
 use App\Settings;
-use App\Stand;
+use App\Position;
 use App\User;
 use App\WorkingHour;
 use Illuminate\Http\Request;
@@ -123,6 +123,29 @@ class AdminController extends Controller
         $user->save();
 
         return Response::success();
+    }
+
+    public function viewPositions()
+    {
+        $positions = Position::with('users')->get();
+
+        return Response::success(compact('positions'));
+    }
+
+    public function createPosition(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::validationError($validator->errors());
+        }
+
+        $data = $request->all();
+        $position = Position::create($data);
+
+        return Response::success(compact('position'));
     }
 
     private function validateTime($time)

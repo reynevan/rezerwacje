@@ -29,7 +29,7 @@
 
         vm.$onInit = function () {
             Restangular.one('stands').get().then(function (data) {
-                    vm.stands = data.stands;
+                    vm.stands = data.data.stands;
                 }
             )
         };

@@ -36,9 +36,13 @@ Route::group(['prefix' => 'api'], function()
         Route::post('settings', 'AdminController@saveSettings');
         Route::post('employees', 'AdminController@addEmployee');
         Route::patch('employees/{user}', 'AdminController@editEmployee');
-        Route::get('settings', 'AdminController@viewSettings');
         Route::get('employees', 'AdminController@viewEmployees');
         Route::delete('employees/{user}', 'AdminController@removeEmployee');
+
+        Route::get('positions', 'AdminController@viewPositions');
+        Route::post('positions', 'AdminController@createPosition');
+
+        Route::get('settings', 'AdminController@viewSettings');
     });
 });
 
