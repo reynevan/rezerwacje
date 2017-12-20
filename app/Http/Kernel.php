@@ -4,6 +4,7 @@ namespace App\Http;
 
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\EmployeeMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -32,6 +33,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
-        'role.admin' => AdminMiddleware::class
+        'role.admin' => AdminMiddleware::class,
+        'role.employee' => EmployeeMiddleware::class
     ];
 }

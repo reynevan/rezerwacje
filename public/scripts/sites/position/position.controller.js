@@ -8,7 +8,7 @@
             $stateProvider
                 .state('stand', {
                     url: '/moje-stanowisko',
-                    templateUrl: 'scripts/sites/stand/stand.html',
+                    templateUrl: 'scripts/sites/position/position.html',
                     controller: 'StandController',
                     controllerAs: 'vm',
                     access: {
@@ -49,7 +49,7 @@
 
         function endReservation(reservation) {
             Restangular.one('reservations', reservation.id).one('close').patch().then(function (data) {
-                if (data.error) {
+                if (data.data.error) {
                     closeError();
                 } else {
                     for (var i = 0; i < vm.reservations.length; i++) {

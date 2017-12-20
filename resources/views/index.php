@@ -51,7 +51,7 @@
     <script src="scripts/sites/profile/my-slots/my-slots.controller.js"></script>
     <script src="scripts/sites/schedule/schedule.controller.js"></script>
     <script src="scripts/sites/queue/queue.controller.js"></script>
-    <script src="scripts/sites/stand/stand.controller.js"></script>
+    <script src="scripts/sites/position/position.controller.js"></script>
     <script src="scripts/sites/admin-settings/admin-settings.controller.js"></script>
     <script src="scripts/sites/admin-positions/admin-positions.controller.js"></script>
     <script src="scripts/sites/admin-employees/admin-employees.controller.js"></script>

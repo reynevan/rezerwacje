@@ -1,11 +1,11 @@
-<label for="stands">{{'CHOOSE POSITION' | translate}}</label>
-<select name="stands"
-        id="stands"
+<label for="positions">{{'CHOOSE POSITION' | translate}}</label>
+<select name="positions"
+        id="positions"
         class="browser-default"
-        ng-model="vm.stand"
+        ng-model="vm.position"
         ng-change="vm.loadSchedule()">
     <option value="" disabled="disabled">	&mdash;</option>
-    <option value="{{stand.id}}" ng-repeat="stand in vm.stands">{{stand.name}}</option>
+    <option value="{{position.id}}" ng-repeat="position in vm.positions">{{position.name}}</option>
 </select>
 
 <calendar click-slot="vm.signUp"
@@ -15,5 +15,5 @@
           slot-times="vm.slotTimes"
           selected-year="vm.selectedYear"
           selected-week="vm.selectedWeek"
-          ng-if="vm.stand">
+          ng-if="vm.position">
 </calendar>

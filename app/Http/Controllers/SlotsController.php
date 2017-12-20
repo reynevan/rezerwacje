@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Response;
 use App\Settings;
 use App\Slot;
 use App\User;
@@ -9,7 +10,6 @@ use App\WorkingHour;
 use Carbon\Carbon;
 use Faker\Provider\DateTime;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use JWTAuth;
 use Validator;
 use App\Http\Requests;
@@ -29,23 +29,23 @@ class SlotsController extends Controller
             'week' => 'required',
             'day' => 'required',
             'year' => 'required',
-            'stand_id' => 'required',
+            'position_id' => 'required',
             'time' => 'required'
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => trans('messages.save_error')], Response::HTTP_FORBIDDEN);
+            return Response::forbiddenError(trans('messages.save_error'));
         }
 
         $takenSlot = Slot::where('week', $request->get('week'))
             ->where('day', $request->get('day'))
             ->where('year', $request->get('year'))
-            ->where('position_id', $request->get('stand_id'))
+            ->where('position_id', $request->get('position_id'))
             ->where('time', $request->get('time'))
             ->count() > 0;
 
         if ($takenSlot) {
-            return response()->json(['error' => trans('messages.slot_occupied')], Response::HTTP_FORBIDDEN);
+            return Response::forbiddenError(trans('messages.slot_occupied'));
         }
 
         $user = JWTAuth::parseToken()->authenticate();
@@ -56,7 +56,7 @@ class SlotsController extends Controller
 
         $slot->addReservationNumberColumn();
 
-        return $slot;
+        return Response::success($slot);
     }
 
     public function getSchedule(Request $request)
@@ -78,18 +78,19 @@ class SlotsController extends Controller
         $slotsNumber = floor((($endHour * 60 + $endMinute) -  ($startHour * 60 + $startMinute)) / $slotLength);
 
         $schedule = [];
+        $slots = [];
         for ($i = 1; $i <= 7; $i++) {
             $day = [];
-            if ($request->get('stand_id')) {
+            if ($request->get('position_id')) {
                 $slots = Slot::where('week', $request->get('week'))
                     ->where('year', $request->get('year'))
                     ->where('day', $i)
-                    ->where('position_id', $request->get('stand_id'))
+                    ->where('position_id', $request->get('position_id'))
                     ->get();
-            } elseif($user->isStandEmployee()) {
+            } elseif($user->isPositionEmployee()) {
                 $slots = Slot::with('user')
                     ->with('stand')
-                    ->whereHas('stand', function($query ) use ($user)
+                    ->whereHas('position', function($query ) use ($user)
                     {
                         $query->where('user_id', $user->id);
                     })
@@ -170,7 +171,7 @@ class SlotsController extends Controller
             ->orderBy('week', 'desc')
             ->orderBy('day', 'desc')
             ->orderBy('time', 'desc')
-            ->with('stand')
+            ->with('position')
             ->get();
 
         foreach ($slots as $slot) {
@@ -185,9 +186,7 @@ class SlotsController extends Controller
             $slot->addReservationNumberColumn();
         }
 
-        return [
-            'slots' => $slots
-        ];
+        return Response::success(compact('slots'));
     }
 
     public function removeSlot($slotId)
@@ -203,7 +202,7 @@ class SlotsController extends Controller
             ->where('day', $now->format('N'))
             ->where('closed', false)
             ->with('user')
-            ->with('stand')
+            ->with('position')
             ->orderBy('time', 'asc')
             ->get();
 
@@ -214,14 +213,14 @@ class SlotsController extends Controller
                 ->formatTime();
         }
 
-        $stands = [];
+        $positions = [];
         $a = [];
         foreach ($reservations as $reservation) {
-            if (in_array($reservation->stand_id, $stands)) {
+            if (in_array($reservation->position_id, $positions)) {
                 $reservation->active = false;
                 continue;
             }
-            $stands[] = $reservation->stand_id;
+            $positions[] = $reservation->position_id;
             $a[] = $reservation;
         }
 
@@ -229,7 +228,7 @@ class SlotsController extends Controller
         return ['reservations' => $a];
     }
 
-    public function getQueueForStand()
+    public function getQueueForPosition()
     {
         $user = JWTAuth::parseToken()->authenticate();
         $now = new \DateTime();
@@ -238,16 +237,15 @@ class SlotsController extends Controller
             ->where('day', $now->format('N'))
             ->where('closed', false)
             ->with('user')
-            ->with('stand')
-            ->whereHas('stand', function($query ) use ($user)
+            ->with('position')
+            ->whereHas('position', function($query ) use ($user)
             {
                 $query
-                    ->with('stands_user')
-                    ->whereHas('stands_user', function($query ) use ($user)
+                    ->with('users')
+                    ->whereHas('users', function($query ) use ($user)
                 {
-                    $query->where('user_id', $user->id);
+                    $query->where('users.id', $user->id);
                 });
-                //$query->where('user_id', $user->id);
             })
             ->orderBy('time', 'asc')
             ->get();
@@ -266,14 +264,12 @@ class SlotsController extends Controller
     {
         $user = JWTAuth::parseToken()->authenticate();
         $reservation = Slot::where('id', $id)->first();
-        if (!$user->isStandEmployee() || $reservation->stand->user_id !== $user->id) {
+        if (!$user->isPositionEmployee() || !$user->doesBelongTo($reservation->position)) {
             return ['error' => 'nope'];
         }
         $reservation->closed = true;
         $reservation->save();
 
-        return [
-            'reservation' => $reservation
-        ];
+        return Response::success(compact('reservation'));
     }
 }

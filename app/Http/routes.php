@@ -24,11 +24,11 @@ Route::group(['prefix' => 'api'], function()
     Route::post('reset-password', 'AuthenticateController@resetPassword');
     Route::patch('profile', 'UsersController@edit');
     Route::get('schedule', 'SlotsController@getSchedule');
-    Route::get('stands', 'StandsController@index');
+    Route::get('positions', 'PositionsController@index');
     Route::get('slots/my', 'SlotsController@mySlots');
     Route::get('profile', 'UsersController@myProfile');
     Route::get('queue', 'SlotsController@getQueue');
-    Route::get('queue/my', 'SlotsController@getQueueForStand');
+    Route::get('queue/my', 'SlotsController@getQueueForPosition');
     Route::patch('reservations/{reservation}/close', 'SlotsController@closeReservation');
     Route::delete('slots/{slot}', 'SlotsController@removeSlot');
 
@@ -41,8 +41,13 @@ Route::group(['prefix' => 'api'], function()
 
         Route::get('positions', 'AdminController@viewPositions');
         Route::post('positions', 'AdminController@createPosition');
+        Route::delete('positions/{position}', 'AdminController@removePosition');
 
         Route::get('settings', 'AdminController@viewSettings');
+    });
+
+    Route::group(['prefix' => 'employee'], function() {
+       Route::get('positions/my', 'EmployeesController@myPositions');
     });
 });
 

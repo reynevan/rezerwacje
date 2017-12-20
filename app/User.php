@@ -18,7 +18,7 @@ class User extends Model implements AuthenticatableContract,
     use Authenticatable, Authorizable, CanResetPassword;
 
     const ROLE_STUDENT = 1;
-    const ROLE_STAND_EMPLOYEE = 2;
+    const ROLE_POSITION_EMPLOYEE = 2;
     const ROLE_ADMIN = 3;
 
     /**
@@ -47,18 +47,23 @@ class User extends Model implements AuthenticatableContract,
         return $this->hasMany(Slot::class);
     }
 
-    public function isStandEmployee()
+    public function isPositionEmployee()
     {
-        return $this->role === self::ROLE_STAND_EMPLOYEE;
+        return $this->role === self::ROLE_POSITION_EMPLOYEE;
     }
 
     public static function getEmployees()
     {
-        return User::where('role', self::ROLE_STAND_EMPLOYEE)/*->with('positions')*/->get();
+        return User::where('role', self::ROLE_POSITION_EMPLOYEE)->get();
     }
 
-    public function stands()
+    public function positions()
     {
         return $this->belongsToMany(Position::class, 'positions_users', 'user_id', 'position_id');
+    }
+
+    public function doesBelongTo(Position $position)
+    {
+        return PositionsUser::where('position_id', $position->id)->where('user_id', $this->id)->count() > 0;
     }
 }

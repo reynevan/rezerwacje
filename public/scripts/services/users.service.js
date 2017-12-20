@@ -15,7 +15,7 @@
         }
 
         function updateEmployee(employee) {
-
+            return Restangular.all('admin').one('employees', employee.id).patch(employee).then(defaultSuccess, defaultError);
         }
 
         function defaultError(response) {

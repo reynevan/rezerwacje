@@ -9,13 +9,13 @@
     </div>
     <div class="content" ng-if="!vm.reserved">
         <div class="stand-name">
-            {{vm.stand.name}}
+            {{vm.position.name}}
         </div>
-        <div class="stand-user">
-            {{vm.stand.user.first_name}} {{vm.stand.user.last_name}}
+        <div class="stand-user" ng-repeat="user in vm.position.users">
+            {{user.first_name}} {{user.last_name}}
         </div>
         <div class="stand-description">
-            {{vm.stand.description}}
+            {{vm.position.description}}
         </div>
         <form ng-submit="vm.signUp()">
             <div class="row">

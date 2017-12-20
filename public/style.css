@@ -7029,8 +7029,7 @@ html, body {
   color: #fff; }
 
 .my-stand-table th, .my-stand-table td {
-  font-size: 1.2rem; }
-.my-stand-table th {
+  font-size: 1.2rem;
   text-align: center; }
 .my-stand-table tbody tr.active {
   background-color: #34495e;

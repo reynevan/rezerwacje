@@ -10,7 +10,8 @@ class Position extends Model
         'id',
         'name',
         'description',
-        'users'
+        'users',
+        'checked'
     ];
 
     protected $fillable = [

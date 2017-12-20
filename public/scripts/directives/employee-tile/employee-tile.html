@@ -9,7 +9,10 @@
     </div>
 
     <div class="secondary-content" ng-if="!vm.employee.new">
-        <a href="" ng-click="vm.employee.editing = !vm.employee.editing" ng-if="!vm.employee.removing">
+        <a href="" ng-click="vm.employee.editing = true" ng-if="!vm.employee.removing && !vm.employee.editing">
+            <i class="material-icons">edit</i>
+        </a>
+        <a href="" ng-click="vm.cancel(vm.employee)" ng-if="!vm.employee.removing && vm.employee.editing">
             <i class="material-icons">edit</i>
         </a>
         <a href="" ng-click="vm.removeUser(vm.employee)" ng-if="!vm.employee.removing">
@@ -23,7 +26,6 @@
     <div ng-if="vm.employee.editing">
         <form class="col s12 l8 offset-l2 xl6 offset-xl3" ng-submit="vm.saveUser(vm.employee)">
             <div input-field class="row">
-
                 <div class="input-field col s6">
                     <i class="material-icons prefix">account_circle</i>
                     <input id="first_name" type="text" class="validate" ng-model="vm.employee.first_name"
@@ -49,13 +51,19 @@
                     <label for="phone">{{'FIELDS.PHONE NUMBER' | translate}}</label>
                 </div>
             </div>
+            <div class="row">
+                <label>{{'POSITIONS' | translate}}</label>
+                <p ng-repeat="position in vm.employee.positions">
+                    <input id="position-{{position.id}}-{{vm.employee.id}}" type="checkbox" ng-model="position.checked">
+                    <label for="position-{{position.id}}-{{vm.employee.id}}">{{position.name}}</label>
+                </p>
+            </div>
             <div class="buttons right-align" ng-if="!vm.employee.saving">
                 <button class="btn waves-effect" type="submit">{{'SAVE' | translate}}</button>
                 <button class="btn waves-effect red" type="reset" ng-click="vm.cancel(vm.employee)">
                     {{'CANCEL' | translate}}
                 </button>
             </div>
-
             <loader ng-if="vm.employee.saving"></loader>
         </form>
     </div>

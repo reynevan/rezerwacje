@@ -1,12 +1,12 @@
 angular.module('www').controller('SignUpPopupController', SignUpPopupController);
 
-SignUpPopupController.$inject = ['$uibModalInstance', 'stand', 'data', 'Restangular', 'callback'];
+SignUpPopupController.$inject = ['$uibModalInstance', 'position', 'data', 'Restangular', 'callback'];
 
-function SignUpPopupController($uibModalInstance, stand, data, Restangular, callback) {
+function SignUpPopupController($uibModalInstance, position, data, Restangular, callback) {
     var vm = this;
     vm.close = close;
 
-    vm.stand = stand;
+    vm.position = position;
     vm.data = data;
     vm.signUp = signUp;
 
@@ -19,18 +19,18 @@ function SignUpPopupController($uibModalInstance, stand, data, Restangular, call
     }
 
     function signUpSuccess(data) {
+        console.log(data)
         if (data.error) {
-            vm.error = data.error;
+            vm.error = data.data.error;
         } else {
-            console.log(data)
             callback();
             vm.reserved = true;
-            vm.reservation_number = data.reservation_number;
+            vm.reservation_number = data.data.reservation_number;
             Materialize.toast('Termin został zarezerwowany.', 2000);
         }
     }
 
     function signUpFailed(data) {
-        vm.error = data.error || 'Wystąpił błąd. Prosze spróbowac ponownie później.'
+        vm.error = data.data.message || 'Wystąpił błąd. Prosze spróbowac ponownie później.'
     }
 }

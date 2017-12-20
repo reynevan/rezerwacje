@@ -35,13 +35,21 @@
                 vm.error = data.error ? data.error : $translate.instant('GENERIC ERROR');
                 vm.loading = false;
             });
+            Restangular.one('positions').get().then(function(data){
+                vm.positions = data.data.positions;
+                vm.loading = false;
+            }, function(data){
+                vm.error = data.error ? data.error : $translate.instant('GENERIC ERROR');
+                vm.loading = false;
+            });
         };
 
 
         function addNewEmployee() {
             vm.employees.push({
                 editing: true,
-                new: true
+                new: true,
+                positions: angular.copy(vm.positions)
             });
         }
 

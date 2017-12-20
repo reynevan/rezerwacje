@@ -10,13 +10,25 @@
             controller: mainMenuController,
             controllerAs: 'vm',
             bindToController: true,
-            templateUrl: 'scripts/directives/main-menu/main-menu.html'
+            templateUrl: 'scripts/directives/main-menu/main-menu.html',
+            link: function() {
+                $(".button-collapse").sideNav({
+                    closeOnClick: true
+                });
+
+                $(".dropdown-button").dropdown(
+                    {
+                        belowOrigin: true
+                    }
+                );
+
+            }
         };
     }
 
-    mainMenuController.$inject = ['AuthService', '$state', 'TranslationService'];
+    mainMenuController.$inject = ['AuthService', '$state', 'TranslationService', 'Restangular'];
 
-    function mainMenuController(AuthService, $state, TranslationService) {
+    function mainMenuController(AuthService, $state, TranslationService, Restangular) {
         var vm = this;
         vm.AuthService = AuthService;
         vm.onProfileState = onProfileState;
@@ -24,11 +36,13 @@
         vm.hideMenu = hideMenu;
         vm.changeLanguage = changeLanguage;
         vm.isLanguageActive = isLanguageActive;
+        vm.$onInit = onInit;
 
-        $(".button-collapse").sideNav({
-            closeOnClick: true
-        });
-
+        function onInit() {
+            Restangular.one('employee/positions/my').get().then(function(data) {
+                vm.positions = data.data.positions;
+            });
+        }
 
         function onProfileState() {
             return !!$state.current.profile;

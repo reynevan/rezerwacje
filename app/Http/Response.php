@@ -18,6 +18,11 @@ class Response
         return response(self::buildResponse([], self::STATUS_ERROR, $message), $code);
     }
 
+    public static function forbiddenError($message = '')
+    {
+        return response(self::buildResponse([], self::STATUS_ERROR, $message), \Illuminate\Http\Response::HTTP_FORBIDDEN);
+    }
+
     public static function validationError($errors)
     {
         return response(self::buildResponse([], self::STATUS_ERROR, '', $errors), \Illuminate\Http\Response::HTTP_FORBIDDEN);

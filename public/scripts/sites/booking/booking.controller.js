@@ -28,8 +28,8 @@
         vm.loadSchedule = loadSchedule;
 
         vm.$onInit = function () {
-            Restangular.one('stands').get().then(function (data) {
-                    vm.stands = data.data.stands;
+            Restangular.one('positions').get().then(function (data) {
+                    vm.positions = data.data.positions;
                 }
             )
         };
@@ -52,7 +52,7 @@
                 .get({
                     'week': week,
                     'year': year,
-                    'stand_id': vm.stand
+                    'position_id': vm.position
                 })
                 .then(function (data) {
                     vm.loading = false;
@@ -74,15 +74,15 @@
                 year: vm.selectedYear,
                 day: day,
                 time: slot.time,
-                stand_id: vm.stand,
+                position_id: vm.position,
                 date: date.format("D MMMM YYYY HH:mm"),
                 day_index: index + 1
             };
 
-            var stand;
-            for (var i = 0; i < vm.stands.length; i++) {
-                if (+vm.stands[i].id === +vm.stand) {
-                    stand = vm.stands[i];
+            var position;
+            for (var i = 0; i < vm.positions.length; i++) {
+                if (+vm.positions[i].id === +vm.position) {
+                    position = vm.positions[i];
                 }
             }
 
@@ -90,8 +90,8 @@
                 templateUrl: 'scripts/popups/sign-up/sign-up.popup.html',
                 controller: 'SignUpPopupController',
                 resolve: {
-                    stand: function () {
-                        return stand;
+                    position: function () {
+                        return position;
                     },
                     data: function () {
                         return data;

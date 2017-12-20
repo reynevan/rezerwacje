@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Response;
+use App\PositionsUser;
 use App\Settings;
 use App\Position;
 use App\User;
@@ -64,6 +65,13 @@ class AdminController extends Controller
     {
         $employees = User::getEmployees();
 
+        foreach ($employees as $employee) {
+            $positions = Position::all();
+            foreach ($positions as $position) {
+                $position->setAttribute('checked', $employee->doesBelongTo($position));
+            }
+            $employee->setAttribute('positions', $positions);
+        }
         return Response::success(compact('employees'));
     }
 
@@ -80,10 +88,16 @@ class AdminController extends Controller
         }
 
         $data = $request->all();
-        $data['role'] = User::ROLE_STAND_EMPLOYEE;
+        $data['role'] = User::ROLE_POSITION_EMPLOYEE;
         $password = str_random(12);
         $data['password'] = Hash::make($password);
         $user = User::create($data);
+
+        foreach ($request->get('positions') as $position) {
+            if (isset($position['checked']) && $position['checked'] && $position['id']) {
+                PositionsUser::create(['user_id' => $user->id, 'position_id' => $position['id']]);
+            }
+        }
 
         Mail::send('emails.new-employee', compact('user', 'password'), function ($m) use ($user) {
             $m->from('hello@app.com', 'Your Application');
@@ -119,6 +133,13 @@ class AdminController extends Controller
             return Response::notFound(trans('messages.not_found', ['item' => trans('models.user')]));
         }
 
+        PositionsUser::where('user_id', $userId)->delete();
+        foreach ($request->get('positions') as $position) {
+            if (isset($position['checked']) && $position['checked'] && $position['id']) {
+                PositionsUser::create(['user_id' => $userId, 'position_id' => $position['id']]);
+            }
+        }
+
         $user->update($request->only(['first_name', 'last_name', 'email']));
         $user->save();
 
@@ -146,6 +167,12 @@ class AdminController extends Controller
         $position = Position::create($data);
 
         return Response::success(compact('position'));
+    }
+
+    public function removePosition($id)
+    {
+        Position::destroy($id);
+        return Response::success();
     }
 
     private function validateTime($time)

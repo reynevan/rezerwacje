@@ -8,7 +8,8 @@
         return {
             scope: {
                 'employee': '=',
-                'removeCallback': '&'
+                'removeCallback': '&',
+                'positions': '='
             },
             controller: employeeTileController,
             controllerAs: 'vm',
@@ -24,6 +25,11 @@
         vm.removeUser = removeUser;
         vm.saveUser = saveUser;
         vm.cancel = cancel;
+
+        var employeeCopy;
+        vm.$onInit = function() {
+            employeeCopy = angular.copy(vm.employee);
+        };
 
         function removeUser(user) {
             user.removing = true;
@@ -48,9 +54,9 @@
             user.saving = true;
             vm.errors = null;
             if (user.new) {
-                UsersService.createEmployee(user).then(function(data){
-                    vm.employee = data.user;
+                UsersService.createEmployee(user).then(function(){
                     user.saving = false;
+                    user.editing = false;
                     var message = $translate.instant('ACCOUNT CREATED EMAIL SENT') + ' ' + vm.employee.email;
                     Materialize.toast(message, 3000);
                 }, function(data) {
@@ -73,6 +79,8 @@
             user.editing = false;
             if (user.new) {
                 vm.removeCallback();
+            } else {
+                vm.employee = employeeCopy;
             }
         }
     }

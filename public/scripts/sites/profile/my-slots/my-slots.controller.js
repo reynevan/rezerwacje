@@ -27,7 +27,7 @@
         vm.freeSlot = freeSlot;
 
         Restangular.one('slots').one('my').get().then(function (data) {
-            vm.slots = data.slots;
+            vm.slots = data.data.slots;
         });
 
         function freeSlot(slot) {
