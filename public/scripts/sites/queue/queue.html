@@ -7,13 +7,13 @@
             <h3>{{vm.time}}</h3>
         </div>
     </div>
-    <table class="queue-table bordered">
+    <!--<table class="queue-table bordered">
         <thead>
-        <tr>
-            <th>NUMER REZERWACJI</th>
-            <th>STANOWISKO</th>
-            <th>GODZINA</th>
-        </tr>
+            <tr>
+                <th>NUMER REZERWACJI</th>
+                <th>STANOWISKO</th>
+                <th>GODZINA</th>
+            </tr>
         </thead>
         <tbody>
             <tr ng-repeat="reservation in vm.reservations" ng-class="{'active': reservation.active}">
@@ -21,10 +21,46 @@
                     {{reservation.reservation_number}}
                 </td>
                 <td>
-                    {{reservation.stand.name}}
+                    {{reservation.position.name}}
                 </td>
                 <td>
                     {{reservation.time}}
+                </td>
+            </tr>
+        </tbody>
+    </table>-->
+
+    <table>
+        <thead>
+            <tr>
+                <th class="center-align" ng-repeat="position in vm.positions"><h4>{{position.name}}</h4></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td ng-repeat="position in vm.positions">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Numer rezerwacji
+                                </th>
+                                <th>
+                                    Godzina
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="reservation in position.reservations">
+                                <td>
+                                    {{reservation.reservation_number}}
+                                </td>
+                                <td>
+                                    {{reservation.time}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </td>
             </tr>
         </tbody>

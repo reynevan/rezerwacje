@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Response;
+use App\Position;
 use App\Settings;
 use App\Slot;
 use App\User;
@@ -197,35 +198,32 @@ class SlotsController extends Controller
     public function getQueue()
     {
         $now = new \DateTime();
-        $reservations = Slot::where('week', $now->format('W'))
-            ->where('year', $now->format('Y'))
-            ->where('day', $now->format('N'))
-            ->where('closed', false)
-            ->with('user')
-            ->with('position')
-            ->orderBy('time', 'asc')
-            ->get();
 
-        foreach ($reservations as $reservation) {
-            $reservation
-                ->addActiveColumn()
-                ->addReservationNumberColumn()
-                ->formatTime();
-        }
+        $positions = Position::all();
 
-        $positions = [];
-        $a = [];
-        foreach ($reservations as $reservation) {
-            if (in_array($reservation->position_id, $positions)) {
-                $reservation->active = false;
-                continue;
+        foreach ($positions as $position) {
+            $reservations = Slot::where('week', $now->format('W'))
+                ->where('year', $now->format('Y'))
+                ->where('day', $now->format('N'))
+                ->where('closed', false)
+                ->with('user')
+                ->where('position_id' , $position->id)
+                ->with('position')
+                ->orderBy('time', 'asc')
+                ->limit(10)
+                ->get();
+
+            foreach ($reservations as $reservation) {
+                $reservation
+                    ->addActiveColumn()
+                    ->addReservationNumberColumn()
+                    ->formatTime();
             }
-            $positions[] = $reservation->position_id;
-            $a[] = $reservation;
+
+            $position->setAttribute('reservations', $reservations);
         }
 
-
-        return ['reservations' => $a];
+        return Response::success(compact('positions'));
     }
 
     public function getQueueForPosition()

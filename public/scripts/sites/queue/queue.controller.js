@@ -29,7 +29,7 @@
         function getQueue() {
             if ($state.current.name === 'queue') {
                 Restangular.one('queue').get().then(function(data){
-                    vm.reservations = data.reservations;
+                    vm.positions = data.data.positions;
                 }).finally(function() {
                     $timeout(getQueue, 5000)
                 })

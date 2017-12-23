@@ -2221,7 +2221,7 @@ td, th {
   padding: 15px 5px;
   display: table-cell;
   text-align: left;
-  vertical-align: middle;
+  vertical-align: top;
   border-radius: 0; }
 
 @media only screen and (max-width: 992px) {
