@@ -29,6 +29,7 @@
         var employeeCopy;
         vm.$onInit = function() {
             employeeCopy = angular.copy(vm.employee);
+            vm.rid = Math.random() * 10e5;
         };
 
         function removeUser(user) {
@@ -70,23 +71,23 @@
         }
 
         function createSuccess(data) {
-            user.saving = false;
-            user.editing = false;
-            user.new = false;
-            user.id = data.user.id;
+            vm.employee.saving = false;
+            vm.employee.editing = false;
+            vm.employee.new = false;
+            vm.employee.id = data.user.id;
             var message = $translate.instant('ACCOUNT CREATED EMAIL SENT') + ' ' + vm.employee.email;
             Materialize.toast(message, 3000);
         }
 
-        function updateSuccess(data) {
-            user.saving = false;
-            user.editing = false;
+        function updateSuccess() {
+            vm.employee.saving = false;
+            vm.employee.editing = false;
             Materialize.toast($translate.instant('CHANGES SAVED'), 3000);
         }
 
         function saveError(data) {
             vm.errors = data.errors;
-            user.saving = false;
+            vm.employee.saving = false;
         }
     }
 })();

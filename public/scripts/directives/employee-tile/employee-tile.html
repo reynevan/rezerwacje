@@ -28,34 +28,34 @@
             <div input-field class="row">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">account_circle</i>
-                    <input id="first_name" type="text" class="validate" ng-model="vm.employee.first_name"
+                    <input id="first_name-{{vm.rid}}" type="text" class="validate" ng-model="vm.employee.first_name"
                            ng-class="{'invalid': vm.errors.first_name}">
-                    <label for="first_name">{{'FIELDS.FIRST NAME' | translate}}</label>
+                    <label for="first_name-{{vm.rid}}">{{'FIELDS.FIRST NAME' | translate}}</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="last_name" type="text" class="validate" ng-model="vm.employee.last_name"
+                    <input id="last_name-{{vm.rid}}" type="text" class="validate" ng-model="vm.employee.last_name"
                            ng-class="{'invalid': vm.errors.last_name}">
-                    <label for="last_name">{{'FIELDS.LAST NAME' | translate}}</label>
+                    <label for="last_name-{{vm.rid}}">{{'FIELDS.LAST NAME' | translate}}</label>
                 </div>
             </div>
             <div input-field class="row">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">contact_mail</i>
-                    <input id="email" type="email" class="validate" ng-model="vm.employee.email"
+                    <input id="email-{{vm.rid}}" type="email" class="validate" ng-model="vm.employee.email"
                            ng-class="{'invalid': vm.errors.email}">
-                    <label for="email">{{'FIELDS.EMAIL' | translate}}</label>
+                    <label for="email-{{vm.rid}}">{{'FIELDS.EMAIL' | translate}}</label>
                 </div>
                 <div class="input-field col s6">
                     <i class="material-icons prefix">phone</i>
-                    <input id="phone" type="text" class="validate" ng-model="vm.employee.phone">
-                    <label for="phone">{{'FIELDS.PHONE NUMBER' | translate}}</label>
+                    <input id="phone-{{vm.rid}}" type="text" class="validate" ng-model="vm.employee.phone">
+                    <label for="phone-{{vm.rid}}">{{'FIELDS.PHONE NUMBER' | translate}}</label>
                 </div>
             </div>
             <div class="row">
                 <label>{{'POSITIONS' | translate}}</label>
                 <p ng-repeat="position in vm.employee.positions">
-                    <input id="position-{{position.id}}-{{vm.employee.id}}" type="checkbox" ng-model="position.checked">
-                    <label for="position-{{position.id}}-{{vm.employee.id}}">{{position.name}}</label>
+                    <input id="position-position-{{position.id}}-{{vm.rid}}" type="checkbox" ng-model="position.checked">
+                    <label for="position-position-{{position.id}}-{{vm.rid}}">{{position.name}}</label>
                 </p>
             </div>
             <div class="buttons right-align" ng-if="!vm.employee.saving">
