@@ -35,7 +35,7 @@ class AuthenticateController extends Controller
         if (!$user) {
             return Response::authError(trans('messages.login_error'));
         }
-        if (!$user->active) {
+        if (!$user->active && $user->role !== User::ROLE_ADMIN) {
             return Response::error(trans('messages.account_not_verified'));
         }
         try {
