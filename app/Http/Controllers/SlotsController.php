@@ -62,6 +62,8 @@ class SlotsController extends Controller
 
     public function getSchedule(Request $request)
     {
+        $now = new \DateTime();
+
         $user = JWTAuth::parseToken()->authenticate();
 
         $minStartTime = WorkingHour::orderBy('start', 'asc')->first()->start;
@@ -90,10 +92,12 @@ class SlotsController extends Controller
                     ->get();
             } elseif($user->isPositionEmployee()) {
                 $slots = Slot::with('user')
-                    ->with('stand')
-                    ->whereHas('position', function($query ) use ($user)
+                    ->with('position')
+                    ->whereHas('position', function($query) use ($user)
                     {
-                        $query->where('user_id', $user->id);
+                        $query->whereHas('users', function($query) use ($user) {
+                            $query->where('user_id', $user->id);
+                        });
                     })
                     ->where('week', $request->get('week'))
                     ->where('year', $request->get('year'))
@@ -126,13 +130,18 @@ class SlotsController extends Controller
                 }
                 $open = $workingHours ? $time->format('H:i:s') >= $workingHours->start && $time->format('H:i:s') < $workingHours->end : false;
 
+                $slotTime = Carbon::now();
+                $slotTime->setISODate($request->get('year'), $request->get('week'), $i);
+                $slotTime->setTime($startHour, $startMinute);
+                $slotTime->addMinutes($j * $slotLength);
                 $day[] = [
                     'free' => $free,
                     'open' => $open,
                     'time' => $time->format('H:i'),
                     'end' => $time->addMinutes($slotLength)->format('H:i'),
                     'my' => $myReservation,
-                    'reservation' => $reservationDetails
+                    'reservation' => $reservationDetails,
+                    'past' => $now->format('Y-m-d H:i:s') > $slotTime->format('Y-m-d H:i:s')
                 ];
             }
 
@@ -224,38 +233,6 @@ class SlotsController extends Controller
         }
 
         return Response::success(compact('positions'));
-    }
-
-    public function getQueueForPosition()
-    {
-        $user = JWTAuth::parseToken()->authenticate();
-        $now = new \DateTime();
-        $reservations = Slot::where('week', $now->format('W'))
-            ->where('year', $now->format('Y'))
-            ->where('day', $now->format('N'))
-            ->where('closed', false)
-            ->with('user')
-            ->with('position')
-            ->whereHas('position', function($query ) use ($user)
-            {
-                $query
-                    ->with('users')
-                    ->whereHas('users', function($query ) use ($user)
-                {
-                    $query->where('users.id', $user->id);
-                });
-            })
-            ->orderBy('time', 'asc')
-            ->get();
-
-        foreach ($reservations as $reservation) {
-            $reservation
-                ->addActiveColumn()
-                ->addReservationNumberColumn()
-                ->formatTime();
-        }
-
-        return ['reservations' => $reservations];
     }
 
     public function closeReservation($id)

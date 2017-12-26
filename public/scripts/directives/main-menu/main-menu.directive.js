@@ -15,20 +15,13 @@
                 $(".button-collapse").sideNav({
                     closeOnClick: true
                 });
-
-                $(".dropdown-button").dropdown(
-                    {
-                        belowOrigin: true
-                    }
-                );
-
             }
         };
     }
 
-    mainMenuController.$inject = ['AuthService', '$state', 'TranslationService', 'Restangular'];
+    mainMenuController.$inject = ['AuthService', '$state', 'TranslationService'];
 
-    function mainMenuController(AuthService, $state, TranslationService, Restangular) {
+    function mainMenuController(AuthService, $state, TranslationService) {
         var vm = this;
         vm.AuthService = AuthService;
         vm.onProfileState = onProfileState;
@@ -36,13 +29,7 @@
         vm.hideMenu = hideMenu;
         vm.changeLanguage = changeLanguage;
         vm.isLanguageActive = isLanguageActive;
-        vm.$onInit = onInit;
 
-        function onInit() {
-            Restangular.one('employee/positions/my').get().then(function(data) {
-                vm.positions = data.data.positions;
-            });
-        }
 
         function onProfileState() {
             return !!$state.current.profile;

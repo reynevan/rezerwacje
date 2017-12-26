@@ -19,23 +19,29 @@
         })
         .controller('AdminPositionsController', AdminPositionsController);
 
-    AdminPositionsController.$inject = ['Restangular', '$translate'];
+    AdminPositionsController.$inject = ['$translate', 'PositionsService'];
 
-    function AdminPositionsController(Restangular, $translate) {
+    function AdminPositionsController($translate, PositionsService) {
         var vm = this;
         vm.addNewPosition = addNewPosition;
         vm.removeCallback = removeCallback;
 
         vm.$onInit = function() {
             vm.loading = true;
-            Restangular.all('admin').one('positions').get().then(function(data){
-                vm.positions = data.data.positions;
-                vm.loading = false;
-            }, function(data){
-                vm.error = data.error ? data.error : $translate.instant('GENERIC ERROR');
-                vm.loading = false;
-            });
+            PositionsService.getAll().then(getPositionsSuccess, onError);
         };
+
+        function getPositionsSuccess(data) {
+            vm.positions = data.positions;
+            vm.loading = false;
+        }
+
+        function onError(data) {
+            vm.error = true;
+            var error = data.message || $translate.instant('GENERIC ERROR');
+            FlashService.error(error);
+            vm.loading = false;
+        }
 
         function addNewPosition() {
             vm.positions.push({

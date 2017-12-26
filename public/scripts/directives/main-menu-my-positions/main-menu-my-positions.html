@@ -1,0 +1,18 @@
+<div ng-if="vm.positions.length > 1">
+    <a class='dropdown-button' data-activates='demoDropdown' dropdown data-beloworigin="true">
+        {{'POSITIONS' | translate}}<i class="material-icons right">arrow_drop_down</i>
+    </a>
+    <ul id='demoDropdown' class='dropdown-content' ng-if="vm.AuthService.isStandEmployee()">
+        <li ng-repeat="position in vm.positions">
+            <a ui-sref="position-id({id: position.id})">{{position.name}}</a>
+        </li>
+        <li>
+            <a ui-sref="position()">{{'ALL' | translate}}</a>
+        </li>
+    </ul>
+</div>
+<div  ng-if="vm.positions.length === 1">
+    <a ui-sref="position()">
+        {{'POSITION' | translate}}
+    </a>
+</div>

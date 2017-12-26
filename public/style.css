@@ -6983,13 +6983,15 @@ html, body {
       .calendar .calendar-table .slot .slot-info {
         display: none;
         text-align: center; }
+        .calendar .calendar-table .slot .slot-info.unavailable {
+          font-size: 0.8rem; }
       .calendar .calendar-table .slot:hover .slot-info {
         display: inline-block;
         color: #ddd; }
       .calendar .calendar-table .slot.open:not(.free) {
         background-color: #eee; }
         .calendar .calendar-table .slot.open:not(.free).my-reservation {
-          border: 1px solid red; }
+          background-color: #3498db; }
       .calendar .calendar-table .slot.open.free {
         cursor: pointer; }
       .calendar .calendar-table .slot.open.full-hour {

@@ -12,5 +12,8 @@ return [
     'change_pass_email_sent' => 'Email z linkiem do zmiany hasła został wysłany na adres :email.',
     'no_user_with_email' => 'Brak użytkownika z emailem :email',
     'general_error' => 'Wystąpił błąd. Prosze spróbowac ponownie później.',
-    'not_found' => ':item nie znaleziony.'
+    'not_found' => ':item nie znaleziony.',
+    'not_found_neutral' => ':item nie znalezione',
+    'invalid_token' => 'Nieprawidłowy token',
+    'account_not_verified' => 'Konto nie zostało zweryfikowane.'
 ];

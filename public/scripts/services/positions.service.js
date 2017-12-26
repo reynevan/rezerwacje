@@ -3,36 +3,29 @@
     'use strict';
     angular.module('www').service('PositionsService', PositionsService);
 
-    PositionsService.$inject = ['$q', 'Restangular'];
+    PositionsService.$inject = ['Restangular', 'Utils'];
 
-    function PositionsService($q, Restangular) {
+    function PositionsService( Restangular, Utils) {
 
-        this.createPosition = createPosition;
-        this.updatePosition = updatePosition;
+        this.create = create;
+        this.update = update;
+        this.remove = remove;
+        this.getAll = getAll;
 
-        function createPosition(position) {
-            return Restangular.all('admin').all('positions').post(position).then(defaultSuccess, defaultError);
+        function create(position) {
+            return Restangular.all('admin').all('positions').post(position).then(Utils.defaultSuccess, Utils.defaultError);
         }
 
-        function updatePosition(position) {
-
+        function update(position) {
+            return Restangular.all('admin').one('positions', position.id).patch(position).then(Utils.defaultSuccess, Utils.defaultError);
         }
 
-        function defaultError(response) {
-            var deferred = $q.defer();
-            var data = response.data ? response.data : response;
-            deferred.reject(data);
-            return deferred.promise;
+        function remove(position) {
+            return Restangular.all('admin').one('positions', position.id).remove().then(Utils.defaultSuccess, Utils.defaultError);
         }
 
-        function defaultSuccess(data) {
-            var deferred = $q.defer();
-            if (data.success) {
-                deferred.resolve(data.data);
-            } else {
-                deferred.reject(data);
-            }
-            return deferred.promise;
+        function getAll() {
+            return Restangular.one('positions').get().then(Utils.defaultSuccess, Utils.defaultError);
         }
     }
 

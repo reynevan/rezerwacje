@@ -7,7 +7,7 @@
     function loader() {
         return {
             scope: {
-                'class': '=?'
+                'attrClass': '@?'
             },
             controller: loaderController,
             controllerAs: 'vm',
@@ -21,8 +21,8 @@
     function loaderController() {
         var vm = this;
 
-        if (!vm.class) {
-            vm.class = 'small'
+        if (!vm.attrClass) {
+            vm.attrClass = 'small'
         }
     }
 })();

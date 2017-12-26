@@ -15,9 +15,9 @@
         })
         .controller('RegisterController', RegisterController);
 
-    RegisterController.$inject = ['Restangular', 'AuthService', '$state'];
+    RegisterController.$inject = ['Restangular', '$state'];
 
-    function RegisterController(Restangular, AuthService, $state) {
+    function RegisterController(Restangular, $state) {
         var vm = this;
 
         vm.signUp = function () {
@@ -30,8 +30,7 @@
                 if (data.errors) {
                     vm.errors = data.errors;
                 } else {
-                    AuthService.setToken(data.token);
-                    $state.transitionTo(AuthService.getHomeStateName());
+                    $state.transitionTo('login');
                 }
             }, function(data) {
                 vm.loading = false;

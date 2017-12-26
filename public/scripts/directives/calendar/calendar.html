@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="calendar-main">
-            <loader class="big" ng-if="vm.loading"></loader>
+            <loader attr-class="big" ng-if="vm.loading"></loader>
             <div class="table-responsive">
                 <table class="calendar-table highlight" ng-if="!vm.loading" ng-class="{'table-fixed': vm.viewMode === vm.VIEW_MODE_WEEK}">
                     <thead>
@@ -75,11 +75,12 @@
                         <td ng-repeat="(day, slot) in timeSlots"
                             class="slot"
                             ng-click="vm.clickSlot(slot, slotIndex, day)"
-                            ng-if="vm.viewMode === vm.VIEW_MODE_WEEK || (vm.viewMode === vm.VIEW_MODE_DAY && day == vm.selectedDay)"
-                            ng-class="{'open': slot.open, 'free': slot.free, 'full-hour': vm.isFullHour(slot.time), 'my-reservation': slot.my}">
+                            ng-if="vm.viewMode === vm.VIEW_MODE_WEEK || (vm.viewMode === vm.VIEW_MODE_DAY && day == vm.selectedDay - 1)"
+                            ng-class="{'open': slot.open, 'free': slot.free, 'full-hour': vm.isFullHour(slot.time), 'my-reservation': slot.my, 'past': slot.past}">
 
-                            <div title="{{slot.time}} - {{slot.end}}" class="slot-info" ng-if="slot.free && slot.open">{{slot.time}} - {{slot.end}}</div>
-                            <div title="{{'POSITION CLOSED' | translate}}" class="slot-info" ng-if="!slot.open">{{'POSITION CLOSED' | translate}}</div>
+                            <div title="{{slot.time}} - {{slot.end}}" class="slot-info" ng-if="(slot.my && !slot.past) || (slot.open && !slot.past && slot.free)">{{slot.time}} - {{slot.end}}</div>
+                            <div title="{{'POSITION CLOSED' | translate}}" class="slot-info " ng-if="!slot.open && !slot.past">{{'POSITION CLOSED' | translate}}</div>
+                            <div title="{{'RESERVATION UNAVAILABLE' | translate}}" class="slot-info unavailable" ng-if="(slot.past && !slot.my) || (!slot.my && !slot.free)">{{'RESERVATION UNAVAILABLE' | translate}}</div>
                         </td>
                     </tr>
                     </tbody>

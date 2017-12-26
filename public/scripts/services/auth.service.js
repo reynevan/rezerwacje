@@ -8,7 +8,7 @@ function AuthService($auth, Restangular, $state, ROLES, $q) {
     this.signup = signup;
     this.login = login;
     this.setRedirect = setRedirect;
-    this.getUser = getUser;
+    this.verify = verify;
     this.isStandEmployee = isStandEmployee;
     this.isStudent = isStudent;
     this.isAdmin = isAdmin;
@@ -20,8 +20,6 @@ function AuthService($auth, Restangular, $state, ROLES, $q) {
     var redirectName = null;
     var redirectParams = {};
 
-    var user = null;
-
     function isAuthenticated() {
         return $auth.isAuthenticated();
     }
@@ -29,7 +27,6 @@ function AuthService($auth, Restangular, $state, ROLES, $q) {
     function setToken(token) {
         $auth.setToken(token);
     }
-
 
     function logout() {
         $auth.logout();
@@ -63,11 +60,6 @@ function AuthService($auth, Restangular, $state, ROLES, $q) {
         deferred.resolve(data);
         return deferred.promise;
     }
-
-    function getUser() {
-        return user;
-    }
-
     function isStudent() {
         var payload = $auth.getPayload();
         return isAuthenticated() && payload && payload.role === ROLES.STUDENT;
@@ -97,6 +89,10 @@ function AuthService($auth, Restangular, $state, ROLES, $q) {
         } else {
             return 'login'
         }
+    }
+
+    function verify(token) {
+        return Restangular.all('users').all('verify').post({token: token}).then(defaultSuccess, defaultError);
     }
 
     function defaultSuccess(data) {

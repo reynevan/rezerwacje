@@ -54,24 +54,9 @@
             user.saving = true;
             vm.errors = null;
             if (user.new) {
-                UsersService.createEmployee(user).then(function(){
-                    user.saving = false;
-                    user.editing = false;
-                    var message = $translate.instant('ACCOUNT CREATED EMAIL SENT') + ' ' + vm.employee.email;
-                    Materialize.toast(message, 3000);
-                }, function(data) {
-                    vm.errors = data.errors;
-                    user.saving = false;
-                });
+                UsersService.createEmployee(user).then(createSuccess, saveError);
             } else {
-                UsersService.updateEmployee(user).then(function(){
-                    user.saving = false;
-                    user.editing = false;
-                    Materialize.toast($translate.instant('CHANGES SAVED'), 3000);
-                }, function(data) {
-                    vm.errors = data.errors;
-                    user.saving = false;
-                });
+                UsersService.updateEmployee(user).then(updateSuccess, saveError);
             }
         }
 
@@ -82,6 +67,26 @@
             } else {
                 vm.employee = employeeCopy;
             }
+        }
+
+        function createSuccess(data) {
+            user.saving = false;
+            user.editing = false;
+            user.new = false;
+            user.id = data.user.id;
+            var message = $translate.instant('ACCOUNT CREATED EMAIL SENT') + ' ' + vm.employee.email;
+            Materialize.toast(message, 3000);
+        }
+
+        function updateSuccess(data) {
+            user.saving = false;
+            user.editing = false;
+            Materialize.toast($translate.instant('CHANGES SAVED'), 3000);
+        }
+
+        function saveError(data) {
+            vm.errors = data.errors;
+            user.saving = false;
         }
     }
 })();

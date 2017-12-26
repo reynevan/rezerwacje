@@ -17,9 +17,9 @@
         };
     }
 
-    positionTileController.$inject = ['ModalService', 'Restangular', '$translate', 'PositionsService'];
+    positionTileController.$inject = ['ModalService', '$translate', 'PositionsService'];
 
-    function positionTileController(ModalService, Restangular, $translate, PositionsService) {
+    function positionTileController(ModalService, $translate, PositionsService) {
         var vm = this;
         vm.removePosition = removePosition;
         vm.savePosition = savePosition;
@@ -28,14 +28,7 @@
         function removePosition(position) {
             position.removing = true;
             var callback = function () {
-                Restangular.all('admin').one('positions', position.id).remove().then(function () {
-                    position.removing = false;
-                    Materialize.toast($translate.instant('POSITION REMOVED'), 3000);
-                    vm.removeCallback();
-                }, function (data) {
-                    position.removing = false;
-                    vm.error = data.error ? data.error : $translate.instant('GENERIC ERROR');
-                });
+                PositionsService.remove(position).then(removeSuccess, removeError);
             };
             var cancelCallback = function () {
                 position.removing = false;
@@ -48,25 +41,9 @@
             position.saving = true;
             vm.errors = null;
             if (position.new) {
-                PositionsService.createPosition(position).then(function (data) {
-                    position.new = false;
-                    position.editing = false;
-                    position.saving = false;
-                    var message = $translate.instant('POSITION CREATED');
-                    Materialize.toast(message, 3000);
-                }, function (data) {
-                    vm.errors = data.errors;
-                    position.saving = false;
-                });
+                PositionsService.create(position).then(createSuccess, saveError);
             } else {
-                PositionsService.updatePosition(position).then(function () {
-                    position.saving = false;
-                    position.editing = false;
-                    Materialize.toast($translate.instant('CHANGES SAVED'), 3000);
-                }, function (data) {
-                    vm.errors = data.errors;
-                    position.saving = false;
-                });
+                PositionsService.update(position).then(updateSuccess, saveError);
             }
         }
 
@@ -75,6 +52,37 @@
             if (position.new) {
                 vm.removeCallback();
             }
+        }
+
+        function removeSuccess() {
+            vm.position.removing = false;
+            Materialize.toast($translate.instant('POSITION REMOVED'), 3000);
+            vm.removeCallback();
+        }
+
+        function removeError(data) {
+            vm.position.removing = false;
+            vm.error = data.message || $translate.instant('GENERIC ERROR');
+        }
+
+        function createSuccess(data) {
+            vm.position.new = false;
+            vm.position.editing = false;
+            vm.position.saving = false;
+            vm.position.id = data.position.id;
+            var message = $translate.instant('POSITION CREATED');
+            Materialize.toast(message, 3000);
+        }
+
+        function updateSuccess() {
+            vm.position.saving = false;
+            vm.position.editing = false;
+            Materialize.toast($translate.instant('CHANGES SAVED'), 3000);
+        }
+
+        function saveError(data) {
+            vm.errors = data.errors;
+            vm.position.saving = false;
         }
     }
 })();

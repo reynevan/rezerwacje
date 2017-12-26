@@ -15,9 +15,9 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::group(['prefix' => 'api'], function()
-{
+Route::group(['prefix' => 'api'], function () {
     Route::post('authenticate', 'AuthenticateController@authenticate');
+    Route::post('/users/verify', 'AuthenticateController@verify');
     Route::post('slots/sign-up', 'SlotsController@signUp');
     Route::post('sign-up', 'AuthenticateController@signUp');
     Route::post('forgot-password', 'AuthenticateController@recoverPassword');
@@ -28,11 +28,10 @@ Route::group(['prefix' => 'api'], function()
     Route::get('slots/my', 'SlotsController@mySlots');
     Route::get('profile', 'UsersController@myProfile');
     Route::get('queue', 'SlotsController@getQueue');
-    Route::get('queue/my', 'SlotsController@getQueueForPosition');
     Route::patch('reservations/{reservation}/close', 'SlotsController@closeReservation');
     Route::delete('slots/{slot}', 'SlotsController@removeSlot');
 
-    Route::group(['prefix' => 'admin'], function() {
+    Route::group(['prefix' => 'admin'], function () {
         Route::post('settings', 'AdminController@saveSettings');
         Route::post('employees', 'AdminController@addEmployee');
         Route::patch('employees/{user}', 'AdminController@editEmployee');
@@ -42,15 +41,17 @@ Route::group(['prefix' => 'api'], function()
         Route::get('positions', 'AdminController@viewPositions');
         Route::post('positions', 'AdminController@createPosition');
         Route::delete('positions/{position}', 'AdminController@removePosition');
+        Route::patch('positions/{position}', 'AdminController@editPosition');
 
         Route::get('settings', 'AdminController@viewSettings');
     });
 
-    Route::group(['prefix' => 'employee'], function() {
-       Route::get('positions/my', 'EmployeesController@myPositions');
+    Route::group(['prefix' => 'employee'], function () {
+        Route::get('positions/my', 'EmployeesController@myPositions');
+        Route::get('queue/my', 'EmployeesController@getQueueForPosition');
     });
 });
 
-Route::get('{any}', function() {
+Route::get('{any}', function () {
     return view('index');
 })->where('any', '.*');

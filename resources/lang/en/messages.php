@@ -12,5 +12,8 @@ return [
     'change_pass_email_sent' => 'Email with change password link has been sent to :email.',
     'no_user_with_email' => 'There is no user with email :email',
     'general_error' => 'Some error occurred. Please try again later.',
-    'not_found' => ':item not found.'
+    'not_found' => ':item not found.',
+    'not_found_neutral' => ':item not found',
+    'invalid_token' => 'Invalid token',
+    'account_not_verified' => 'Account is not verified.'
 ];

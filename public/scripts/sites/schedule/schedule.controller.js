@@ -30,8 +30,8 @@
             loadSchedule();
         };
 
-        function showSlotInfo(day, time, index, slot) {
-            if (Slots.isFree(vm.schedule, day, index)) {
+        function showSlotInfo(slot) {
+            if (slot.free) {
                 return;
             }
             var params = {
@@ -39,7 +39,7 @@
                 controller: 'ReservationDetailsPopupController',
                 resolve: {
                     slot: function() {
-                        return slot[index];
+                        return slot;
                     }
                 }
             };

@@ -48,7 +48,10 @@ angular.module('www').constant('TRANSLATIONS', {
         'CANCEL': 'Anuluj',
         'ACCOUNT CREATED EMAIL SENT': 'Konto utworzone. Email z hasłem został wysłany na adres',
         'SETTINGS': 'Ustawienia',
-        'EMPLOYEES': 'Pracownicy'
+        'EMPLOYEES': 'Pracownicy',
+        'ALL': 'Wszystkie',
+        'RESERVATION UNAVAILABLE': 'Rezerwacja niedostępna',
+        'ACCOUNT VERIFIED': 'Konto zweryfikowane. Możesz się teraz zalogować.'
     },
     EN: {
         'SIGN IN': 'Sign in',
@@ -99,6 +102,9 @@ angular.module('www').constant('TRANSLATIONS', {
         'CANCEL': 'Cancel',
         'ACCOUNT CREATED EMAIL SENT': 'Account has been created. Email with password has been sent to',
         'SETTINGS': 'Settings',
-        'EMPLOYEES': 'Employees'
+        'EMPLOYEES': 'Employees',
+        'ALL': 'All',
+        'RESERVATION UNAVAILABLE': 'Reservation unavailable',
+        'ACCOUNT VERIFIED': 'Account verified. You can now sign in.'
     }
 });

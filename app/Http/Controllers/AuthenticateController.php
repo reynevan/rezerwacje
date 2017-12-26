@@ -25,7 +25,7 @@ class AuthenticateController extends Controller
         // Apply the jwt.auth middleware to all methods in this controller
         // except for the authenticate method. We don't want to prevent
         // the user from retrieving their token if they don't already have it
-        $this->middleware('jwt.auth', ['except' => ['authenticate', 'signUp', 'recoverPassword', 'resetPassword']]);
+        $this->middleware('jwt.auth', ['except' => ['authenticate', 'signUp', 'recoverPassword', 'resetPassword', 'verify']]);
     }
 
     public function authenticate(Request $request)
@@ -34,6 +34,9 @@ class AuthenticateController extends Controller
         $user = User::where('email', $request->get('email'))->first();
         if (!$user) {
             return Response::authError(trans('messages.login_error'));
+        }
+        if (!$user->active) {
+            return Response::error(trans('messages.account_not_verified'));
         }
         try {
             // verify the credentials and create a token for the user
@@ -82,12 +85,23 @@ class AuthenticateController extends Controller
             ];
         }
 
+        $activationCode = str_random(30);
+
         $data = $request->all();
         $data['password'] = Hash::make($data['password']);
         $data['role'] = User::ROLE_STUDENT;
+        $data['active'] = false;
+        $data['activation_token'] = $activationCode;
+
         $user = User::create($data);
-        $token = JWTAuth::attempt(['email' => $data['email'], 'password' => $request->get('password')], ['role' => $user->role]);
-        return ['user' => $user, 'token' => $token];
+
+        Mail::send('emails.welcome', compact('user', 'password', 'activationCode'), function ($m) use ($user) {
+            $m->from('hello@app.com', 'Your Application');
+
+            $m->to($user->email, $user->first_name)->subject('Welcome');
+        });
+
+        return ['user' => $user];
     }
 
     public function recoverPassword(Request $request)
@@ -124,5 +138,22 @@ class AuthenticateController extends Controller
 
             $user->save();
         });
+    }
+
+    public function verify(Request $request)
+    {
+        $this->validate($request, [
+            'token' => 'required'
+        ]);
+
+        $user = User::where('activation_token', $request->get('token'))->first();
+
+        if (!$user) {
+            return Response::forbiddenError(trans('messages.invalid_token'));
+        }
+        $user->active = true;
+        $user->save();
+
+        return Response::success();
     }
 }

@@ -3,4 +3,5 @@
 return [
 
     'user' => 'User',
+    'position' => 'Position'
 ];

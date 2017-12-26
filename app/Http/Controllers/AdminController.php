@@ -105,6 +105,7 @@ class AdminController extends Controller
             $m->to($user->email, $user->first_name)->subject('Your Reminder!');
         });
 
+
         return Response::success(compact('user'));
     }
 
@@ -167,6 +168,30 @@ class AdminController extends Controller
         $position = Position::create($data);
 
         return Response::success(compact('position'));
+    }
+
+    public function editPosition(Request $request, $positionId)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+        ]);
+
+
+        if ($validator->fails()) {
+            return Response::validationError($validator->errors());
+        }
+
+
+        $position = Position::where('id', $positionId)->first();
+        if (!$position) {
+            return Response::notFound(trans('messages.not_found_neutral', ['item' => trans('models.position')]));
+        }
+
+
+        $position->update($request->only(['name', 'description']));
+        $position->save();
+
+        return Response::success();
     }
 
     public function removePosition($id)

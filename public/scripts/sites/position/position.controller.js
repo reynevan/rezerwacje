@@ -6,8 +6,17 @@
         .module('www')
         .config(function ($stateProvider) {
             $stateProvider
-                .state('stand', {
+                .state('position', {
                     url: '/moje-stanowisko',
+                    templateUrl: 'scripts/sites/position/position.html',
+                    controller: 'StandController',
+                    controllerAs: 'vm',
+                    access: {
+                        standEmployee: true
+                    }
+                })
+                .state('position-id', {
+                    url: '/moje-stanowisko/:id',
                     templateUrl: 'scripts/sites/position/position.html',
                     controller: 'StandController',
                     controllerAs: 'vm',
@@ -18,9 +27,9 @@
         })
         .controller('StandController', StandController);
 
-    StandController.$inject = ['Restangular', '$state', '$timeout'];
+    StandController.$inject = ['Restangular', '$state', 'TimeoutService'];
 
-    function StandController(Restangular, $state, $timeout) {
+    function StandController(Restangular, $state, TimeoutService) {
         var vm = this;
         vm.endReservation = endReservation;
 
@@ -30,21 +39,21 @@
         };
 
         function getQueue() {
-            if ($state.current.name === 'stand') {
-                Restangular.one('queue', 'my').get().then(function (data) {
-                    vm.reservations = data.reservations;
-                }).finally(function () {
-                    $timeout(getQueue, 5000)
-                });
+            var params = {};
+            if ($state.params.id) {
+                params.position_id = $state.params.id;
             }
+            Restangular.one('employee').one('queue', 'my').get(params).then(function (data) {
+                vm.reservations = data.reservations;
+            }).finally(function () {
+                TimeoutService.setTimeout(getQueue, 5000)
+            });
         }
 
         function setTime() {
-            if ($state.current.name === 'stand') {
-                vm.date = moment().format("dddd, MMMM Do YYYY");
-                vm.time = moment().format("H:mm:ss");
-                $timeout(setTime, 1000)
-            }
+            vm.date = moment().format("dddd, MMMM Do YYYY");
+            vm.time = moment().format("H:mm:ss");
+            TimeoutService.setTimeout(setTime, 1000)
         }
 
         function endReservation(reservation) {

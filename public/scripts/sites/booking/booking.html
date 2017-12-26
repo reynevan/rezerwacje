@@ -1,19 +1,22 @@
-<label for="positions">{{'CHOOSE POSITION' | translate}}</label>
-<select name="positions"
-        id="positions"
-        class="browser-default"
-        ng-model="vm.position"
-        ng-change="vm.loadSchedule()">
-    <option value="" disabled="disabled">	&mdash;</option>
-    <option value="{{position.id}}" ng-repeat="position in vm.positions">{{position.name}}</option>
-</select>
+<div ng-if="!vm.loadingPositions">
+    <label for="positions">{{'CHOOSE POSITION' | translate}}</label>
+    <select name="positions"
+            id="positions"
+            class="browser-default"
+            ng-model="vm.position"
+            ng-change="vm.loadSchedule()">
+        <option value="" disabled="disabled"> &mdash;</option>
+        <option value="{{position.id}}" ng-repeat="position in vm.positions">{{position.name}}</option>
+    </select>
 
-<calendar click-slot="vm.signUp"
-          load-schedule="vm.loadSchedule"
-          schedule="vm.schedule"
-          loading="vm.loading"
-          slot-times="vm.slotTimes"
-          selected-year="vm.selectedYear"
-          selected-week="vm.selectedWeek"
-          ng-if="vm.position">
-</calendar>
+    <calendar click-slot="vm.signUp"
+              load-schedule="vm.loadSchedule"
+              schedule="vm.schedule"
+              loading="vm.loading"
+              slot-times="vm.slotTimes"
+              selected-year="vm.selectedYear"
+              selected-week="vm.selectedWeek"
+              ng-if="vm.position">
+    </calendar>
+</div>
+<loader ng-if="vm.loadingPositions" attr-class="big"></loader>

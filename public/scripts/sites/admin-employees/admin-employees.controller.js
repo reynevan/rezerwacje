@@ -19,31 +19,28 @@
         })
         .controller('AdminEmployeesController', AdminEmployeesController);
 
-    AdminEmployeesController.$inject = ['Restangular', '$translate'];
+    AdminEmployeesController.$inject = ['$translate', 'PositionsService', 'FlashService', 'AdminService'];
 
-    function AdminEmployeesController(Restangular, $translate) {
+    function AdminEmployeesController($translate, PositionsService, FlashService, AdminService) {
         var vm = this;
         vm.removeCallback = removeCallback;
         vm.addNewEmployee = addNewEmployee;
 
         vm.$onInit = function() {
             vm.loading = true;
-            Restangular.all('admin').one('employees').get().then(function(data){
-                vm.employees = data.data.employees;
-                vm.loading = false;
-            }, function(data){
-                vm.error = data.error ? data.error : $translate.instant('GENERIC ERROR');
-                vm.loading = false;
-            });
-            Restangular.one('positions').get().then(function(data){
-                vm.positions = data.data.positions;
-                vm.loading = false;
-            }, function(data){
-                vm.error = data.error ? data.error : $translate.instant('GENERIC ERROR');
-                vm.loading = false;
-            });
+            AdminService.getEmployees().then(getEmployeesSuccess, onError);
+            PositionsService.getAll().then(getPositionsSuccess, onError);
         };
 
+        function getEmployeesSuccess(data) {
+            vm.employees = data.employees;
+            vm.loading = false;
+        }
+
+        function getPositionsSuccess(data) {
+            vm.positions = data.positions;
+            vm.loading = false;
+        }
 
         function addNewEmployee() {
             vm.employees.push({
@@ -61,6 +58,13 @@
                     return employee.id === user.id;
                 });
             }
+        }
+
+        function onError(data) {
+            vm.error = true;
+            var error = data.message || $translate.instant('GENERIC ERROR');
+            FlashService.error(error);
+            vm.loading = false;
         }
     }
 })();

@@ -1,4 +1,4 @@
-<div class="admin-employees">
+<div class="admin-employees" ng-if="!vm.error">
     <ul class="collection no-border" ng-if="!vm.loading">
         <li class="collection-item avatar" ng-repeat="employee in vm.employees">
             <employee-tile employee="employee" remove-callback="vm.removeCallback(employee, $index)" positions="vm.positions"></employee-tile>

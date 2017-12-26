@@ -80,6 +80,9 @@ $slot-height: 23px
         display: none
         text-align: center
 
+        &.unavailable
+          font-size: 0.8rem
+
       &:hover
         .slot-info
           display: inline-block
@@ -90,7 +93,7 @@ $slot-height: 23px
         &:not(.free)
           background-color: $busy-slot-color
           &.my-reservation
-            border: 1px solid red
+            background-color: #3498db
         &.free
           cursor: pointer
 

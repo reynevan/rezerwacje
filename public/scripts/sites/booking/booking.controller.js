@@ -19,20 +19,28 @@
         })
         .controller('BookingController', BookingController);
 
-    BookingController.$inject = ['ModalService', 'Restangular', '$q'];
+    BookingController.$inject = ['ModalService', 'Restangular', '$q', 'PositionsService'];
 
-    function BookingController(ModalService, Restangular, $q) {
+    function BookingController(ModalService, Restangular, $q, PositionsService) {
         var vm = this;
 
         vm.signUp = signUp;
         vm.loadSchedule = loadSchedule;
 
         vm.$onInit = function () {
-            Restangular.one('positions').get().then(function (data) {
-                    vm.positions = data.data.positions;
-                }
-            )
+            vm.loadingPositions = true;
+            PositionsService.getAll().then(getPositionsSuccess, getPositionsError);
         };
+
+        function getPositionsSuccess(data) {
+            vm.loadingPositions = false;
+            vm.positions = data.positions;
+        }
+
+        function getPositionsError() {
+            vm.loadingPositions = false;
+            FlashService.error($translate.instant('GENERIC ERROR'));
+        }
 
         var canceler = $q.defer();
 

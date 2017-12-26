@@ -144,16 +144,6 @@
             return vm.schedule[day][index].open;
         }
 
-        function isReservable(day, index, slot) {
-            var now = moment();
-            var futureWeek = vm.selectedWeek >= now.week();
-            var currentWeek = vm.selectedWeek === now.week();
-            var futureDay = day >= now.isoWeekday();
-            var futureDay = futureWeek || (currentWeek && futureDay);
-            var futureHour = slot.time >= now.format('HH:mm');
-            return futureDay && futureWeek && vm.schedule[day][index].open;
-        }
-
         function isMyReservation(day, index) {
             return vm.schedule[day][index].my;
         }

@@ -1,9 +1,5 @@
 <div class="navbar-fixed main-menu">
-    <ul id="positions-dropdown" class="dropdown-content" ng-if="vm.AuthService.isStandEmployee()">
-        <li ng-repeat="position in vm.positions">
-            <a>{{position.name}}</a>
-        </li>
-    </ul>
+
     <nav ng-hide="vm.hideMenu()">
         <div class="nav-wrapper">
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -18,9 +14,7 @@
                 </li>
 
                 <li ng-if="vm.AuthService.isStandEmployee()" ng-class="{'active': vm.isTabActive('stand')}">
-                    <a class="dropdown-button"  data-activates="positions-dropdown">
-                        {{'POSITIONS' | translate}}<i class="material-icons right">arrow_drop_down</i>
-                    </a>
+                    <main-menu-my-positions></main-menu-my-positions >
                 </li>
 
                 <li ng-if="vm.AuthService.isAdmin()" ng-class="{'active': vm.isTabActive('admin-employees')}">
