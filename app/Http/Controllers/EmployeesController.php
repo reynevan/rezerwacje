@@ -68,6 +68,6 @@ class EmployeesController extends Controller
                 ->formatTime();
         }
 
-        return ['reservations' => $reservations];
+        return Response::success(compact('reservations'));
     }
 }

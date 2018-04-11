@@ -2603,6 +2603,8 @@ nav ul a span.badge {
       margin-left: auto;
       left: auto;
       right: auto; }
+    .row .col.s85 {
+      width: 14%; }
     .row .col.offset-s1 {
       margin-left: 8.3333333333%; }
     .row .col.pull-s1 {
@@ -6813,7 +6815,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   background-color: #fff;
   border: 1px solid #999;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
+  border-radius: 0;
   -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
   box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
   background-clip: padding-box;
@@ -6966,8 +6968,11 @@ html, body {
     .calendar .calendar-table thead {
       text-align: center;
       border: 1px solid #d0d0d0;
+      border-top: none;
       background-color: #34495e;
       color: #fff; }
+      .calendar .calendar-table thead td:not(:first-of-type) {
+        border-left: 1px solid rgba(0, 0, 0, 0.1); }
     .calendar .calendar-table .slot-time {
       height: 23px;
       padding: 0;
@@ -6980,20 +6985,20 @@ html, body {
       padding: 0;
       border-right: 1px solid #dadada;
       text-align: center; }
+      .calendar .calendar-table .slot.clickable {
+        cursor: pointer; }
+      .calendar .calendar-table .slot.unavailable {
+        font-size: 0.8rem; }
       .calendar .calendar-table .slot .slot-info {
         display: none;
         text-align: center; }
-        .calendar .calendar-table .slot .slot-info.unavailable {
-          font-size: 0.8rem; }
       .calendar .calendar-table .slot:hover .slot-info {
         display: inline-block;
         color: #ddd; }
       .calendar .calendar-table .slot.open:not(.free) {
         background-color: #eee; }
         .calendar .calendar-table .slot.open:not(.free).my-reservation {
-          background-color: #3498db; }
-      .calendar .calendar-table .slot.open.free {
-        cursor: pointer; }
+          background-color: #b9c9d8; }
       .calendar .calendar-table .slot.open.full-hour {
         border-top: 1px solid #dadada; }
       .calendar .calendar-table .slot.open:not(.full-hour) {
@@ -7012,6 +7017,10 @@ html, body {
   font-size: 0.9rem;
   color: #555; }
 
+.position-tile .time-input {
+  display: inline-block;
+  width: auto; }
+
 .sign-up-popup .stand-name {
   font-size: 1.2rem; }
 .sign-up-popup .stand-user {
@@ -7023,6 +7032,9 @@ html, body {
 .confirmation-popup .content {
   margin-bottom: 50px;
   margin-top: 35px; }
+
+.reservation-details-popup .reservation:not(:first-of-type) {
+  border-top: 1px solid #34495e; }
 
 .queue-table th, .queue-table td {
   font-size: 1.8rem; }
@@ -7039,6 +7051,8 @@ html, body {
   .my-stand-table tbody tr.active td {
     padding-top: 45px;
     padding-bottom: 45px; }
+.my-stand-table tbody .close-button {
+  cursor: pointer; }
 
 .my-reservations .past {
   color: rgba(128, 128, 128, 0.87); }
@@ -7046,7 +7060,12 @@ html, body {
 .admin-employees .collection-item {
   margin-bottom: 20px; }
 
-.admin-employees .collection-item {
+.admin-positions .collection-item {
   margin-bottom: 20px; }
+
+.admin-users .collection-item {
+  margin-bottom: 20px; }
+  .admin-users .collection-item .name {
+    font-weight: 600; }
 
 /*# sourceMappingURL=style.css.map */

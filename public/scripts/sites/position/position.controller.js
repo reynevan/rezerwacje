@@ -9,7 +9,7 @@
                 .state('position', {
                     url: '/moje-stanowisko',
                     templateUrl: 'scripts/sites/position/position.html',
-                    controller: 'StandController',
+                    controller: 'PositionController',
                     controllerAs: 'vm',
                     access: {
                         standEmployee: true
@@ -18,36 +18,48 @@
                 .state('position-id', {
                     url: '/moje-stanowisko/:id',
                     templateUrl: 'scripts/sites/position/position.html',
-                    controller: 'StandController',
+                    controller: 'PositionController',
                     controllerAs: 'vm',
                     access: {
                         standEmployee: true
                     }
                 })
         })
-        .controller('StandController', StandController);
+        .controller('PositionController', PositionController);
 
-    StandController.$inject = ['Restangular', '$state', 'TimeoutService'];
+    PositionController.$inject = ['$state', 'TimeoutService', 'EmployeeService', '$translate', 'FlashService'];
 
-    function StandController(Restangular, $state, TimeoutService) {
+    function PositionController($state, TimeoutService, EmployeeService, $translate, FlashService) {
         var vm = this;
         vm.endReservation = endReservation;
-
         vm.$onInit = function () {
+            vm.loading = true;
             getQueue();
             setTime();
+            vm.allPositions = !$state.params.id;
         };
 
+        var refreshTime = 5000;
+
         function getQueue() {
-            var params = {};
-            if ($state.params.id) {
-                params.position_id = $state.params.id;
-            }
-            Restangular.one('employee').one('queue', 'my').get(params).then(function (data) {
-                vm.reservations = data.reservations;
-            }).finally(function () {
-                TimeoutService.setTimeout(getQueue, 5000)
+            EmployeeService.getMyQueue($state.params.id).then(getQueueSuccess, getQueueError).finally(function () {
+                TimeoutService.setTimeout(getQueue, refreshTime)
             });
+        }
+
+        function getQueueSuccess(data) {
+            vm.error = false;
+            vm.reservations = data.reservations;
+            vm.loading = false;
+            FlashService.clear();
+        }
+
+        function getQueueError(data) {
+            vm.error = true;
+            var error = data.message || $translate.instant('GENERIC ERROR');
+            FlashService.clear();
+            FlashService.error(error);
+            vm.loading = false;
         }
 
         function setTime() {
@@ -57,19 +69,17 @@
         }
 
         function endReservation(reservation) {
-            Restangular.one('reservations', reservation.id).one('close').patch().then(function (data) {
-                if (data.data.error) {
-                    closeError();
-                } else {
-                    for (var i = 0; i < vm.reservations.length; i++) {
-                        if (vm.reservations[i].id === reservation.id) {
-                            vm.reservations.splice(i, 1);
-                        }
-                    }
-                    Materialize.toast('Rezerwacja zamknieta.', 3000)
-                }
-            }, closeError);
+            EmployeeService.endReservation(reservation.id).then(endReservationSuccess, closeError);
+
+            function endReservationSuccess() {
+                _.remove(vm.reservations, function (r) {
+                    return reservation.id === r.id;
+                });
+                Materialize.toast('Rezerwacja zamknieta.', 3000)
+            }
         }
+
+
 
         function closeError() {
             Materialize.toast('Wystapił błąd. Prosze odświeżyć stronę i spróbowac ponownie.', 3000)

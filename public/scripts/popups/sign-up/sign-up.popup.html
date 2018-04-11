@@ -30,7 +30,8 @@
                 </form>
             </div>
             <div ng-if="vm.error">{{vm.error}}</div>
-            <button class="btn waves-effect" type="submit" ng-click="vm.signUp()">{{'SAVE' | translate}}</button>
+            <button class="btn waves-effect" type="submit" ng-click="vm.signUp()" ng-if="!vm.loading">{{'SAVE' | translate}}</button>
+            <loader ng-if="vm.loading"></loader>
         </form>
     </div>
     <div class="content center-align" ng-if="vm.reserved">

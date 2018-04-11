@@ -20,11 +20,11 @@
                 <li ng-if="vm.AuthService.isAdmin()" ng-class="{'active': vm.isTabActive('admin-employees')}">
                     <a ui-sref="admin-employees()">{{'EMPLOYEES' | translate}}</a>
                 </li>
-                <li ng-if="vm.AuthService.isAdmin()" ng-class="{'active': vm.isTabActive('admin-settings')}">
-                    <a ui-sref="admin-settings()">{{'SETTINGS' | translate}}</a>
-                </li>
                 <li ng-if="vm.AuthService.isAdmin()" ng-class="{'active': vm.isTabActive('admin-positions')}">
                     <a ui-sref="admin-positions()">{{'POSITIONS' | translate}}</a>
+                </li>
+                <li ng-if="vm.AuthService.isAdmin()" ng-class="{'active': vm.isTabActive('admin-users')}">
+                    <a ui-sref="admin-users()">{{'USERS' | translate}}</a>
                 </li>
 
                 <li ng-if="!vm.AuthService.isAuthenticated()" ng-class="{'active': vm.isTabActive('login')}">

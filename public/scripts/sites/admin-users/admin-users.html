@@ -1,0 +1,36 @@
+<div class="admin-users">
+    <div class="searchbox">
+        <form class="col s12 l8 offset-l2 xl6 offset-xl3" ng-submit="vm.search()">
+            <div input-field class="row">
+                <div class="input-field col s6">
+                    <input id="keywords" type="text" ng-model="vm.keywords" placeholder="imię, nazwisko, numer indeksu lub email">
+                    <button class="btn waves-effect" type="submit">{{'SEARCH' | translate}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>
+                Imię
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Indeks
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="user in vm.users">
+            <td>{{user.first_name}} {{user.last_name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.index_number}}</td>
+            <td><a href ng-click="vm.remove(user)">Usuń</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <loader ng-if="vm.loading"></loader>
+</div>

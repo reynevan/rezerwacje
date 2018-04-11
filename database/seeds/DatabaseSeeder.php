@@ -26,30 +26,10 @@ class DatabaseSeeder extends Seeder
             ['first_name' => 'Admin', 'last_name' => 'Admin', 'email' => 'admin@rezerwacje.dev', 'password' => Hash::make('pass'), 'index_number' => rand(100000, 999999999), 'role' => 3],
         );
 
-        $workingHours = [
-            ['day' => 1, 'start' => '09:00', 'end' => '16:00'],
-            ['day' => 2, 'start' => '08:00', 'end' => '17:00'],
-            ['day' => 3, 'start' => '10:00', 'end' => '15:00'],
-            ['day' => 5, 'start' => '9:30', 'end' => '16:30']
-        ];
-
-        $stands = [
-            ['name' => 'stanowisko 1', 'description' => 'heh'],
-            ['name' => 'stanowisko 2', 'description' => 'rzal i bul'],
-        ];
-
-        foreach ($workingHours as $wh) {
-            \App\WorkingHour::create($wh);
-        }
-
         // Loop through each user above and create the record for them in the database
         foreach ($users as $user)
         {
             User::create($user);
-        }
-
-        foreach ($stands as $stand) {
-            \App\Position::create($stand);
         }
 
         Model::reguard();

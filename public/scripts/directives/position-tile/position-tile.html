@@ -3,7 +3,7 @@
         <i class="material-icons circle green">person</i>
         <span class="title">{{vm.position.name}}</span>
         <p>
-            <div class="description">{{vm.position.description}}</div>
+        <div class="description">{{vm.position.description}}</div>
         </p>
     </div>
 
@@ -31,12 +31,51 @@
                 </div>
             </div>
             <div input-field class="row">
-                    <div class="input-field col s12">
-                        <i class="material-icons prefix">mode_edit</i>
-                        <textarea id="details" class="materialize-textarea" ng-model="vm.position.description"></textarea>
-                        <label for="details">{{'FIELDS.DESCRIPTION' | translate}}</label>
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">mode_edit</i>
+                    <textarea id="details" class="materialize-textarea" ng-model="vm.position.description"></textarea>
+                    <label for="details">{{'FIELDS.DESCRIPTION' | translate}}</label>
+                </div>
+            </div>
+            <div class="working-hours">
+                <div class="row">
+                    <div class="col s8">
+                        <table>
+                            <tbody>
+                            <tr ng-repeat="day in vm.days">
+                                <td class="text-capitalize">{{vm.getWeekDay(day)}}</td>
+                                <td>
+                                    <label ng-attr-for="input_starttime-hour-{{vm.position.id}}-{{day}}">Od</label>
+                                    <select ng-attr-id="input_starttime-hour-{{vm.position.id}}-{{day}}" class="browser-default time-input" ng-model="vm.position.working_hours[day].start.hour">
+                                        <option ng-repeat="hour in vm.hours" value="{{vm.formatTime(hour)}}">{{vm.formatTime(hour)}}</option>
+                                    </select>
+                                    :
+                                    <select ng-attr-id="input_starttime-hour-{{vm.position.id}}-{{day}}" class="browser-default time-input" ng-model="vm.position.working_hours[day].start.minute">
+                                        <option ng-repeat="minute in vm.minutes" value="{{vm.formatTime(minute)}}">{{vm.formatTime(minute)}}</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <label ng-attr-for="input_endtime-hour-{{vm.position.id}}-{{day}}">Do</label>
+                                    <select ng-attr-id="input_endtime-hour-{{vm.position.id}}-{{day}}" class="browser-default time-input" ng-model="vm.position.working_hours[day].end.hour">
+                                        <option ng-repeat="hour in vm.hours" value="{{vm.formatTime(hour)}}">{{vm.formatTime(hour)}}</option>
+                                    </select>
+                                    :
+                                    <select ng-attr-for="input_endtime-minute-{{vm.position.id}}-{{day}}" class="browser-default time-input" ng-model="vm.position.working_hours[day].end.minute">
+                                        <option ng-repeat="minute in vm.minutes" value="{{vm.formatTime(minute)}}">{{vm.formatTime(minute)}}</option>
+                                    </select>
+                                </td>
+                                <td><input type="checkbox" ng-attr-id="open-{{day}}-{{vm.position.id}}" ng-model="vm.position.working_hours[day].open" />
+                                    <label ng-attr-for="open-{{day}}-{{vm.position.id}}">{{'OPEN' | translate}}</label>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+
+
+
+            </div>
             <div class="buttons right-align" ng-if="!vm.position.saving">
                 <button class="btn waves-effect" type="submit">{{'SAVE' | translate}}</button>
                 <button class="btn waves-effect red" type="reset" ng-click="vm.cancel(vm.position)">

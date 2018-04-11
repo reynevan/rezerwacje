@@ -51,7 +51,18 @@ angular.module('www').constant('TRANSLATIONS', {
         'EMPLOYEES': 'Pracownicy',
         'ALL': 'Wszystkie',
         'RESERVATION UNAVAILABLE': 'Rezerwacja niedostępna',
-        'ACCOUNT VERIFIED': 'Konto zweryfikowane. Możesz się teraz zalogować.'
+        'ACCOUNT VERIFIED': 'Konto zweryfikowane. Możesz się teraz zalogować.',
+        'FROM': 'Od',
+        'TO': 'Do',
+        'OPEN': 'Otwarte',
+        'DONE': 'Ok',
+        'CLEAR': 'Wyczyść',
+        'YES': 'Tak',
+        'NO': 'Nie',
+        'CANCEL_RESERVATION_CONFIRMATION': 'Na pewno chcesz anulować tę rezerwazję?',
+        'USERS': 'Studenci',
+        'REMOVE_USER_CONFIRMATION': 'Na pewno chcesz usunąć tego użytkownika?',
+        'SEARCH': 'Szukaj'
     },
     EN: {
         'SIGN IN': 'Sign in',
@@ -105,6 +116,17 @@ angular.module('www').constant('TRANSLATIONS', {
         'EMPLOYEES': 'Employees',
         'ALL': 'All',
         'RESERVATION UNAVAILABLE': 'Reservation unavailable',
-        'ACCOUNT VERIFIED': 'Account verified. You can now sign in.'
+        'ACCOUNT VERIFIED': 'Account verified. You can now sign in.',
+        'FROM': 'From',
+        'TO': 'To',
+        'OPEN': 'Open',
+        'DONE': 'Done',
+        'CLEAR': 'Clear',
+        'YES': 'Yes',
+        'NO': 'No',
+        'CANCEL_RESERVATION_CONFIRMATION': 'Are you sure you want to cancel this reservation?',
+        'USERS': 'Students',
+        'REMOVE_USER_CONFIRMATION': 'Are you sure you want to remove this user?',
+        'SEARCH': 'Search'
     }
 });

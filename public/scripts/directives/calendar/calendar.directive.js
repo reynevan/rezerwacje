@@ -22,11 +22,12 @@
         };
     }
 
-    calendarController.$inject = ['Utils'];
+    calendarController.$inject = ['Utils', 'AuthService'];
 
-    function calendarController(Utils) {
+    function calendarController(Utils, AuthService) {
         var vm = this;
 
+        vm.auth = AuthService;
 
         vm.PREVIOUS = -1;
         vm.TODAY = 0;
@@ -56,6 +57,7 @@
         vm.isFullHour = function (hour) {
             return hour.split(':')[1] == '00';
         };
+        vm.slotClass = slotClass;
         vm.showTodayButton = showTodayButton;
 
         function init() {
@@ -154,6 +156,18 @@
 
         function changeToDayView() {
             vm.viewMode = vm.VIEW_MODE_DAY;
+        }
+
+        function slotClass(slot) {
+            return {
+                'open': slot.open,
+                'free': slot.free,
+                'full-hour': vm.isFullHour(slot.time),
+                'my-reservation': slot.my,
+                'past': slot.past,
+                'unavailable': slot.unavailable,
+                'clickable': (!slot.free && AuthService.isStandEmployee()) || (slot.free && !slot.past && slot.open && !AuthService.isStandEmployee())
+            }
         }
     }
 })();

@@ -55,6 +55,7 @@
     <script src="scripts/sites/admin-settings/admin-settings.controller.js"></script>
     <script src="scripts/sites/admin-positions/admin-positions.controller.js"></script>
     <script src="scripts/sites/admin-employees/admin-employees.controller.js"></script>
+    <script src="scripts/sites/admin-users/admin-users.controller.js"></script>
     <script src="scripts/sites/forgot-password/forgot-password.controller.js"></script>
     <script src="scripts/sites/reset-password/reset-password.controller.js"></script>
     <script src="scripts/sites/verification/verification.controller.js"></script>
@@ -76,6 +77,7 @@
     <script src="scripts/services/positions.service.js"></script>
     <script src="scripts/services/timeout.service.js"></script>
     <script src="scripts/services/admin.service.js"></script>
+    <script src="scripts/services/employee.service.js"></script>
 
     <script src="scripts/popups/warning/warning.popup.controller.js"></script>
     <script src="scripts/popups/confirmation/confirmation.popup.controller.js"></script>

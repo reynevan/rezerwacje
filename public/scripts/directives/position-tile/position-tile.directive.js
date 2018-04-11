@@ -24,6 +24,19 @@
         vm.removePosition = removePosition;
         vm.savePosition = savePosition;
         vm.cancel = cancel;
+        vm.getWeekDay = getWeekDay;
+        vm.formatTime = formatTime;
+
+        vm.days = [1,2,3,4,5,6,7];
+
+        vm.hours = [];
+        vm.minutes = [];
+        for (var i = 0; i <= 24; i++) {
+            vm.hours.push(i);
+        }
+        for (var i = 0; i < 60; i += 5) {
+            vm.minutes.push(i);
+        }
 
         function removePosition(position) {
             position.removing = true;
@@ -83,6 +96,18 @@
         function saveError(data) {
             vm.errors = data.errors;
             vm.position.saving = false;
+        }
+
+        function getWeekDay(i, format) {
+            format = format || 'dddd';
+            return moment().isoWeekday(i).format(format);
+        }
+
+        function formatTime(n) {
+            if (n < 10) {
+                return '0' + n;
+            }
+            return n;
         }
     }
 })();

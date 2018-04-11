@@ -42,7 +42,7 @@
                     Materialize.toast('Rezerwacja odwołana.', 3000)
                 });
             };
-            ModalService.openConfirmationPopup('Na pewno chcesz anulować tę rezerwazję?', callback);
+            ModalService.openConfirmationPopup('CANCEL_RESERVATION_CONFIRMATION', callback);
         }
     }
 })();

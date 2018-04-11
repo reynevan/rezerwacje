@@ -15,7 +15,11 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('instalacja', 'InstallationController@createAdmin');
+Route::post('instalacja', 'InstallationController@saveAdmin');
+
 Route::group(['prefix' => 'api'], function () {
+
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::post('/users/verify', 'AuthenticateController@verify');
     Route::post('slots/sign-up', 'SlotsController@signUp');
@@ -44,6 +48,9 @@ Route::group(['prefix' => 'api'], function () {
         Route::patch('positions/{position}', 'AdminController@editPosition');
 
         Route::get('settings', 'AdminController@viewSettings');
+
+        Route::get('users', 'AdminController@viewUsers');
+        Route::delete('users/{user}', 'AdminController@removeUser');
     });
 
     Route::group(['prefix' => 'employee'], function () {

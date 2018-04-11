@@ -12,7 +12,8 @@ class Position extends Model
         'description',
         'users',
         'checked',
-        'reservations'
+        'reservations',
+        'working_hours'
     ];
 
     protected $fillable = [
@@ -25,4 +26,8 @@ class Position extends Model
         return $this->belongsToMany(User::class, 'positions_users', 'position_id', 'user_id');
     }
 
+    public function working_hours()
+    {
+        return $this->hasMany(WorkingHour::class);
+    }
 }

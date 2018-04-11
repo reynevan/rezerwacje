@@ -15,11 +15,12 @@ function SignUpPopupController($uibModalInstance, position, data, Restangular, c
     }
 
     function signUp() {
+        vm.loading = true;
         Restangular.all('slots/sign-up').post(vm.data).then(signUpSuccess, signUpFailed)
     }
 
     function signUpSuccess(data) {
-        console.log(data)
+        vm.loading = false;
         if (data.error) {
             vm.error = data.data.error;
         } else {
@@ -31,6 +32,7 @@ function SignUpPopupController($uibModalInstance, position, data, Restangular, c
     }
 
     function signUpFailed(data) {
+        vm.loading = false;
         vm.error = data.data.message || 'Wystąpił błąd. Prosze spróbowac ponownie później.'
     }
 }

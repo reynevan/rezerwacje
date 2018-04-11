@@ -3,19 +3,29 @@
     'use strict';
     angular.module('www').service('UsersService', UsersService);
 
-    UsersService.$inject = ['$q', 'Restangular'];
+    UsersService.$inject = ['$q', 'Restangular', 'Utils'];
 
-    function UsersService($q, Restangular) {
+    function UsersService($q, Restangular, Utils) {
 
         this.createEmployee = createEmployee;
         this.updateEmployee = updateEmployee;
+        this.getAll = getAll;
+        this.remove = remove;
 
         function createEmployee(employee) {
-            return Restangular.all('admin').all('employees').post(employee).then(defaultSuccess, defaultError);
+            return Restangular.all('admin').all('employees').post(employee).then(Utils.defaultSuccess, Utils.defaultError);
         }
 
         function updateEmployee(employee) {
-            return Restangular.all('admin').one('employees', employee.id).patch(employee).then(defaultSuccess, defaultError);
+            return Restangular.all('admin').one('employees', employee.id).patch(employee).then(Utils.defaultSuccess, Utils.defaultError);
+        }
+
+        function getAll(params) {
+            return Restangular.all('admin').one('users').get(params).then(Utils.defaultSuccess, Utils.defaultError);
+        }
+
+        function remove(user) {
+            return Restangular.all('admin').one('users', user.id).remove().then(Utils.defaultSuccess, Utils.defaultError);
         }
 
         function defaultError(response) {

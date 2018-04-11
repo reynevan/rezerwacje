@@ -85,7 +85,7 @@ function AuthService($auth, Restangular, $state, ROLES, $q) {
         } else if (isStandEmployee()) {
             return 'schedule'
         } else if (isAdmin()) {
-            return 'admin-settings'
+            return 'admin-positions'
         } else {
             return 'login'
         }

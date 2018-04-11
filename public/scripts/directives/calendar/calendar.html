@@ -76,11 +76,11 @@
                             class="slot"
                             ng-click="vm.clickSlot(slot, slotIndex, day)"
                             ng-if="vm.viewMode === vm.VIEW_MODE_WEEK || (vm.viewMode === vm.VIEW_MODE_DAY && day == vm.selectedDay - 1)"
-                            ng-class="{'open': slot.open, 'free': slot.free, 'full-hour': vm.isFullHour(slot.time), 'my-reservation': slot.my, 'past': slot.past}">
+                            ng-class="vm.slotClass(slot)">
 
-                            <div title="{{slot.time}} - {{slot.end}}" class="slot-info" ng-if="(slot.my && !slot.past) || (slot.open && !slot.past && slot.free)">{{slot.time}} - {{slot.end}}</div>
+                            <div title="{{slot.time}} - {{slot.end}}" class="slot-info" ng-if="(!slot.unavailable || vm.auth.isStandEmployee()) && ((slot.my && !slot.past) || (slot.open && !slot.past && slot.free) || (vm.auth.isStandEmployee() && (slot.open || slot.clickable)))">{{slot.time}} - {{slot.end}}</div>
                             <div title="{{'POSITION CLOSED' | translate}}" class="slot-info " ng-if="!slot.open && !slot.past">{{'POSITION CLOSED' | translate}}</div>
-                            <div title="{{'RESERVATION UNAVAILABLE' | translate}}" class="slot-info unavailable" ng-if="(slot.past && !slot.my) || (!slot.my && !slot.free)">{{'RESERVATION UNAVAILABLE' | translate}}</div>
+                            <div title="{{'RESERVATION UNAVAILABLE' | translate}}" class="slot-info unavailable" ng-if="slot.unavailable && vm.auth.isStudent() && slot.open || (!slot.open && slot.past && vm.auth.isStudent())">{{'RESERVATION UNAVAILABLE' | translate}}</div>
                         </td>
                     </tr>
                     </tbody>

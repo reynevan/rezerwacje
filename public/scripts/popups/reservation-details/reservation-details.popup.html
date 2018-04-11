@@ -7,40 +7,42 @@
             {{vm.date}}
         </div>
     </div>
-    <div class="content">
-        <div class="row">
-            <div class="col s2">
-                <i class="material-icons">account_circle</i>
-            </div>
-            <div class="col s10">
-                <div>{{vm.slot.reservation.user.first_name}} {{vm.slot.reservation.user.last_name}}</div>
-                <div class="row">
-                    Indeks: {{vm.slot.reservation.user.index_number}}
+    <div ng-repeat="reservation in vm.slot.reservations" class="reservation">
+        <div class="content">
+            <div class="row">
+                <div class="col s2">
+                    <i class="material-icons">account_circle</i>
+                </div>
+                <div class="col s10">
+                    <div>{{reservation.user.first_name}} {{reservation.user.last_name}}</div>
+                    <div class="row">
+                        Indeks: {{reservation.user.index_number}}
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row" ng-if="vm.slot.reservation.user.phone">
-            <div class="col s2">
-                <i class="material-icons">contact_phone</i>
+            <div class="row" ng-if="reservation.user.phone">
+                <div class="col s2">
+                    <i class="material-icons">contact_phone</i>
+                </div>
+                <div class="col s10">
+                    {{reservation.user.phone}}
+                </div>
             </div>
-            <div class="col s10">
-                {{vm.slot.reservation.user.phone}}
+            <div class="row">
+                <div class="col s2">
+                    <i class="material-icons">email</i>
+                </div>
+                <div class="col s10">
+                    <a href="mailto:{{reservation.user.email}}">{{reservation.user.email}}</a>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col s2">
-                <i class="material-icons">email</i>
-            </div>
-            <div class="col s10">
-                <a href="mailto:{{vm.slot.reservation.user.email}}">{{vm.slot.reservation.user.email}}</a>
-            </div>
-        </div>
-        <div class="row" ng-if="vm.slot.reservation.details">
-            <div class="col s2">
-                <i class="material-icons">edit</i>
-            </div>
-            <div class="col s10">
-                {{vm.slot.reservation.details}}
+            <div class="row" ng-if="reservation.details">
+                <div class="col s2">
+                    <i class="material-icons">edit</i>
+                </div>
+                <div class="col s10">
+                    {{reservation.details}}
+                </div>
             </div>
         </div>
     </div>

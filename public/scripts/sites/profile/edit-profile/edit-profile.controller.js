@@ -17,8 +17,8 @@
         })
         .controller('EditProfileController', EditProfileController);
 
-    EditProfileController.$inject = ['Restangular'];
-    function EditProfileController(Restangular) {
+    EditProfileController.$inject = ['Restangular', '$translate'];
+    function EditProfileController(Restangular, $translate) {
         var vm = this;
         vm.saveProfile = saveProfile;
 
@@ -31,6 +31,8 @@
             Restangular.one('profile').patch(vm.user).then(function(data) {
                 if (data.errors) {
                     vm.errors = data.errors;
+                } else {
+                    Materialize.toast($translate.instant('CHANGES SAVED'), 3000);
                 }
             })
         }

@@ -46,7 +46,9 @@
         function addNewPosition() {
             vm.positions.push({
                 editing: true,
-                new: true
+                new: true,
+                id: new Date().getTime(),
+                working_hours: {}
             });
         }
 

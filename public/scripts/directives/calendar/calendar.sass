@@ -58,8 +58,12 @@ $slot-height: 23px
     thead
       text-align: center
       border: 1px solid #d0d0d0
+      border-top: none
       background-color: $primary-color
       color: #fff
+
+      td:not(:first-of-type)
+        border-left: 1px solid rgba(0,0,0,0.1)
 
     .slot-time
       height: $slot-height
@@ -76,12 +80,15 @@ $slot-height: 23px
       border-right: 1px solid $calendar-light-border-color
       text-align: center
 
+      &.clickable
+        cursor: pointer
+
+      &.unavailable
+        font-size: 0.8rem
+
       .slot-info
         display: none
         text-align: center
-
-        &.unavailable
-          font-size: 0.8rem
 
       &:hover
         .slot-info
@@ -89,13 +96,11 @@ $slot-height: 23px
           color: $closed-text-color
 
       &.open
-        //background-color: #eee
         &:not(.free)
           background-color: $busy-slot-color
+
           &.my-reservation
-            background-color: #3498db
-        &.free
-          cursor: pointer
+            background-color: lighten($primary-color, 50%)
 
         &.full-hour
           border-top: 1px solid $calendar-light-border-color

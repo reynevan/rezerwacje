@@ -70,7 +70,7 @@
         }
 
         function signUp(slot, index, day) {
-            if (!slot.free || !slot.open) {
+            if (!slot.free || !slot.open || slot.unavailable) {
                 return;
             }
             day += 1;
@@ -106,7 +106,7 @@
                     },
                     callback: function () {
                         return function () {
-                            loadSchedule();
+                            loadSchedule(vm.selectedWeek, vm.selectedYear);
                         }
                     }
                 }

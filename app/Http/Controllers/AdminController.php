@@ -167,6 +167,20 @@ class AdminController extends Controller
         $data = $request->all();
         $position = Position::create($data);
 
+        $workingHours = $request->get('working_hours');
+        if (is_array($workingHours)) {
+            foreach ($workingHours as $day => $workingHour) {
+                $validStart = isset($workingHour['start']) && $this->validateTime($workingHour['start']);
+                $validEnd = isset($workingHour['end']) && $this->validateTime($workingHour['end']);
+                $validDay = $day > 0 && $day <= 7;
+                if ($validEnd && $validStart && $validDay) {
+                    $workingHour = array_merge(['day' => $day], $workingHour);
+                    $workingHour['position_id'] = $position->id;
+                    WorkingHour::create($workingHour);
+                }
+            }
+        }
+
         return Response::success(compact('position'));
     }
 
@@ -187,6 +201,26 @@ class AdminController extends Controller
             return Response::notFound(trans('messages.not_found_neutral', ['item' => trans('models.position')]));
         }
 
+        WorkingHour::where('position_id', $positionId)->delete();
+        $workingHours = $request->get('working_hours');
+        if (is_array($workingHours)) {
+            foreach ($workingHours as $day => $workingHour) {
+                if (isset($workingHour['start']) && isset($workingHour['start']['hour']) && isset($workingHour['start']['minute'])) {
+                    $workingHour['start'] = $workingHour['start']['hour'] . ':' . $workingHour['start']['minute'];
+                }
+                if (isset($workingHour['end']) && isset($workingHour['end']['hour']) && isset($workingHour['end']['minute'])) {
+                    $workingHour['end'] = $workingHour['end']['hour'] . ':' . $workingHour['end']['minute'];
+                }
+                $validStart = isset($workingHour['start']) && $this->validateTime($workingHour['start']);
+                $validEnd = isset($workingHour['end']) && $this->validateTime($workingHour['end']);
+                $validDay = $day > 0 && $day <= 7;
+                if ($validEnd && $validStart && $validDay) {
+                    $workingHour = array_merge(['day' => $day], $workingHour);
+                    $workingHour['position_id'] = $positionId;
+                    WorkingHour::create($workingHour);
+                }
+            }
+        }
 
         $position->update($request->only(['name', 'description']));
         $position->save();
@@ -197,6 +231,37 @@ class AdminController extends Controller
     public function removePosition($id)
     {
         Position::destroy($id);
+        return Response::success();
+    }
+
+    public function viewUsers(Request $request)
+    {
+        $users = User::where('role', User::ROLE_STUDENT)
+            ->where(function($query) use ($request){
+                if ($request->get('q')) {
+                    $keywords = explode(' ', $request->get('q'));
+                    foreach ($keywords as $i => $keyword) {
+                        $keyword = '%'.$keyword.'%';
+                        if ($i === 0) {
+                            $query->where('first_name', 'like', $keyword);
+                        } else {
+                            $query->orWhere('first_name', 'like', $keyword);
+                        }
+                        $query
+                            ->orWhere('last_name', 'like', $keyword)
+                            ->orWhere('email', 'like', $keyword)
+                            ->orWhere('index_number', 'like', $keyword);
+                    }
+                }
+            })
+            ->orderBy('last_name', 'asc')->get();
+
+        return Response::success(compact('users'));
+    }
+
+    public function removeUser($id)
+    {
+        User::destroy($id);
         return Response::success();
     }
 

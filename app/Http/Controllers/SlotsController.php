@@ -66,8 +66,23 @@ class SlotsController extends Controller
 
         $user = JWTAuth::parseToken()->authenticate();
 
-        $minStartTime = WorkingHour::orderBy('start', 'asc')->first()->start;
-        $maxEndTime = WorkingHour::orderBy('end', 'desc')->first()->end;
+        if ($request->get('position_id')) {
+            $earliestWorkingHour = WorkingHour::where('position_id', $request->get('position_id'))->where('open', true)->orderBy('start', 'asc')->first();
+            if ($earliestWorkingHour) {
+                $minStartTime = $earliestWorkingHour->start;
+            } else {
+                $minStartTime = '09:00:00';
+            }
+            $latestWorkingHour = WorkingHour::orderBy('end', 'desc')->where('position_id', $request->get('position_id'))->where('open', true)->first();
+            if ($latestWorkingHour) {
+                $maxEndTime = $latestWorkingHour->end;
+            } else {
+                $maxEndTime = '17:00:00';
+            }
+        } else {
+            $minStartTime = WorkingHour::orderBy('start', 'asc')->where('open', true)->first()->start;
+            $maxEndTime = WorkingHour::orderBy('end', 'desc')->where('open', true)->first()->end;
+        }
         $slotLength = Settings::get()->getSlotLength();
 
         $startParts = explode(':', $minStartTime);
@@ -84,12 +99,14 @@ class SlotsController extends Controller
         $slots = [];
         for ($i = 1; $i <= 7; $i++) {
             $day = [];
+            $workingHours = null;
             if ($request->get('position_id')) {
                 $slots = Slot::where('week', $request->get('week'))
                     ->where('year', $request->get('year'))
                     ->where('day', $i)
                     ->where('position_id', $request->get('position_id'))
                     ->get();
+                $workingHours = WorkingHour::where('day', $i)->where('open', true)->where('position_id', $request->get('position_id'))->first();
             } elseif($user->isPositionEmployee()) {
                 $slots = Slot::with('user')
                     ->with('position')
@@ -103,9 +120,17 @@ class SlotsController extends Controller
                     ->where('year', $request->get('year'))
                     ->where('day', $i)
                     ->get();
+                $workingHours = WorkingHour::where('day', $i)
+                    ->where('open', true)
+                    ->whereHas('position', function($query) use ($user)
+                    {
+                        $query->whereHas('users', function($query) use ($user) {
+                            $query->where('user_id', $user->id);
+                        });
+                    })
+                    ->first();
             }
 
-            $workingHours = WorkingHour::where('day', $i)->first();
 
             for ($j = 0; $j < $slotsNumber; $j++) {
                 $time = Carbon::now();
@@ -117,15 +142,14 @@ class SlotsController extends Controller
                 $nextTime->addMinutes($slotLength);
                 $free = true;
                 $myReservation = false;
-                $reservationDetails = null;
+                $reservationDetails = [];
                 foreach ($slots as $slot) {
                     if ($slot->time >= $time->format('H:i') && $slot->time < $nextTime->format('H:i')) {
                         $free = false;
-                        $reservationDetails = $slot;
+                        $reservationDetails[] = $slot;
                         if ($slot->user_id === $user->id) {
                             $myReservation = true;
                         }
-                        break;
                     }
                 }
                 $open = $workingHours ? $time->format('H:i:s') >= $workingHours->start && $time->format('H:i:s') < $workingHours->end : false;
@@ -134,14 +158,19 @@ class SlotsController extends Controller
                 $slotTime->setISODate($request->get('year'), $request->get('week'), $i);
                 $slotTime->setTime($startHour, $startMinute);
                 $slotTime->addMinutes($j * $slotLength);
+                $past = $now->format('Y-m-d H:i:s') > $slotTime->format('Y-m-d H:i:s');
+                $plus30Days = new \DateTime('+30 days');
+                $over30Days = $slotTime->format('Y-m-d') > $plus30Days->format('Y-m-d');
                 $day[] = [
                     'free' => $free,
                     'open' => $open,
                     'time' => $time->format('H:i'),
                     'end' => $time->addMinutes($slotLength)->format('H:i'),
                     'my' => $myReservation,
-                    'reservation' => $reservationDetails,
-                    'past' => $now->format('Y-m-d H:i:s') > $slotTime->format('Y-m-d H:i:s')
+                    'reservations' => $reservationDetails,
+                    'past' => $past,
+                    'unavailable' => !$myReservation && ($past || !$free || $over30Days),
+                    'date' => $slotTime->format('Y-m-d H:i')
                 ];
             }
 

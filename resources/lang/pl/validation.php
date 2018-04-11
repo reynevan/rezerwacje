@@ -111,6 +111,7 @@ return [
         'index_number' => 'numer indeksu',
         'password' => 'hasło',
         'password_repeat' => 'potwierdzenie hasła',
+        'email' => 'email'
     ],
 
 ];
