@@ -170,6 +170,12 @@ class AdminController extends Controller
         $workingHours = $request->get('working_hours');
         if (is_array($workingHours)) {
             foreach ($workingHours as $day => $workingHour) {
+                if (isset($workingHour['start']) && isset($workingHour['start']['hour']) && isset($workingHour['start']['minute'])) {
+                    $workingHour['start'] = $workingHour['start']['hour'] . ':' . $workingHour['start']['minute'];
+                }
+                if (isset($workingHour['end']) && isset($workingHour['end']['hour']) && isset($workingHour['end']['minute'])) {
+                    $workingHour['end'] = $workingHour['end']['hour'] . ':' . $workingHour['end']['minute'];
+                }
                 $validStart = isset($workingHour['start']) && $this->validateTime($workingHour['start']);
                 $validEnd = isset($workingHour['end']) && $this->validateTime($workingHour['end']);
                 $validDay = $day > 0 && $day <= 7;
